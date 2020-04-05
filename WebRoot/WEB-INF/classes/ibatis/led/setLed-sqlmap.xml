@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="LED">
+	<typeAlias alias="led" type="com.suntendy.queue.led.domain.LED" />
+	
+	<select id="findByMap" parameterClass="java.util.HashMap" resultClass="led">
+		SELECT t.transmode,t.dbcolor,t.baud,t.height,t.width,t.lattice,t.playSpeed,t.content,t.isOpenGunDong
+		FROM pd_led t WHERE depthall=#depthall# AND deptcode=#deptcode#
+	</select>
+	
+	<insert id="insert" parameterClass="led">
+	    INSERT INTO pd_led(transmode,dbcolor,baud,height,width,lattice,playSpeed,content,isOpenGunDong,deptcode,depthall)
+		VALUES(#transmode#,#dbcolor#,#baud#,#height#,#width#,#lattice#,#playSpeed#,#content#,#isOpenGunDong#,#deptCode#,#deptHall#)
+	</insert>
+
+	<update id="update" parameterClass="led">
+		UPDATE pd_led a SET a.transmode=#transmode#,a.dbcolor=#dbcolor#,a.baud=#baud#,
+			a.height=#height#,a.width=#width#,a.lattice=#lattice#,a.playSpeed=#playSpeed#,a.content=#content#,a.isOpenGunDong=#isOpenGunDong#
+		WHERE a.depthall=#deptHall# AND a.deptcode=#deptCode#
+	</update>
+	
+	<!-- LED队列屏 -->
+	<select id="getLedInfo_TV" parameterClass="java.util.HashMap" resultClass="led">
+		SELECT t.height,t.width,t.lattice,t.style,t.transmode,t.dbcolor,t.baud,t.content,t.fqsl,t.space,t.qswz,t.showHang,t.address,t.com1,t.fontcolor,waitingArea,t.contentlen
+		FROM pd_led_tv t WHERE depthall=#depthall# AND deptcode=#deptcode#
+		<isNotEmpty property="address" prepend="AND"> t.address=#address#</isNotEmpty>
+		<isNotEmpty property="flag" prepend="AND"> t.flag=#flag#</isNotEmpty>
+	</select>
+	
+	<insert id="addLED_TV" parameterClass="led">
+	    INSERT INTO pd_led_tv(height,width,lattice,style,transmode,dbcolor,baud,content,fqsl,space,qswz,showhang,address,com1,fontcolor,waitingArea,deptcode,depthall,flag,contentlen)
+		VALUES(#height#,#width#,#lattice#,#style#,#transmode#,#dbcolor#,#baud#,#content#,#fqsl#,#space#,#qswz#,#showHang#,#address#,#com1#,#fontColor#,#waitingArea#,#deptCode#,#deptHall#,#flag#,#contentlen#)
+	</insert>
+
+	<update id="updateLED_TV" parameterClass="led">
+		UPDATE pd_led_tv a 
+		SET a.height=#height#,a.width=#width#,a.lattice=#lattice#,a.style=#style#,a.transmode=#transmode#,
+			a.dbcolor=#dbcolor#,a.baud=#baud#,a.content=#content#,a.fqsl=#fqsl#,a.space=#space#,a.qswz=#qswz#,a.showHang=#showHang#,a.address=#address#,a.com1=#com1#,a.fontcolor=#fontColor#,
+			a.waitingArea=#waitingArea#,a.contentlen=#contentlen#
+		WHERE a.depthall=#deptHall# AND a.deptcode=#deptCode# and address=#address#
+	</update>
+	
+	<delete id="deleteById" parameterClass="java.lang.Integer">
+		delete pd_led_tv t where t.address=#address#
+	</delete>
+
+
+	<!-- LED队列屏内容设置 -->
+	<select id="getLED_Content" parameterClass="java.util.HashMap" resultClass="led">
+		SELECT t.id,t.showType,t.windowheight,t.windowwidth,t.hallname,t.gdxx,t.gdxx1,t.title1,t.title1content,t.title2,t.title2content,t.title3,t.title3content,t.title4,t.title4content,t.fckcontent fckContent
+		FROM pd_led_content t WHERE depthall=#depthall# AND deptcode=#deptcode#
+		<isNotEmpty property="id" prepend="AND"> t.id=#id#</isNotEmpty>
+		order by to_number(t.id)
+	</select>
+	<!-- LED队列屏内容添加 -->
+	<insert id="addLED_Content" parameterClass="led">
+	    INSERT INTO pd_led_content(id,showType,windowheight,windowwidth,hallname,gdxx,gdxx1,title1,title1content,title2,title2content,title3,title3content,title4,title4content,fckcontent,deptcode,depthall)
+		VALUES(#id#,#showType#,to_number(#windowheight#),to_number(#windowwidth#),#hallname#,#gdxx#,#gdxx1#,#title1#,#title1content#,#title2#,#title2content#,#title3#,#title3content#,#title4#,#title4content#,#fckContent#,#deptCode#,#deptHall#)
+	</insert>
+	<!-- LED队列屏内容修改 -->
+	<update id="updateLED_Content" parameterClass="led">
+		UPDATE pd_led_content t 
+		SET t.depthall=#deptHall#,t.deptcode=#deptCode#
+		<isNotEmpty property="showType" prepend=",">t.showType=#showType#</isNotEmpty>
+		<isNotEmpty property="gdxx" prepend=",">t.gdxx=#gdxx#</isNotEmpty>
+		<isNotEmpty property="gdxx1" prepend=",">t.gdxx1=#gdxx1#</isNotEmpty>
+		<isNotEmpty property="windowheight" prepend=",">t.windowheight=to_number(#windowheight#)</isNotEmpty><isNotEmpty property="windowwidth" prepend=",">t.windowwidth=to_number(#windowwidth#)</isNotEmpty>
+		<isNotEmpty property="hallname" prepend=",">t.hallname=#hallname#</isNotEmpty><isNotEmpty property="title1" prepend=",">t.title1=#title1#</isNotEmpty>
+		<isNotEmpty property="title1content" prepend=",">t.title1content=#title1content#</isNotEmpty><isNotEmpty property="title2" prepend=",">t.title2=#title2#</isNotEmpty>
+		<isNotEmpty property="title2content" prepend=",">t.title2content=#title2content#</isNotEmpty><isNotEmpty property="title3" prepend=",">t.title3=#title3#</isNotEmpty>
+		<isNotEmpty property="title3content" prepend=",">t.title3content=#title3content#</isNotEmpty><isNotEmpty property="title4" prepend=",">t.title4=#title4#</isNotEmpty>
+		<isNotEmpty property="title4content" prepend=",">t.title4content=#title4content#</isNotEmpty><isNotEmpty property="fckContent" prepend=",">t.fckcontent=#fckContent#</isNotEmpty>
+		WHERE t.id=#id# AND t.depthall=#deptHall# AND t.deptcode=#deptCode#
+	</update>
+	<delete id="delLED_Content" parameterClass="java.lang.Integer">
+	    DELETE FROM pd_led_content t WHERE t.id=#id#
+	</delete>
+	
+	<!-- 查询最大id -->
+	<select id="getMaxId" parameterClass="java.util.HashMap" resultClass="led">
+		select max(id) id from pd_led_content
+	</select>
+</sqlMap>

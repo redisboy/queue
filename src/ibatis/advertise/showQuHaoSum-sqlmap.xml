@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="QuHaoMsg">
+    <typeAlias alias="qhvo" type="com.suntendy.queue.advertise.domain.QuHaoMsg"/>
+    
+    <select id="getAllQuHaoMsg" parameterClass="java.util.HashMap" resultClass="qhvo">
+        SELECT t.id,t.message,to_char(t.record_date,'yyyy-mm-dd') record_date,t.msg_state,t.gdmsg
+        FROM pd_advertise_qh_sum t WHERE  t.depthall=#depthall# AND t.deptcode=#deptcode# 
+        <isNotEmpty property="id" prepend="AND"> t.id=#id#</isNotEmpty>
+        <isNotEmpty property="status" prepend="AND"> t.msg_state=#status#</isNotEmpty>
+        order by t.record_date desc
+    </select>
+    <insert id="addSHowQuHaoContent" parameterClass="qhvo">
+		INSERT INTO pd_advertise_qh_sum(id,message,msg_state,gdmsg,record_date,deptcode,depthall)
+		VALUES(SQ_ADVERTISE_S_ID.nextval,#message#,#msg_state#,#gdMsg#,sysdate,#deptcode#,#depthall#)
+	</insert>
+	
+	<update id="updageSHowQuHaoContent" parameterClass="java.util.HashMap">
+        update pd_advertise_qh_sum set message=#message#,record_date=sysdate,gdmsg=#gdMsg#
+        <isNotEmpty property="msg_state" prepend=",">msg_state=#msg_state#</isNotEmpty>
+        where id=#id#
+    </update>
+    
+</sqlMap>

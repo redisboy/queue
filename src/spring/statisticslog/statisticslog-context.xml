@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="statisticsLogDao"
+		class="com.suntendy.queue.statistics.dao.impl.StatisticsLogDaoImpl"
+		parent="baseDao" />
+
+	<bean name="iStatisticsLogService"
+		class="com.suntendy.queue.statistics.service.impl.IStatisticsLogServiceImpl">
+		<property name="statisticsLogDao" ref="statisticsLogDao" />
+	</bean>
+
+	<bean id="statisticsLogAction"
+		class="com.suntendy.queue.statistics.action.StatisticsLogAction">
+		<property name="iStatisticsLogService" ref="iStatisticsLogService" />
+	</bean>
+</beans>

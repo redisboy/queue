@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<bean id="tztdDao" class="com.suntendy.queue.tztd.dao.impl.TztdDaoImpl" parent="baseDao"/>
+		
+	<bean id="tztdService" class="com.suntendy.queue.tztd.service.impl.TztdServiceImpl">
+		<property name="tztdDao" ref="tztdDao"></property>
+	</bean>
+		
+	<bean id="tztdAction" class="com.suntendy.queue.tztd.action.TztdAction">
+		<property name="tztdService" ref="tztdService"></property>
+	</bean>
+		
+</beans>

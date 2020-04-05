@@ -1,0 +1,29 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.0//EN" "http://www.opensymphony.com/xwork/xwork-1.0.dtd">
+<xwork>
+	<package name="ywshtj" extends="default-webwork">
+	    <action name="getEmplooyTransactTimeOrder" class="ywShTjAction" method="getEmplooyTransactTimeOrder">
+	        <result name="success">/ywshtj/emplooyTransactTimeOrder.jsp</result>
+	    </action>
+		<action name="getEmplooyBadReviewOrder" class="ywShTjAction" method="getEmplooyBadReviewOrder">
+			<result name="success">/ywshtj/emplooyBadReviewOrder.jsp</result>
+		</action>
+		<action name="getEmplooyPauseTimeOrder" class="ywShTjAction" method="getEmplooyPauseTimeOrder">
+			<result name="success">/ywshtj/emplooyPauseTimeOrder.jsp</result>
+		</action>
+		<action name="getDepartWaitTimeOrder" class="ywShTjAction" method="getDepartWaitTimeOrder">
+			<result name="success">/ywshtj/departWaitTimeOrder.jsp</result>
+		</action>
+	    <action name="getEmplooyTransactTimeWarning" class="ywShTjAction" method="getEmplooyTransactTimeWarning">
+	        <result name="success">/ywshtj/emplooyTransactTimeWarning.jsp</result>
+	    </action>
+		<action name="getEmplooyBadReviewWarning" class="ywShTjAction" method="getEmplooyBadReviewWarning">
+			<result name="success">/ywshtj/emplooyBadReviewWarning.jsp</result>
+		</action>
+		<action name="getEmplooyPauseTimeWarning" class="ywShTjAction" method="getEmplooyPauseTimeWarning">
+			<result name="success">/ywshtj/emplooyPauseTimeWarning.jsp</result>
+		</action>
+		<action name="getDepartWaitTimeWarning" class="ywShTjAction" method="getDepartWaitTimeWarning">
+			<result name="success">/ywshtj/departWaitTimeWarning.jsp</result>
+		</action>
+	</package>
+</xwork>

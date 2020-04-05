@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+    <bean class="com.suntendy.queue.util.ConvertPwdPropertyConfigurer"
+        p:location="classpath:spring/jdbc-oracle.properties"
+        p:fileEncoding="UTF-8" />
+        
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close"
+        p:driverClassName="${jdbc.driverClassName}"
+        p:url="${jdbc.url}"
+        p:username="${jdbc.username}"
+        p:password="${jdbc.password}" 
+        p:initialSize="${jdbc.initialSize}"
+        p:maxActive="${jdbc.maxActive}"
+        p:maxIdle="${jdbc.maxIdle}"
+        p:minIdle="${jdbc.minIdle}"
+        p:maxWait="${jdbc.maxWait}"
+        p:timeBetweenEvictionRunsMillis="${jdbc.timeBetweenEvictionRunsMillis}"
+        p:removeAbandoned="${jdbc.removeAbandoned}"
+        p:removeAbandonedTimeout="${jdbc.removeAbandonedTimeout}"
+        p:logAbandoned="${jdbc.logAbandoned}"
+        p:testOnBorrow="${jdbc.testOnBorrow}"
+        p:testWhileIdle="${jdbc.testWhileIdle}"
+        p:testOnReturn="${jdbc.testOnReturn}"
+        p:validationQuery="${jdbc.validationQuery}"
+        p:poolPreparedStatements="${jdbc.poolPreparedStatements}"
+        p:maxOpenPreparedStatements="${jdbc.maxOpenPreparedStatements}"/>
+
+    <bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean"
+        p:dataSource-ref="dataSource"
+        p:configLocation="classpath:ibatis/sql-map-config.xml" />
+        
+    <bean id="baseDao" p:sqlMapClient-ref="sqlMapClient" abstract="true"/>
+        
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		p:dataSource-ref="dataSource" />
+		
+	<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributes">
+			<props>
+				<prop key="insert*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="add*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="update*">PROPAGATION_REQUIRED,-Exception</prop>
+				<prop key="find*,get*,search*">PROPAGATION_REQUIRED,readOnly</prop>
+				<prop key="*">PROPAGATION_REQUIRED,-Exception</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="beanNames">
+			<list>
+				<value>*Service</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>transactionInterceptor</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="initJob" class="com.suntendy.queue.util.InitJob" />
+	
+	<bean id="initLEDJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"
+		p:targetObject-ref="initJob"
+		p:targetMethod="initLED"
+		p:concurrent="false" />
+	
+	<bean id="clearCacheNumberJob" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean"
+		p:targetObject-ref="initJob"
+		p:targetMethod="clearCacheNumber"
+		p:concurrent="false" />
+	
+	<bean id="initLEDTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean"
+		p:jobDetail-ref="initLEDJob"
+		p:cronExpression="0 30 8 * * ?" />
+		
+	<bean id="clearCacheNumberTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean"
+		p:jobDetail-ref="clearCacheNumberJob"
+		p:cronExpression="0 30 0 * * ?" />
+		
+	<bean class="com.suntendy.queue.util.SchedulerFactoryBeanWithShutdownDelay">
+	    <property name="triggers">
+	        <list>
+	        	<ref bean="initLEDTrigger" />
+	        	<ref bean="clearCacheNumberTrigger" />
+	        </list>
+	    </property>
+	</bean>
+</beans>

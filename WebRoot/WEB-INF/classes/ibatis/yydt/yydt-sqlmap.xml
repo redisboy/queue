@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Yydt">
+	<typeAlias alias="yydt" type="com.suntendy.queue.yydt.domain.Yydt" />
+	
+	<select id="findByMap" parameterClass="java.util.HashMap" resultClass="yydt">
+		SELECT * from PD_YYDT t
+	</select>
+	
+	<insert id="addyydt" parameterClass="yydt" >
+		INSERT INTO PD_YYDT t(id,NAME,BLDDZ,YYTS,YYSD)
+		VALUES(SEQ_PD_YYDT_ID.nextval,#name#,#blddz#,#yyts#,#yysd#)
+	</insert>
+	<select id="getYydtListById" parameterClass="java.util.HashMap" resultClass="yydt">
+		SELECT * from PD_YYDT t where t.id=#id#
+	</select>
+	
+	<update id="updateyydt" parameterClass="yydt">
+	UPDATE PD_YYDT t SET 
+	    <isNotEmpty property="name" prepend="">
+	        t.name=#name#
+	     </isNotEmpty>
+        <isNotEmpty property="blddz" prepend=",">
+        	t.blddz=#blddz#
+        </isNotEmpty>
+        <isNotEmpty property="yyts" prepend=",">
+        	t.yyts=#yyts#
+        </isNotEmpty>
+        <isNotEmpty property="yysd" prepend=",">
+        	t.yysd=#yysd#
+        </isNotEmpty>
+	        WHERE t.id=#id#
+	</update>
+	
+	 
+	
+	<delete id="delYydt" parameterClass="java.lang.String">
+		delete from PD_YYDT t where t.id=#id#
+	</delete>
+	
+</sqlMap>

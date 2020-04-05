@@ -1,0 +1,31 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="callout" extends="webwork-default" namespace="/callout">
+		<action name="updateCalloutStatus" class="calloutAction" method="updateCalloutStatus">
+			<result name="success">/message.jsp</result>
+		</action>
+		<action name="toCallout" class="calloutAction" method="toCallout">
+			<result name="toCallout">/queue/updateStatus.jsp</result>
+		</action>
+		<action name="exceptionHanDling" class="calloutAction" method="exceptionHanDling">
+			<result name="success">/message.jsp</result>
+		</action>
+		<action name="yiChangCL" class="calloutAction" method="yiChangCL">
+			<result name="yccl">/message.jsp</result>
+		</action>
+		<action name="shouDongLiuZhuan" class="calloutAction" method="shouDongLiuZhuan">
+			<result name="yccl">/message.jsp</result>
+		</action>
+		<action name="yiChangJKCL" class="calloutAction" method="yiChangJKCL">
+			<result name="ycjkcl">/message.jsp</result>
+		</action>
+		<action name="yiChangJKCLByCode" class="calloutAction" method="yiChangJKCLByCode">
+			<result name="ycjkclcode">/message.jsp</result>
+		</action>
+		<action name="yiChangDH" class="calloutAction" method="yiChangDH">
+			<result name="ycjkcl">/message.jsp</result>
+		</action>
+		<action name="yiChangDHHC" class="calloutAction" method="yiChangDHHC">
+		</action>
+	</package>
+</xwork>

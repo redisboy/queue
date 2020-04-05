@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Zhpcallnum">
+	<typeAlias alias="zhpcallnum" type="com.suntendy.queue.queue.domain.Zhpcallnum"/>
+	
+	<select id="queryAllCallNum" parameterClass="java.util.HashMap" resultClass="zhpcallnum">
+		select t.id,t.barid barId,t.clientno,to_char(t.jltime,'yyyy-mm-dd hh24:mi:ss') jltime 
+			from pd_zhpcallnum t 
+		  	where to_char(t.jltime, 'yyyy-mm-dd')=to_char(sysdate, 'yyyy-mm-dd')
+			order by t.jltime asc
+	</select>
+	
+	<insert id="addCallNum" parameterClass="zhpcallnum">
+		insert into pd_zhpcallnum(id,barid,clientno) values(#id#,#barId#,#clientno#)
+	</insert>
+	
+	<delete id="delCallNum" parameterClass="java.lang.String">
+		delete pd_zhpcallnum t where t.id=#id#
+	</delete>
+</sqlMap>

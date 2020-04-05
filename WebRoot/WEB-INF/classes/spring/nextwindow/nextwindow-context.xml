@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		
+	<bean id="nextWindowDao"
+	class="com.suntendy.queue.nextwindow.dao.impl.nextWindowDaoImpl"
+	parent="baseDao"/>
+		
+	<bean id="nextWindowService" class="com.suntendy.queue.nextwindow.service.impl.nextWindowServiceImpl">
+		<property name="nextWindowDao" ref="nextWindowDao"></property>
+		<property name="codeDao" ref="codeDao"></property>
+	</bean>
+		
+	<bean id="nwindowAction" class="com.suntendy.queue.nextwindow.action.nextWindowAction">
+		<property name="nextWindowService" ref="nextWindowService"></property>
+	</bean>	
+		
+</beans>

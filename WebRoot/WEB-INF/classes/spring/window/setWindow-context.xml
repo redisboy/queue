@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="setWindowDao"
+		class="com.suntendy.queue.window.dao.impl.SetWindowDaoImpl"
+		parent="baseDao" />
+
+	<bean name="setWindowService"
+		class="com.suntendy.queue.window.service.impl.SetWindowServiceImpl">
+		<property name="setWindowDao" ref="setWindowDao" />
+	</bean>
+
+	<bean id="setWindowAction"
+		class="com.suntendy.queue.window.action.SetWindowAction">
+		<property name="setWindowService">
+			<ref bean="setWindowService" />
+		</property>
+		<property name="setEvaluationService" ref="setEvaluationService" />
+		<property name="businessService" ref="businessService" />
+		<property name="numberService" ref="numberService" />
+		<property name="deptService" ref="deptService" />
+		<property name="systemLogService" ref="iSystemLogService" />
+		
+	</bean>
+	
+	<bean id="validBaridAction" class="com.suntendy.queue.window.action.ValidBaridAction" />
+</beans>

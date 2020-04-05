@@ -1,0 +1,24 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="tuiban" extends="webwork-default">
+		<action name="insertTuiban" class="TuibanAction" method="insertTuiban">
+			<result name="success">/message.jsp</result>
+		</action>
+		
+		<action name="queryTuiban" class="TuibanAction" method="queryTuiban">
+			<result name="list">tuiban/tuibanList.jsp</result>
+		</action>
+		
+		<action name="toAddTuiban" class="TuibanAction" method="toAddTuiban">
+			<result name="addTuiban">tuiban/addTuiban.jsp</result>
+		</action>
+		
+		<action name="detailTuiban" class="TuibanAction" method="detailTuiban">
+			<result name="detail">tuiban/updateTuiban.jsp</result>
+		</action>
+		
+		<action name="printTuiban" class="TuibanAction" method="printTuiban">
+			<result name="print">tuiban/printTuiban.jsp</result>
+		</action>
+	</package>
+</xwork>

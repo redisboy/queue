@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Message">
+	<typeAlias alias="message" type="com.suntendy.queue.messageSet.domain.Message" />
+
+	<update id="update" parameterClass="message">
+		UPDATE pd_message a SET a.context=#context#
+		WHERE a.id=#id#
+		AND a.depthall=#deptHall# 
+		AND a.deptcode=#deptCode#
+	</update>
+
+	<select id="findByMap" parameterClass="java.util.HashMap" resultClass="message">
+		SELECT a.id,a.context FROM pd_message a
+		WHERE a.depthall=#deptHall# AND a.deptcode=#deptCode#
+	</select>
+	
+	<insert id="saveMesDate" parameterClass="java.util.HashMap">
+    	INSERT INTO pd_message_date(id,typename,waittime,phonenumber,depthall,deptcode)
+		VALUES(seq_message_date.nextval,#typename#,#waittime#,#phonenumber#,#deptHall#,#deptCode#)
+	</insert>
+	
+	<update id="reset">
+		delete  pd_message_date
+	</update>
+	
+</sqlMap>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="twoywlxDao"
+		class="com.suntendy.queue.twoywlx.dao.impl.TwoywlxDaoImpl"
+		parent="baseDao" />
+
+	<bean name="twoywlxService"
+		class="com.suntendy.queue.twoywlx.service.impl.TwoywlxServiceImpl">
+		<property name="twoywlxDao" ref="twoywlxDao" />
+	</bean>
+
+	<bean id="twoywlxAction"
+		class="com.suntendy.queue.twoywlx.action.TwoywlxAction">
+		<property name="twoywlxService">
+			<ref bean="twoywlxService" />
+		</property>
+		<property name="oneywlxService">
+			<ref bean="oneywlxService" />
+		</property>
+			<property name="yyywzlService">
+			<ref bean="yyywzlService" />
+		</property>
+		<property name="yydtService">
+			<ref bean="yydtService" />
+		</property>
+	</bean>
+</beans>

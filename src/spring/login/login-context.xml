@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!--系统登陆-->
+	<bean id="LoginDao"
+		class="com.suntendy.queue.login.dao.impl.LoginDaoImpl"
+		parent="baseDao" />
+		
+
+	<bean name="loginService"
+		class="com.suntendy.queue.login.service.impl.LoginServiceImpl">
+		<property name="loginDAOInstance">
+			<ref bean="LoginDao" />
+		</property>
+	</bean>
+
+	<bean id="LoginAction"
+		class="com.suntendy.queue.login.action.LoginAction">
+		<property name="loginService">
+			<ref bean="loginService" />
+		</property>
+		<property name="employeeService">
+			<ref bean="employeeService" />
+		</property>
+		<property name="iSystemLogService" ref="iSystemLogService" />
+		<property name="safetyService" ref="safetyService"></property>
+	</bean>
+</beans>

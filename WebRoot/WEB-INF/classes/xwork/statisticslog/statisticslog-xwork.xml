@@ -1,0 +1,17 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.0//EN"
+"http://www.opensymphony.com/xwork/xwork-1.0.dtd">
+<!-- xwork需要分模块配置action -->
+<xwork>
+	<package name="statisticslog" extends="default-webwork">
+		<action name="handlerlcountlog" class="statisticsLogAction" method="queryHandlerLCount">
+			<result name="success">handlerlcount.jsp</result>
+		</action>
+		<action name="userlcountlog" class="statisticsLogAction" method="queryLoginCount">
+			<result name="success">userlcount.jsp</result>
+		</action>
+		<action name="savelcountlog" class="statisticsLogAction" method="querySaveLCount">
+			<result name="success">savelcount.jsp</result>
+			
+		</action>
+	</package>
+</xwork>

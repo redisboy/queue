@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="EmployeeEvaluation">
+	<typeAlias alias="EmployeeEvaluation" type="com.suntendy.queue.evaluation.domain.EmployeeEvaluation" />
+
+	<select id="findByMap" parameterClass="java.util.HashMap" resultClass="EmployeeEvaluation">
+		SELECT c.name,c.code,a.barid,SUM(DECODE(b.id,1,1,0)) a1,SUM(DECODE(b.id,2,1,0)) a2,SUM(DECODE(b.id,3,1,0)) a3,SUM(DECODE(b.id,4,1,0)) a4,
+		    SUM(DECODE(b.id,4,1,0)) a5,COUNT(a.barid) countall,SUM(b.value) sumcore,ROUND(SUM(b.value)/COUNT(a.barid),1) avgcore,
+		    a.deptcode,a.depthall
+		FROM pd_valuerecord a,pd_envaluevalue b,pd_user c
+		WHERE a.value=b.id AND a.code=c.code AND (a.status=5 OR a.status=6) AND a.barid is not null 
+		<isNotEmpty property="deptHall" prepend="AND">
+			a.depthall=#deptHall#
+		</isNotEmpty>
+		<isNotEmpty property="deptCode" prepend="AND">
+			a.deptcode=#deptCode#
+		</isNotEmpty>
+		and a.deptcode=b.deptcode and a.deptcode=c.deptcode
+  		and a.depthall=b.depthall and a.depthall=c.depthall
+		<isNotEmpty property="ksrq" prepend="AND">
+			<![CDATA[to_date(a.valuetime,'yyyy-mm-dd hh24:mi:ss')>=$ksrq$ ]]>
+		</isNotEmpty>
+		<isNotEmpty property="jsrq" prepend="AND">
+			<![CDATA[to_date(a.valuetime,'yyyy-mm-dd hh24:mi:ss')<=$jsrq$ ]]>
+		</isNotEmpty>
+		GROUP BY c.code,c.name,a.barid,a.deptcode,a.depthall
+		ORDER BY a.deptcode,a.depthall,sumcore desc
+	</select>
+</sqlMap>

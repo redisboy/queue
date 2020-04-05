@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!--打印条设置-->
+	<bean id="printSetDao"
+		class="com.suntendy.queue.printSet.dao.impl.PrintSetDaoImpl"
+		parent="baseDao" />
+
+	<bean name="printSetService"
+		class="com.suntendy.queue.printSet.service.impl.PrintSetServiceImpl">
+		<property name="printSetDao">
+			<ref bean="printSetDao" />
+		</property>
+	</bean>
+
+	<bean id="printSetAction"
+		class="com.suntendy.queue.printSet.action.PrintSetAction">
+		<property name="printSetService">
+			<ref bean="printSetService" />
+		</property>
+	</bean>
+</beans>

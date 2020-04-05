@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Yyxz">
+	<typeAlias alias="yyxz" type="com.suntendy.queue.yygn.domain.Yyxz" />
+	
+	<insert id="addyyxz" parameterClass="yyxz">
+		<selectKey keyProperty="id" resultClass="java.lang.String" type="pre">
+			SELECT seq_pd_yy_xz_id.nextval id FROM dual
+		</selectKey>
+		INSERT INTO PD_yy_xz(ID,CONTENT,LRRQ)
+	    VALUES(#id#,#content#,#lrrq#)
+	</insert>
+	
+	<update id="updateyyxz" parameterClass="yyxz">
+        update PD_yy_xz a set a.CONTENT=#content# ,a.lrrq=#lrrq#
+    </update>
+    
+    <select id="findByMap" parameterClass="java.util.HashMap" resultClass="yyxz">
+		SELECT * from PD_YY_XZ t 
+	</select>
+	
+	
+	
+</sqlMap>

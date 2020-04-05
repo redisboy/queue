@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="queueDao"
+		class="com.suntendy.queue.queue.dao.impl.QueueDaoImpl"
+		parent="baseDao" />
+
+	<bean name="queueService"
+		class="com.suntendy.queue.queue.service.impl.QueueServiceImpl">
+		<property name="queueDao" ref="queueDao" />
+	</bean>
+
+	<bean id="queueAction"
+		class="com.suntendy.queue.queue.action.QueueAction">
+		<property name="queueService">
+			<ref bean="queueService" />
+		</property>
+		<property name="businessService">
+			<ref bean="businessService" />
+		</property>
+		<property name="systemLogService">
+			<ref bean="iSystemLogService" />
+		</property>
+	</bean>
+</beans>

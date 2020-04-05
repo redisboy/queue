@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+		
+	<bean id="badEvaluationDao" class="com.suntendy.queue.evaluation.dao.impl.BadEvaluationDaoImpl" parent="baseDao"/>
+
+	<bean id="badEvaluationService" class="com.suntendy.queue.evaluation.service.impl.BadEvaluationServiceImpl">
+		<property name="badEvaluationDao" ref="badEvaluationDao"></property>
+	</bean>
+
+	<bean id="badEvaluationAction" class="com.suntendy.queue.evaluation.action.BadEvaluationAction">
+		<property name="badEvaluationService" ref="badEvaluationService"></property>
+		<property name="iSystemLogService" ref="iSystemLogService"></property>
+		
+	</bean>
+
+
+
+
+
+</beans>

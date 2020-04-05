@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<bean id="zzjDao" class="com.suntendy.queue.zzj.dao.impl.ZzjDaoImpl" parent="baseDao"/>
+		
+	<bean id="zzjService" class="com.suntendy.queue.zzj.service.impl.ZzjServiceImpl">
+		<property name="zzjDao" ref="zzjDao"></property>
+	</bean>
+		
+	<bean id="zzjAction" class="com.suntendy.queue.zzj.action.ZzjAction">
+		<property name="zzjService" ref="zzjService"></property>
+	</bean>
+		
+</beans>

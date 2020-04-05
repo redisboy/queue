@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Advertise">
+    <typeAlias alias="advertise" type="com.suntendy.queue.advertise.domain.Advertise"/>
+    
+    <select id="findByMap" parameterClass="java.util.HashMap" resultClass="advertise">
+        SELECT t.id,t.message,to_char(t.record_date,'yyyy-mm-dd') record_date,t.msg_state
+        FROM pd_advertise t WHERE t.tv_use=0 AND t.depthall=#depthall# AND t.deptcode=#deptcode# AND flag is null
+        <isNotEmpty property="id" prepend="AND"> t.id=#id#</isNotEmpty>
+        <isNotEmpty property="status" prepend="AND"> t.msg_state=#status#</isNotEmpty>
+        order by t.record_date desc
+    </select>
+     
+    <select id="getTVadvertise" parameterClass="java.util.HashMap" resultClass="advertise">
+        SELECT t.id,t.message FROM pd_advertise t
+        WHERE t.tv_use=1 AND t.depthall=#deptHall# AND t.deptcode=#deptCode#
+        order by t.record_date desc
+    </select>
+    
+    <insert id="insert" parameterClass="advertise">
+		INSERT INTO pd_advertise(id,message,msg_state,record_date,deptcode,depthall,tv_use)
+		VALUES(SQ_ADVERTISE_S_ID.nextval,#message#,#msg_state#,sysdate,#deptcode#,#depthall#,#tvUse#)
+	</insert>
+    
+    <update id="updateByMap" parameterClass="java.util.HashMap" >
+        update pd_advertise set message=#message#,record_date=sysdate
+        <isNotEmpty property="msg_state" prepend=",">msg_state=#msg_state#</isNotEmpty>
+        where id=#id#
+    </update>
+   
+    <delete id="deleteById" parameterClass="java.lang.Integer">
+    	delete from pd_advertise t where t.id=$id$
+    </delete>
+    
+    <!-- 综合屏查询 -->
+    <select id="getComprehensiveScreen" parameterClass="java.util.HashMap" resultClass="advertise">
+        SELECT t.id,t.message,to_char(t.record_date,'yyyy-mm-dd') record_date,t.msg_state
+        FROM pd_advertise t WHERE t.tv_use=0 AND t.depthall=#depthall# AND t.deptcode=#deptcode# AND flag=1
+        <isNotEmpty property="id" prepend="AND"> t.id=#id#</isNotEmpty>
+        <isNotEmpty property="status" prepend="AND"> t.msg_state=#status#</isNotEmpty>
+        order by t.record_date desc
+    </select>
+     <!-- 综合屏添加 -->
+    <insert id="addComprehensiveScreen" parameterClass="advertise">
+		INSERT INTO pd_advertise(id,message,msg_state,record_date,deptcode,depthall,tv_use,flag)
+		VALUES(SQ_ADVERTISE_S_ID.nextval,#message#,#msg_state#,sysdate,#deptcode#,#depthall#,#tvUse#,1)
+	</insert>
+     <!-- 综合屏更改 -->
+    <update id="updateComprehensiveScreenById" parameterClass="java.util.HashMap" >
+        update pd_advertise set message=#message#,record_date=sysdate
+        <isNotEmpty property="msg_state" prepend=",">msg_state=#msg_state#</isNotEmpty>
+        where id=#id# AND flag=1
+    </update>
+    <!-- 综合屏删除 -->
+    <delete id="delComprehensiveScreen" parameterClass="java.lang.Integer">
+    	delete from pd_advertise t where t.id=$id$ AND flag=1
+    </delete>
+    
+</sqlMap>

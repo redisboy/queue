@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="TuiBan">
+	<typeAlias alias="tuiban" type="com.suntendy.queue.tuiban.domain.TuiBan"/>
+	
+	<insert id="savetuiban" parameterClass="tuiban">
+		insert into pd_tuiban(idnumber,yuanyin,jiluren,jiluip,zt) values(#idnumber#,#yuanyin#,#jiluren#,#jiluip#,#zt#)
+	</insert>
+	
+	<select id="findByMap" parameterClass="java.util.HashMap" resultClass="tuiban">
+		select t.idnumber,t.yuanyin,to_char(t.jilutime,'yyyy-mm-dd') jilutime,t.jiluren,t.jiluip from pd_tuiban t
+		where to_date(to_char(sysdate,'yyyy-mm-dd'),'yyyy-mm-dd')-to_date(to_char(t.jilutime,'yyyy-mm-dd'),'yyyy-mm-dd')<![CDATA[ < ]]> $tbnum$
+		<isNotEmpty property="idnumber" prepend="AND"> t.idnumber like '%' || #idnumber# || '%'</isNotEmpty>
+	</select>
+	
+	<!-- <select id="findById" parameterClass="java.lang.String" resultClass="hmd">
+		select t.name,t.id,t.company,t.reason from pd_hmd t where t.id=#id#
+	</select>
+	
+	<delete id="deleteById" parameterClass="java.lang.String">
+		delete pd_hmd t where t.id=#id#
+	</delete> -->
+	
+</sqlMap>

@@ -1,0 +1,43 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="lzxx" extends="webwork-default" namespace="/lzxx">
+	
+		<action name="queryAllLzck" class="lzckAction" method="queryAllLzck">
+			<result name="success">lzckList.jsp</result>
+		</action>
+		<action name="delLzck" class="lzckAction" method="delLzck">
+			<result name="delLzck">/message.jsp</result>
+		</action>
+		<action name="delpzlz" class="lzckAction" method="delpzlz">
+			<result name="delpzlz">/message.jsp</result>
+		</action>
+		<action name="addLzck" class="lzckAction" method="addLzck">
+			<result name="addLzck">/message.jsp</result>
+		</action>
+		<action name="queryAllLzxx" class="lzckAction" method="queryAllLzxx">
+			<result name="list">lzxxList.jsp</result>
+		</action>
+		<action name="queryAllLzxxBysxh" class="lzckAction" method="queryAllLzxxBysxh">
+			<result name="sendLzxx">/message.jsp</result>
+			<result name="list">lzxxList.jsp</result>
+		</action>
+		<action name="querynameLzxxBysxh" class="lzckAction" method="querynameLzxxBysxh">
+			<result name="sendLzxx">/message.jsp</result>
+			<result name="list">lzxxList.jsp</result>
+		</action>
+		<action name="sendLzxx" class="lzckAction" method="sendLzxx">
+			<result name="sendLzxx">/message.jsp</result>
+		</action>
+		<action name="updatelzxx" class="lzckAction" method="updatelzxx">
+			<result name="updatelzxx">/message.jsp</result>
+		</action>
+		<action name="voicelzxx" class="lzckAction" method="voicelzxx">
+			<result name="voicelzxx">/message.jsp</result>
+		</action>
+		<action name="weiHuIp" class="lzckAction" method="weiHuIp">
+			<result name="weihuip">/message.jsp</result>
+		</action>
+		
+		
+	</package>
+</xwork>

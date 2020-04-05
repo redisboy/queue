@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Lzxx">
+	<typeAlias alias="lzxx" type="com.suntendy.queue.lzxx.domain.Lzxx"/>
+	
+	<!-- 查询领证信息 -->
+	<select id="findByMap" parameterClass="java.util.HashMap" resultClass="lzxx">
+		select t.xm,t.zllx,to_char(t.rksj,'yyyy-mm-dd hh24:mi:ss') rksj,t.lsh,t.idnumber,t.depthall deptHall,t.lzckh,t.sxh,t.ip from pd_lzxx t where 1=1
+		<isNotEmpty property="status" prepend="AND"> t.status=#status#</isNotEmpty>
+		<isEmpty property="status" prepend="AND"> (t.status='1' or t.status='3')</isEmpty>
+		<isNotEmpty property="zllx" prepend="AND"> t.zllx=#zllx#</isNotEmpty>
+		<isNotEmpty property="xm" prepend="AND"> INSTR(t.xm,#xm#)>0</isNotEmpty>
+		<isNotEmpty property="rksj" prepend="AND"> to_char(t.rksj,'yyyy-mm-dd')=#rksj#</isNotEmpty>
+		<isNotEmpty property="lsh" prepend="AND"> t.lsh=#lsh#</isNotEmpty>
+		<isNotEmpty property="sxh" prepend="AND"> t.sxh=#sxh#</isNotEmpty>
+		<isNotEmpty property="idnumber" prepend="AND"> t.idnumber=#idnumber#</isNotEmpty>
+		<isNotEmpty property="deptHall" prepend="AND"> t.deptHall=#deptHall#</isNotEmpty>
+		and to_char(t.rksj,'yyyy-mm-dd')=to_char(sysdate,'yyyy-mm-dd') 
+		<!-- order by t.rksj -->
+		<isNotEmpty property="status" prepend=" "> order by t.fpsj</isNotEmpty>
+		<isEmpty property="status" prepend=" "> order by t.rksj desc</isEmpty>
+	</select>
+	
+	<select id="queryAllLzxxBysxh" parameterClass="java.util.HashMap" resultClass="lzxx">
+		select t.xm,t.zllx,to_char(t.rksj,'yyyy-mm-dd hh24:mi:ss') rksj,t.idnumber,t.depthall deptHall,t.lzckh,t.sxh,t.ip,v.lsh lsh from pd_lzxx t,pd_valuerecord v where 1=1 and t.lsh=v.lsh
+		<isNotEmpty property="status" prepend="AND"> t.status=#status#</isNotEmpty>
+		<isEmpty property="status" prepend="AND"> (t.status='1' or t.status='3')</isEmpty>
+		<isNotEmpty property="zllx" prepend="AND"> t.zllx=#zllx#</isNotEmpty>
+		<isNotEmpty property="xm" prepend="AND"> INSTR(t.xm,#xm#)>0</isNotEmpty>
+		<isNotEmpty property="rksj" prepend="AND"> to_char(t.rksj,'yyyy-mm-dd')=#rksj#</isNotEmpty>
+		<isNotEmpty property="lsh" prepend="AND"> t.lsh=#lsh#</isNotEmpty>
+		<isNotEmpty property="sxh" prepend="AND"> v.clientno=#sxh#</isNotEmpty>
+		<isNotEmpty property="idnumber" prepend="AND"> t.idnumber=#idnumber#</isNotEmpty>
+		<isNotEmpty property="deptHall" prepend="AND"> t.deptHall=#deptHall#</isNotEmpty>
+		and to_char(t.rksj,'yyyy-mm-dd')=to_char(sysdate,'yyyy-mm-dd') 
+		<!-- order by t.rksj -->
+		<isNotEmpty property="status" prepend=" "> order by t.fpsj</isNotEmpty>
+		<isEmpty property="status" prepend=" "> order by t.rksj desc</isEmpty>
+	</select>
+	
+	<select id="querySxhByLzxx" parameterClass="java.util.HashMap" resultClass="lzxx">
+		select t.xm,t.zllx,to_char(t.rksj,'yyyy-mm-dd hh24:mi:ss') rksj,t.idnumber,t.depthall deptHall,t.lzckh,t.ip,v.lsh lsh,v.clientno sxh 
+		from pd_lzxx t,pd_valuerecord v 
+		where 1=1 
+		and to_char(t.rksj,'yyyy-mm-dd')=to_char(sysdate,'yyyy-mm-dd') 
+		and substr(v.entertime,1,10)=to_char(sysdate,'yyyy-mm-dd') 
+   		and (t.idnumber=v.idnumber or t.idnumber=v.idnumberb) 
+		<isNotEmpty property="status" prepend="AND"> t.status=#status#</isNotEmpty>
+		<isNotEmpty property="zllx" prepend="AND"> t.zllx=#zllx#</isNotEmpty>
+		<isNotEmpty property="xm" prepend="AND"> INSTR(t.xm,#xm#)>0</isNotEmpty>
+		<isNotEmpty property="rksj" prepend="AND"> to_char(t.rksj,'yyyy-mm-dd')=#rksj#</isNotEmpty>
+		<isNotEmpty property="lsh" prepend="AND"> t.lsh=#lsh#</isNotEmpty>
+		<isNotEmpty property="sxh" prepend="AND"> v.clientno=#sxh#</isNotEmpty>
+		<isNotEmpty property="idnumber" prepend="AND"> t.idnumber=#idnumber#</isNotEmpty>
+		<isNotEmpty property="deptHall" prepend="AND"> v.deptHall=#deptHall#</isNotEmpty>
+		<!-- order by t.rksj -->
+		order by v.entertime desc
+	</select>
+	
+	
+	<!-- 添加领证信息 -->
+	<insert id="insert" parameterClass="lzxx">
+		insert into pd_lzxx(xm,zllx,lsh,deptHall,idnumber,ip,sxh) values(#xm#,#zllx#,#lsh#,#deptHall#,#idnumber#,#ip#,#sxh#)
+	</insert>
+	
+	<!-- 添加领证信息临时 -->
+	<insert id="insertLS" parameterClass="lzxx">
+		insert into pd_lzxx(xm,zllx,lsh,deptHall,idnumber,status,fpsj,lzckh) values(#xm#,#zllx#,#lsh#,#deptHall#,#idnumber#,#status#,sysdate,#lzckh#)
+	</insert>
+	
+	<!-- 添加领证窗口 -->
+	<insert id="insertLzck" parameterClass="lzxx">
+		insert into pd_lzck(barid,zllx,ip,deptCode,deptHall) values(#barid#,#zllx#,#ip#,#deptCode#,#deptHall#)
+	</insert>
+	
+	<!-- 修改领证窗口 -->
+	<update id="updateLzck" parameterClass="lzxx">
+		update pd_lzck t set t.barid=#barid# where t.zllx=#zllx#
+	</update>
+	
+	<!-- 根据资料类型查询窗口 -->
+	<select id="queryCK" parameterClass="java.util.HashMap" resultClass="lzxx">
+		select t.barid,t.zllx,t.ip from pd_lzck t where 1=1
+		<isNotEmpty property="deptCode" prepend="AND"> t.deptCode=#deptCode#</isNotEmpty>
+		<isNotEmpty property="deptHall" prepend="AND"> t.deptHall=#deptHall#</isNotEmpty>
+		<isNotEmpty property="zllx" prepend="AND"> t.zllx=#zllx#</isNotEmpty>
+	</select>
+	
+	<!-- 删除领证窗口 -->
+	<delete id="delCK" parameterClass="lzxx">
+		delete pd_lzck t where t.zllx=#zllx#
+	</delete>
+	
+	<!-- 修改领证信息状态 -->
+	<update id="updateStatus" parameterClass="lzxx">
+		update pd_lzxx t set t.lsh=#lsh#
+		<isNotEmpty property="status" prepend=","> t.status=#status# ,t.fpsj=sysdate</isNotEmpty>
+		<isNotEmpty property="deptHall" prepend=","> t.deptHall=#deptHall#</isNotEmpty>
+		<isNotEmpty property="lzckh" prepend=","> t.lzckh=#lzckh#</isNotEmpty>
+		 <isEmpty property="status" prepend=","> t.status='2'</isEmpty>
+		  where t.lsh=#lsh#
+	</update>
+</sqlMap>

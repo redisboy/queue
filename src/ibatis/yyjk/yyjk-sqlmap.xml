@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="NanNingYYXX">
+	<typeAlias alias="nanNingYYXX" type="com.suntendy.queue.yyjk.domain.NanNingYYXX" />
+	<typeAlias alias="guangZhouYYXX" type="com.suntendy.queue.yyjk.domain.GuangZhouYYXX" />
+    <typeAlias alias="foShanCLCYXX" type="com.suntendy.queue.yyjk.domain.FoShanCLCYXX" />
+    <typeAlias alias="foShanYyXXinfo" type="com.suntendy.queue.yyjk.domain.FoShanYyXXinfo" />
+    <!-- 查询南宁预约信息表 -->
+	<select id="findNanNingYYXX" parameterClass="nanNingYYXX" resultClass="nanNingYYXX">
+		select * from yyxx t where t.datebooked = trunc(sysdate)
+		<isNotEmpty prepend="and" property="nationalId"> t.nationalid = #nationalId#</isNotEmpty>
+		<isNotEmpty prepend="and" property="orgId"> t.orgId = #orgId#</isNotEmpty>
+		<isNotEmpty prepend="and" property="bookingStatusId"> t.bookingStatusId = #bookingStatusId#</isNotEmpty>
+		<isNotEmpty prepend="and" property="stationCode"> t.stationCode = #stationCode#</isNotEmpty>
+	</select>
+	<!-- 取号成功更新南宁预约信息表状态字段 -->
+	<update id="updateNanNingYYXX" parameterClass="nanNingYYXX" >
+		update yyxx t set t.bookingStatusId = #bookingStatusId# where 1=1
+		<isNotEmpty prepend="and" property="nationalId"> t.nationalid = #nationalId#</isNotEmpty>
+		<isNotEmpty prepend="and" property="stationCode"> t.stationCode = #stationCode#</isNotEmpty>
+		<isNotEmpty prepend="and" property="orgId"> t.orgId = #orgId#</isNotEmpty>
+	</update>
+	
+	<!-- 查询广州预约信息表 -->
+	<select id="findGuangZhouYYXX" parameterClass="guangZhouYYXX" resultClass="guangZhouYYXX">
+		select * from yyxx t where t.yyrq = to_char(trunc(sysdate),'yyyy-MM-dd') 
+		<isNotEmpty prepend="and" property="id"> t.id = id </isNotEmpty>
+		<isNotEmpty prepend="and" property="sfzmhm"> t.sfzmhm = #sfzmhm#</isNotEmpty>
+	</select>
+	<!-- 修改广州预约信息表 -->
+	<update id="updateGuangZhouYYXX" parameterClass="guangZhouYYXX" >
+		update yyxx t set t.sxh = #sxh# where t.id = id 
+	</update>
+	<!-- 添加预约信息到广州预约信息表 -->
+	<insert id="insertGuangZhouYYXX" parameterClass="guangZhouYYXX">
+		insert into yyxx t (id,yyrq,sfzmhm,address,yysjd) values (#id#,#yyrq#,#sfzmhm#,#address#,#yysjd#)
+	</insert>
+	<!-- 删除过往预约数据 -->
+	<delete id="deleteGuangZhouYYXX">
+		delete yyxx t where  <![CDATA[t.yyrq <> to_char(trunc(sysdate))]]>
+	</delete>
+	<!-- 通过六合一分发库查询佛山车辆查验信息结果 public_wdw-->
+	<select id="foShanCLCYXX" parameterClass="foShanCLCYXX" resultClass="foShanCLCYXX">
+		select t.syr, t.sqrq from ffk_wdw.cgscxyh_veh_flow@cxclcyxx t
+		where t.sqrq> trunc(sysdate - 1) and t.ywlx in ('A','I','B','D','J','L','V') 
+		and (t.syr = trim(#syr#) 
+		<isNotEmpty prepend="or" property="clsbdh"> substr(t.clsbdh,12,17) = #clsbdh# t.clsbdh = #clsbdh#</isNotEmpty> )
+		order by t.sqrq desc
+	</select>
+</sqlMap>

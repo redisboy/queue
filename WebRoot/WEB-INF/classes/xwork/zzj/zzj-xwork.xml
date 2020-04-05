@@ -1,0 +1,22 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="zzj" extends="webwork-default" namespace="/zzj">
+	
+		<action name="toAddZzj" class="zzjAction" method="toAddZzj">
+			<result name="addZzj">addZzj.jsp</result>
+		</action>
+		<action name="AddZzj" class="zzjAction" method="AddZzj">
+			<result name="success">/message.jsp</result>
+		</action>
+		<action name="ZzjList" class="zzjAction" method="ZzjList">
+			<result name="success">zzjList.jsp</result>
+		</action>
+		<action name="delZzj" class="zzjAction" method="delZzj">
+			<result name="success">/message.jsp</result>
+		</action>
+		<action name="czZzj" class="zzjAction" method="czZzj">
+			<result name="success">/message.jsp</result>
+		</action>
+		<action name="YzZzj" class="zzjAction" method="YzZzj"></action>
+	</package>
+</xwork>

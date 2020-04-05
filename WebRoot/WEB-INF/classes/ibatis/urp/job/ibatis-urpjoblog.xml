@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="UrpJoblog">
+
+  <typeAlias alias="UrpJoblogResult" type="com.suntendy.urp.job.model.UrpJoblog"/>
+	
+  <!-- 用于select查询公用抽取的列，注意将blob与clob对象单独处理 -->
+  <sql id="urpJoblogColumns">
+  <![CDATA[
+		ID as id,
+		JOBID as jobid,
+		STARTDATE as startdate,
+		ENDDATE as enddate,
+		ENDSTATUS as endstatus,
+		REMARK as remark,
+        OPERTYPE as opertype
+  ]]>
+  </sql>
+
+  <!-- 动态SQL -->
+  <sql id="urpJoblogDynamicWhere">
+    <dynamic prepend="WHERE">
+        <isNotEmpty prepend="AND" property="id">
+            ID = #id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="jobid">
+            JOBID = #jobid#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="startdateString">
+            to_char(STARTDATE,'yyyy-mm-dd') = #startdateString#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="startdateStartString">
+            <![CDATA[to_char(STARTDATE,'yyyy-mm-dd') >= #startdateStartString# and to_char(STARTDATE,'yyyy-mm-dd') <= #startdateEndString#]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="enddateString">
+            to_char(ENDDATE,'yyyy-mm-dd') = #enddateString#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="enddateStartString">
+            <![CDATA[to_char(ENDDATE,'yyyy-mm-dd') >= #enddateStartString# and to_char(ENDDATE,'yyyy-mm-dd') <= #enddateEndString#]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="endstatus">
+            ENDSTATUS = #endstatus#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="remark">
+            REMARK like '%'||#remark#||'%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="opertype">
+            OPERTYPE = #opertype#
+        </isNotEmpty>
+    </dynamic>
+  </sql>
+  
+  <!-- insert操作-->
+  <insert id="insert" parameterClass="com.suntendy.urp.job.model.UrpJoblog" >
+  <![CDATA[
+	INSERT INTO URP_JOBLOG (
+			ID,
+			JOBID,
+			STARTDATE,
+			ENDDATE,
+			ENDSTATUS,
+			REMARK,
+			OPERTYPE
+	) VALUES (
+			#id:VARCHAR#,
+			#jobid:VARCHAR#,
+			#startdate:TIMESTAMP#,
+			#enddate:TIMESTAMP#,
+			#endstatus:VARCHAR#,
+			#remark:VARCHAR#,
+            #opertype:VARCHAR#
+	)
+  ]]>
+  </insert>
+    
+  <!-- update操作-->
+  <update id="update" parameterClass="com.suntendy.urp.job.model.UrpJoblog">
+	UPDATE URP_JOBLOG 
+	SET ID=#id#
+		<isNotNull prepend="," property="jobid">
+	    	JOBID = #jobid:VARCHAR#
+	    </isNotNull>
+		<isNotNull prepend="," property="startdate">
+	    	STARTDATE = #startdate:TIMESTAMP#
+	    </isNotNull>
+		<isNotNull prepend="," property="enddate">
+	    	ENDDATE = #enddate:TIMESTAMP#
+	    </isNotNull>
+		<isNotNull prepend="," property="endstatus">
+	    	ENDSTATUS = #endstatus:VARCHAR#
+	    </isNotNull>
+		<isNotNull prepend="," property="remark">
+	    	REMARK = #remark:VARCHAR#
+	    </isNotNull>
+        <isNotNull prepend="," property="opertype">
+            OPERTYPE = #opertype:VARCHAR#
+        </isNotNull>
+	WHERE 
+			ID = #id#
+  </update>
+
+  <!-- delete操作-->
+  <delete id="delete" parameterClass="java.lang.String">
+	<![CDATA[
+	DELETE FROM URP_JOBLOG WHERE
+			ID = #id#
+	]]>
+  </delete>
+  
+  <!-- 取所有数据 -->
+  <select id="getAll" parameterClass="java.util.Map" resultClass="UrpJoblogResult">
+	SELECT <include refid="urpJoblogColumns" />
+		FROM URP_JOBLOG 
+		<include refid="urpJoblogDynamicWhere"/>
+		<isNotEmpty property="sortColumns">
+			ORDER BY $sortColumns$
+		</isNotEmpty>
+  </select>
+  
+  <!-- 通过主键读取UrpJoblog对象 -->
+  <select id="getById" parameterClass="java.lang.String" resultClass="UrpJoblogResult">
+	SELECT <include refid="urpJoblogColumns" />
+	<![CDATA[
+		FROM URP_JOBLOG 
+		WHERE 
+				ID = #id#
+	]]>
+  </select>
+	
+  <!-- 按字段取数据 -->
+  <select id="getByProperty" parameterClass="java.util.Map" resultClass="UrpJoblogResult">
+	SELECT <include refid="urpJoblogColumns" />
+		FROM URP_JOBLOG 
+		<include refid="urpJoblogDynamicWhere"/>
+		<isNotEmpty property="sortColumns">
+			ORDER BY $sortColumns$
+		</isNotEmpty>
+  </select>
+    
+  <!-- 取总数 -->
+  <select id="count" parameterClass="java.util.Map" resultClass="long">
+	SELECT count(*) FROM URP_JOBLOG 
+		<include refid="urpJoblogDynamicWhere"/>    
+  </select>
+    
+  <!-- 分页查询  -->
+  <select id="pageSelect" parameterClass="java.util.Map" resultClass="UrpJoblogResult">
+	SELECT <include refid="urpJoblogColumns" />
+		FROM URP_JOBLOG 
+		<include refid="urpJoblogDynamicWhere"/>
+		<isNotEmpty property="sortColumns">
+			ORDER BY $sortColumns$
+		</isNotEmpty>
+  </select>
+
+  <!-- 多记录查询  -->
+  <select id="selectInId" parameterClass="java.util.Map" resultClass="UrpJoblogResult">
+	SELECT <include refid="urpJoblogColumns" />
+		FROM URP_JOBLOG
+		WHERE ID in
+		<iterate property="idsList" open="(" close=")" conjunction=",">    
+            #idsList[]#
+         </iterate>
+		<isNotEmpty property="sortColumns">
+			ORDER BY $sortColumns$
+		</isNotEmpty>
+  </select>
+  
+  <!-- 按字段delete操作-->
+  <delete id="deleteByProperty" parameterClass="java.util.Map" >
+	DELETE FROM URP_JOBLOG <include refid="urpJoblogDynamicWhere"/>
+  </delete>
+</sqlMap>

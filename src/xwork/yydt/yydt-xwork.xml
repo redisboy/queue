@@ -1,0 +1,32 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.0//EN"
+"http://www.opensymphony.com/xwork/xwork-1.0.dtd">
+<xwork>
+	<package name="yydt" extends="default-webwork">
+		<action name="yydt" class="yydtAction" method="yydtManage">
+			<result name="success">/yydt/yydt_index.jsp</result>
+		</action>
+		
+		<action name="fromAddYydt" class="yydtAction" method="fromAddYydt">
+			<result name="success">/yydt/yydt_add.jsp</result>
+		</action>
+		
+		<action name="addYydt" class="yydtAction" method="addYydt">
+			<result name="success">/message.jsp</result>
+		</action>
+		
+		<action name="fromUpdateYydt" class="yydtAction"  method="fromUpdateYydt">
+			<result name="success">/yydt/yydt_update.jsp</result>
+		</action>
+		
+		<action name="updateYydt" class="yydtAction"  method="updateYydt">
+			<result name="success">/message.jsp</result>
+		</action>
+		
+		<action name="delYydt" class="yydtAction" method="delYydt">
+			<result name="success">/message.jsp</result>
+		</action>
+		
+		
+	
+	</package>
+</xwork>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="NextWindow">
+	<typeAlias alias="nWindow" type="com.suntendy.queue.nextwindow.domain.NextWindow"/>
+	<insert id="saveNWindow" parameterClass="Nwindow">
+		insert into PD_NEXTWINDOW(id,dmlb,nextwindowval,dmz,ywyybh,deptCode,deptHall) 
+		values(seq_pd_nextwindow_id.nextval,#dmlb#,#nextwindowval#,#dmz#,#ywyybh#,#deptCode#,#deptHall#)
+	</insert>
+	
+	<select id="queryAll" resultClass="nWindow">
+		select t.id,t.dmlb,t.dmz,t.ywyybh,t.nextwindowval,t.dmsm1,o.ywmc from 
+		(select  n.id,n.dmlb,n.dmz,n.ywyybh,n.nextwindowval,c.dmsm1 
+			from pd_nextwindow n,pd_code c 
+			where n.dmlb=c.dmlb and n.dmz=c.dmz AND n.depthall=#deptHall# AND n.deptcode=#deptCode#
+		) t,pd_veh_opertype o
+		where t.dmlb=o.xtlx and t.dmz=o.ywlx and t.ywyybh=o.ywyy  order by t.id desc
+	</select>
+	
+	<update id="updateById" parameterClass="java.util.HashMap">
+		update pd_nextwindow t set t.nextwindowval =#nextwindowval# where t.id=#id#
+	</update>
+	
+	<select id="queryById" parameterClass="java.util.HashMap" resultClass="nWindow">
+		select t.id,t.dmlb,t.dmz,t.ywyybh,t.nextwindowval,t.dmsm1, o.ywmc,o.ywmc from 
+    (select  n.id,n.dmlb,n.dmz,n.ywyybh,n.nextwindowval,c.dmsm1 
+    	from pd_nextwindow n,pd_code c 
+    	where n.dmlb=c.dmlb and n.dmz=c.dmz AND n.depthall=#deptHall# AND n.deptcode=#deptCode#
+    ) t,pd_veh_opertype o
+    where t.dmlb=o.xtlx and t.dmz=o.ywlx and t.ywyybh=o.ywyy and t.id=to_number(#id#) 
+	</select>
+	
+	<select id="queryForCheck" parameterClass="java.util.HashMap" resultClass="nWindow">
+		select t.id,t.dmlb,t.dmz,t.ywyybh,t.nextwindowval 
+		from pd_nextwindow t 
+		where t.dmlb=#dmlb# and t.dmz=#dmz# and t.ywyybh=#ywyybh# AND t.depthall=#deptHall# AND t.deptcode=#deptCode#
+	</select>
+	
+	<select id="queryForCheckResult" parameterClass="java.util.HashMap" resultClass="Nwindow">
+		select t.id,t.dmlb,t.dmz,t.ywyybh,t.nextwindowval 
+		from pd_nextwindow t 
+		where t.dmlb=#dmlb# and t.dmz=#dmz# and t.ywyybh=#ywyybh# AND t.depthall=#deptHall# AND t.deptcode=#deptCode#
+	</select>
+	
+	<delete id="deleteById" parameterClass="java.lang.String">
+		delete pd_nextwindow t where t.id=to_number($id$)
+	</delete>
+</sqlMap>

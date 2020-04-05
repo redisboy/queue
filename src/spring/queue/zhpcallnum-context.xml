@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<bean id="zhpcallnumDao" class="com.suntendy.queue.queue.dao.impl.ZhpcallnumDaoImpl" parent="baseDao"/>
+		
+	<bean id="zhpcallnumService" class="com.suntendy.queue.queue.service.impl.ZhpcallnumServiceImpl">
+		<property name="zhpcallnumDao" ref="zhpcallnumDao"></property>
+	</bean>
+	
+</beans>

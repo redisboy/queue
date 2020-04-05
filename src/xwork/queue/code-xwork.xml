@@ -1,0 +1,67 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.0//EN"
+"http://www.opensymphony.com/xwork/xwork-1.0.dtd">
+<!-- xwork需要分模块配置action -->
+<xwork>
+	<package name="code" extends="default-webwork">
+		<!-- 查询差评原因 -->
+		<action name="getAllGredentialsEvaluaReason" class="codeAction" method="getAllGredentialsEvaluaReason">
+			<result name="getAll">/system/evakyaReason_index.jsp</result>
+		</action>
+		<!-- 添加窗口差评原因 -->
+		<action name="addGredentialsEvaluaReason" class="codeAction" method="addGredentialsEvaluaReason">
+			<result name="success">/message.jsp</result>
+		</action>
+		<!-- 修改窗口差评原因 -->
+		<action name="toGredentialsEvaluaReason" class="codeAction" method="toGredentialsEvaluaReason">
+			<result name="toEditReason">/system/updateEvakyaReason.jsp</result>
+		</action>
+		<!-- 修改窗口差评原因 -->
+		<action name="editGredentialsEvaluaReason" class="codeAction" method="editGredentialsEvaluaReason">
+			<result name="success">/message.jsp</result>
+		</action>
+		<!-- 删除窗口差评原因 -->
+		<action name="delGredentialsEvaluaReason" class="codeAction" method="delGredentialsEvaluaReason">
+			<result name="success">/message.jsp</result>
+		</action>
+		<!-- 大厅列表 -->
+		<action name="depthallList" class="codeAction" method="depthallList">
+			<result name="depthallList">/system/depthallList.jsp</result>
+		</action>
+		<!-- 添加大厅 -->
+		<action name="addDepthall" class="codeAction" method="addDepthall">
+			<result name="addDepthall">/message.jsp</result>
+		</action>
+		<!-- 跳转添加大厅 -->
+		<action name="toAddDepthall" class="codeAction" method="toAddDepthall">
+			<result name="toAddDepthall">/system/addDepthall.jsp</result>
+		</action>
+		<!-- 查询高拍仪资料类型 -->
+		<action name="getAllZllx" class="codeAction" method="getAllZllx">
+			<result name="success">/zllx/zllxList.jsp</result>
+		</action>
+		<!-- 进入资料类型添加-->
+		<action name="to_addZllx" class="codeAction" method="to_addZllx">
+			<result name="success">/zllx/addZllx.jsp</result>
+		</action>
+		<!-- 进入资料类型修改 -->
+		<action name="to_updateZllx" class="codeAction" method="to_updateZllx">
+			<result name="success">/zllx/updateZllx.jsp</result>
+		</action>
+		<!-- 保存资料类型信息 -->
+		<action name="saveZllx" class="codeAction" method="saveZllx">
+			<result name="success">/message.jsp</result>
+		</action>
+		<action name="addkhdsq" class="codeAction" method="addkhdsq">
+			<result name="khdsq">/message.jsp</result>
+		</action>
+		<action name="queryAllkhdsq" class="codeAction" method="queryAllkhdsq">
+			<result name="success">/jiekousq/khdsqList.jsp</result>
+		</action>
+		<!-- 检查重复大厅 -->
+		<action name="checkDepthall" class="codeAction" method="checkDepthall"/>
+		<!-- 验证资料类型编号 -->
+		<action name="checkZllx" class="codeAction" method="checkZllx"/>
+		<!-- changeZllx  -->
+		<action name="changeZllx" class="codeAction" method="changeZllx"/>
+	</package>
+</xwork>

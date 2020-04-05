@@ -1,0 +1,11 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.0//EN"
+"http://www.opensymphony.com/xwork/xwork-1.0.dtd">
+<!-- xwork需要分模块配置action -->
+<xwork>
+	<package name="callNumTimeCount" extends="default-webwork">
+		<!-- 叫号间隔时间统计 -->
+		<action name="jhsjtj" class="callNumTimeCountAction" method="meanTimeCount">
+			<result name="success">/count/callNumTime_Count.jsp</result>
+		</action>
+	</package>
+</xwork>

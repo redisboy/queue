@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	<!-- 广告 -->
+	<bean id="advertiseDao"
+		class="com.suntendy.queue.advertise.dao.impl.AdvertiseDaoImpl"
+		parent="baseDao" />
+
+	<bean name="advertiseService"
+		class="com.suntendy.queue.advertise.service.impl.AdvertiseServiceImpl">
+		<property name="advertiseDao" ref="advertiseDao" />
+	</bean>
+
+	<bean id="advertiseAction"
+		class="com.suntendy.queue.advertise.action.AdvertiseAction">
+		<property name="advertiseService">
+			<ref bean="advertiseService" />
+		</property>
+	</bean>
+</beans>
