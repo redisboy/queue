@@ -1,0 +1,74 @@
+﻿﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+	<head>
+		<title>公安交通管理业务排队叫号系统</title>
+		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" type="text/css" href="queue/css/fetchZZ.css" />
+		<link rel="stylesheet" type="text/css" href="queue/css/alxckeyboard.css" />
+		<style type="text/css">
+			<!--
+			.btn_sfzqh,.btn_fsfzqh{display:block;width:378px;height:72px;position:absolute;text-indent:-9999px;}
+			.btn_sfzqh{left:320px;top:267px;background-image:url(/queue/images/queue/btn_sfzqh2_zz.jpg);}
+			.btn_sfzqh:hover{background-image:url(/queue/images/queue/btn_sfzqh_h2_zz.jpg);}
+			.btn_fsfzqh{left:320px;top:500px;background-image:url(/queue/images/queue/btn_fsfzqh_zz.jpg);}
+			.btn_fsfzqh:hover{background-image:url(/queue/images/queue/btn_fsfzqh_h_zz.jpg);}
+			.inner_sfz{left:270px;}
+			.inner_fsfz{left:330px;top:600px;}
+			a.back{display:block;background:url(/queue/images/queue/back.gif) no-repeat;text-indent:-9999px;line-height:75px;width:73px;cursor:hand;}
+			a.back:hover{background-position:1px 1px;margin-left:2px;margin-top:2px;}
+			a.back:active{background:url(/queue/images/queue/back_a.gif) no-repeat;}
+			#timers{text-align:center;font-size:35px;font-weight:bold;letter-spacing:5px;margin-top:350px;}
+			.time_js{color:#bf0202;font-size:45px;margin:0 10px;}
+			-->
+		</style>
+	</head>
+	
+	<body window.onload() style="overflow: hidden">
+	    <!-- 身份证取号界面 -->
+		<div id="index" class="outer" style="margin-top:-19px;">
+			<div class="inner qh">
+				<a href="javascript:void(0);" class="btn_sfzqh" onfocus="this.blur()" onclick="gn.card()">身份证取号</a>
+				<a href="javascript:void(0);" class="btn_fsfzqh" onfocus="this.blur()" onclick="gn.noCard()">非身份证取号</a>
+				<input type="hidden" id="sxh" name="sxh" >
+				<input type="hidden" id="sxhid" name="sxhid" >
+				<div class="inner_fsfz" id="inner_fsfz" style="display: none">
+					<p><select class="sel1" id="tIDType"></select></p>
+					<p><input id="tIDNumber" class="input1" onkeyup="gn.clears(this)" onfocus="gn.hqjp()"/></p>
+					<p>
+					    <img src="images/queue/ok.jpg" style="border: 0px; cursor: pointer;" onclick="gn.btnOk()" />
+					    &nbsp;&nbsp;
+					    <img src="images/queue/cancel.jpg" style="border: 0px; cursor: pointer;" onclick="gn.btnCancel()" />
+					</p>
+				</div>
+				<div class="shuoming" id="showWaitRs"><!-- 存放等待人数 -->
+				</div>
+				<div id="timers"></div>
+			</div>
+		</div>
+		
+		<!-- 引入读取身份证OCX -->
+		<object classid="clsid:4B3CB088-9A00-4D24-87AA-F65C58531039" id="SynCardOcx1" codebase="plugs/cab/SynCardOcx.CAB#version=1,0,0,1" width="0" height="0">
+		</object>
+		
+		
+		<!-- 引入指纹OCX 
+		<object classid="clsid:8856C526-45A8-4400-B708-8BEE2A6832D0" id="xhWebFingerCtrl" codebase="plugs/cab/xhWebFinger.cab#version=1,0,0,2" width="0" height="0">
+		</object>-->
+		<object id="xhWebFingerCtrl" width="0" height="0" classid="clsid:BB16B5DF-898F-4E1D-AABA-B23DB9E456A8" CODEBASE="/queue/plugs/cab/JhFinger.cab#version=1,0,0,1"></OBJECT>
+		<!-- 引入打印OCX 
+		<object  classid="clsid:466DC624-0FA5-4195-B492-393782680CEF" id="PrintJhBt" codebase="plugs/cab/prjJhPrintBt.cab#version=1,0,0,1" width="0" height="0">
+		</object>
+		-->
+		<OBJECT ID="jatoolsPrinter"	CLASSID="CLSID:B43D3361-D075-4BE2-87FE-057188254255" codebase="plugs/cab/jatoolsPrinter.cab#version=8,5,2549" width="0" height="0"  ></OBJECT>
+		<!-- 业务类型界面 -->
+		<div id="type" class="outer" style="display:none;margin-top:-19px;">
+			<div id="tdiv" class="inner ywlx"></div>
+		</div>
+		<!-- 返回按钮 -->
+        <div  id="backDiv" style="z-index:-1;position:absolute;left:876px;top:1120px;"></div>
+	</body>
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="queue/js/indexZZ.js"></script>
+	<script type="text/javascript" src="queue/js/alxckeyboard.js"></script>
+	<script type="text/javascript" for="xhWebFingerCtrl" event="CaptureFingerEvent(lpBuffer,lpRst)"></script>
+</html>

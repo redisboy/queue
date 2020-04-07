@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+<!-- TimerTask定时器配置文件路径 -->
+<!-- 综合屏领证信息发屏定时器 -->
+	<bean id="lzxxAction" class="com.suntendy.queue.lzxx.action.LzxxAction">
+		<property name="publisher" ref="publisher" />
+		<property name="lzxxService" ref="lzxxService" />
+		<property name="ledService" ref="ledService" />
+		<property name="numberService" ref="numberService"/>
+	</bean>
+    <bean id="repeatingTrigger"
+          class="org.springframework.scheduling.timer.ScheduledTimerTask">
+        <!--启动10秒后执行 -->
+		<property name="delay">
+          	<value>60000</value>
+		</property>
+        <!-- 后续延时 -->
+        <property name="period">
+            <value>20000</value>
+        </property>
+         <!--注入要监控的javaBean -->
+        <property name="timerTask">
+            <ref bean="lzxxAction"/>
+        </property>
+    </bean>
+    <bean id="timerFactoryBean"
+          class="org.springframework.scheduling.timer.TimerFactoryBean">
+        <!-- 守护线程 -->
+        <property name="daemon">
+			<value>true</value>
+		</property>
+        <property name="scheduledTimerTasks">
+        	<list>
+                <ref bean="repeatingTrigger"/>
+            </list>
+        </property>
+    </bean>
+    
+    
+    
+    
+</beans>

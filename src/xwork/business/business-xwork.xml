@@ -1,0 +1,64 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.0//EN"
+"http://www.opensymphony.com/xwork/xwork-1.0.dtd">
+<!-- xwork需要分模块配置action -->
+<xwork>
+	<package name="business" extends="default-webwork">
+		<!--业务类型设置-->
+		<action name="business" class="businessAction" method="businessManage">
+			<result name="success">/business/business_index.jsp</result>
+		</action>
+		
+		<!-- 添加业务类型 -->
+		<action name="into_addBusiness" class="businessAction" method="into_addBusiness">
+			<result name="success">/business/business_add.jsp</result>
+		</action>
+		<action name="addBusiness" class="businessAction" method="addBusiness">
+			<result name="success">/message.jsp</result>
+		</action>
+		
+		<!-- 更改业务类型 -->  
+		<action name="updateBusiness" class="businessAction"  method="updateBusiness">
+			<result name="success">/business/business_update.jsp</result>
+		</action>
+		
+		<!-- 更改业务类型 -->
+		<action name="updateByID" class="businessAction" method="updateByID">
+			<result name="success">/message.jsp</result>
+		</action>
+		
+		<!-- 删除业务类型 -->
+		<action name="delWaitingarea" class="businessAction" method="delWaitingarea">
+			<result name="success">/message.jsp</result>
+		</action>
+		
+		<!--等待区域设置-->
+		<action name="waitingarea" class="businessAction" method="waitingAreaManage">
+			<result name="success">/business/waitingarea_index.jsp</result>
+		</action>
+		<!-- 添加等待区域 -->
+		<action name="into_insertWaitingarea" class="businessAction" method="into_insertWaitingarea">
+			<result name="success">/business/waitingarea_add.jsp</result>
+		</action>
+		<action name="updateWaitingarea" class="businessAction" method="updateWaitingarea">
+			<result name="success">/message.jsp</result>
+		</action>
+		<!-- 更改等待区域 -->
+		<action name="into_updateWaitingarea" class="businessAction" method="into_updateWaitingarea">
+			<result name="success">/business/waitingarea_update.jsp</result>
+		</action>
+		<!-- 更改等待区域 -->
+		<action name="into_updateWaitingarea" class="businessAction" method="into_updateWaitingarea">
+			<result name="success">/business/waitingarea_update.jsp</result>
+		</action>
+		<!-- 删除等待区域 -->
+		<action name="delBusiness" class="businessAction" method="delBusiness">
+			<result name="success">/message.jsp</result>
+		</action>
+		<!-- ajax验证前缀是否可用 -->
+		<action name="checkPreIndex" class="com.suntendy.queue.business.action.ValidPreIndexAction"  method="checkPreIndex" />
+		<!-- ajax验证队列编号是否可用 -->
+		<action name="checkCode" class="com.suntendy.queue.business.action.ValidPreIndexAction"  method="checkCode" />
+	    <!-- ajax验证业务类型是否可用 -->
+		<action name="checkBusiness" class="com.suntendy.queue.business.action.ValidPreIndexAction"  method="checkBusiness" />
+	</package>
+</xwork>

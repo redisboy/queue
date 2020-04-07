@@ -1,0 +1,724 @@
+﻿body {
+	margin:0px;
+	padding:0px;
+	font-size: 14px;
+}
+body{_width:expression(this.parentNode.offsetHeight > this.parentNode.scrollHeight ? '100%' : parseInt(this.parentNode.clientWidth) + 'px');}
+
+.gridOperDiv{
+	width:99%;
+	margin-left:2px;
+}
+
+.searchOperDiv{
+	width:100%;
+	text-align:center; 
+	margin-top:2px;
+}
+
+.positionDiv{
+	width:99%;
+	border-top :0px solid #aac0dd;
+    border-left :1px solid #aac0dd;
+    border-right :1px solid #aac0dd;
+    border-bottom :1px solid #aac0dd;
+	background-image:url(../../../images/main/main_t2.gif); 
+	line-height:21px; 
+	margin-left:2px;
+	margin-top:0px;
+}
+
+.gridSearchDiv{
+	width:99%;
+	text-align:left;
+	font-family: "宋体","Verdana","Arial","Helvetica","sans-serif";
+	text-align:left; 
+	border-collapse:collapse;
+	margin-left:1px;
+	float:left;!important;
+}
+
+.gridSearchDiv .searchTable{
+	width:100%;
+	font-size:14px;              
+	text-align:left; 
+	border-collapse:collapse;
+	margin-left:1px;
+	float:left;!important;
+	margin-top:2px;!important;
+	margin-bottom:5px;!important;
+	line-height:26px;
+	border:1px solid #91c3f9; 
+	border-collapse:collapse;
+}
+
+.gridSearchDiv .searchTable .title_left{
+	border-bottom:1px solid #91c3f9;
+    text-indent:8px;
+	color:#000000; 
+	font-weight:200;
+	white-space:nowrap;
+	text-align:right;
+}
+ 
+.gridSearchDiv .searchTable .title_right{
+	text-align:left;
+	border-bottom:1px solid #91c3f9;
+	border-left:1px solid #91c3f9;
+	border-right:1px solid #91c3f9;
+	padding-left:6px;
+	white-space:nowrap;
+}
+
+.searchTable td{text-align:left;}
+.searchTable td a{ color:#0000FF; text-decoration:none;}
+.searchTable td a:hover{ color:#FF0000; text-decoration:underline;}
+.searchTable tr{
+	height:26px;
+}
+	
+div {
+	font-size: 14px;
+	border :0px none #ffffff;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	font-family: "宋体","Verdana","Arial","Helvetica","sans-serif";
+}
+
+td {
+	font-size: 14px;
+	font-family: Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	font-family: "宋体","Verdana","Arial","Helvetica","sans-serif";
+}
+
+img {
+	border:0px none;
+}
+
+.ecSide {
+	width:99%;
+	margin-left:1px;
+	padding:1px;
+	margin:0px;
+	text-align:left;
+	font-family: "宋体","Verdana","Arial","Helvetica","sans-serif";
+}
+
+.ecSide .inputtext {
+	border:1px solid #cc9966;
+	font-size:14px;
+	padding:0px;
+	margin:0px;
+	width:100%;
+}
+
+
+.ecSide select {
+	width: 75px;
+}
+
+
+.ecSide .tableRegion {
+	padding:0px;
+	margin:0px;
+	border-collapse: collapse;
+	width:100%;
+	table-layout:fixed;
+	border-left:1px #aac0dd solid;
+	border-right:1px #aac0dd solid;
+	border-top:1px #aac0dd solid;
+	table-layout:auto;
+	margin-left:1px;
+
+}
+
+.ecSide .tableRegion td {
+	color:#000000;
+	border:1px #d9d9d9 solid;
+	border-top:0px;
+	border-left:0px;
+	padding:2px;
+	height:21px;
+	white-space:nowrap;word-break:keep-all;word-wrap:normal;
+	/* overflow:hidden; */
+	/* overflow:visible; */
+	overflow:hidden;
+}
+
+/*
+white-space:nowrap;word-break:keep-all;word-wrap:normal;
+
+*/
+.ecSide .tableRegion .tableHeader {
+	background-color:#D9E9Ff;
+	cursor:pointer;
+	font-weight:bolder;
+	border-top:1px #d9d9d9 solid;
+	border-left:1px #d9d9d9 solid;
+	border-right:1px #4482d3 solid;
+	height:24px;
+	text-align:center;
+	overflow:visible;
+	padding-right:0px;
+	padding-top:0px;
+	padding-bottom:0px;
+	background-image:url(../images/headerBg.gif);
+	color:#10418c;
+}
+
+
+.ecSide .tableRegion .tableHeaderH td {
+
+	background-color:#D9E9Ff;
+	
+	font-weight:bolder;
+	border-top:1px #aac0dd solid;
+	border-left:1px #4482d3 solid;
+	border-right:1px #4482d3 solid;
+	height:24px;
+	text-align:center;
+	overflow:visible;
+	padding-right:0px;
+	padding-top:2px;
+	background-image:url(../images/headerBgH.gif);
+	background-position: center center ;
+	color:#10418c;
+
+}
+
+
+.ecSide .tableRegion .tableHeaderOver {
+	background-color:#D9E9Ff;
+	font-weight:bolder;
+	border-top:1px #FFEC8B solid;
+	border-left:1px #d9d9d9 solid;
+	border-right:1px #4482d3 solid;
+	height:24px;
+	text-align:center;
+	overflow:visible;
+	padding-right:0px;
+	padding-top:0px;
+	padding-bottom:0px;
+	background-image:url(../images/headerOverBg.gif);
+	color:#3A3A3A;
+}
+
+.ecSide .tableRegion thead tr {
+border-left:1px #ffffff solid;
+}
+
+.ecSide  .columnSeparator {
+	display:none;
+	background-image:url(../images/colSeparator.gif);
+	background-repeat: repeat-y;
+	background-position: center right ;
+
+}
+
+.ecSide  .headerTitle {
+	width:100%;
+	display:block;
+	padding-top:3px;
+	margin:0px;
+	margin-top:1px;
+	text-align:center;
+	overflow:hidden;
+	border:0px red solid;
+	clear:left;
+	-o-text-overflow: ellipsis;
+	text-overflow: ellipsis;
+}
+
+.ecSide  .gridTitle {
+	color: #333333;
+	padding-top:3px;
+	font-weight: bold;
+	font-size: 14px;
+	vertical-align: middle;
+	text-align:center;
+
+}
+
+.ecSide  .headZone {
+	background-color:#eeeeee;
+	background-image:url(../images/headerBg.gif);
+	border :0px solid #aac0dd;
+	border-left:1px #d9d9d9 solid;
+	border-right:1px #d9d9d9 solid;
+	width:100%;
+	overflow:hidden;
+}
+
+.ecSide  .bodyZone {
+	border :0px solid #aac0dd;
+	border-left:1px #d9d9d9 solid;
+	border-right:1px #d9d9d9 solid;
+	width:100%;
+	overflow:auto;
+	
+	scrollbar-face-color:#D6D3CE;
+	scrollbar-arrow-color:#666666;
+	scrollbar-highlight-color:#D6D3CE;
+	scrollbar-3dlight-color:#FFFFFF;
+	scrollbar-shadow-color:#D6D3CE;
+	scrollbar-darkshadow-color:#666666;
+	scrollbar-track-color:#EEEEEE;
+}
+
+
+.ecSide .toolbar {
+	border :1px solid #aac0dd;
+	overflow:visible;
+	width:100%;
+	margin-left:1px;
+} 
+.ecSide .toolbarTable {
+	width:100%; 
+	border :1px solid #aac0dd;
+	background-image:url(../images/footerBg.gif); 
+	line-height:21px;
+	margin-left:1px;
+}
+
+.ecSide .toolbarTable tr{
+	border :1px solid #aac0dd;
+	background-image:url(../images/footerBg.gif); 
+
+}
+
+.ecSide .sortAsc {
+	background-image:url(../images/sortAsc.gif);
+	background-color:transparent;
+	background-repeat: no-repeat;
+	background-position: center;
+	height:5px;
+	width:10px;
+	padding:2px 5px 0px 5px;
+	display:inline;
+}
+
+.ecSide .sortDesc {
+	background-image:url(../images/sortDesc.gif);
+	background-color:transparent;
+	background-repeat: no-repeat;
+	background-position: center;
+	height:5px;
+	width:10px;
+	padding:2px 5px 0px 5px;
+	display:inline;
+}
+
+.ecSide .odd td{
+	background-color: #FFFFFF;
+}
+
+.ecSide .even td{
+  	background-color: #f3f4f3;
+
+}
+
+.ecSide .add td{
+  	background-color: #FFf6f0;
+	height: 26px;
+}
+
+.ecSide .added td{
+	background-color: #f0f6ff;
+	height: 26px;
+}
+
+.ecSide .del td{
+	color: #cccccc;
+  	background-color: #FFFFFF;
+}
+
+.ecSide .odd a, .even a {
+	color: Black;
+}
+
+.ecSide .highlight td {
+	background-color: #ddeeff;
+}
+
+.ecSide .highlight a, .highlight a {
+	color: black;
+}
+
+.ecSide .selectlight td {
+	background-color: #ffeedd;	
+}
+
+.ecSide .selectlight a, .selectlight a {
+	color: black;
+}
+
+.ecSide .toolbar select {
+	width:50px;
+	font-size:11px;
+	font-family: Verdana;
+}
+
+.ecSide .toolbar .toolbarTable{
+	border:0px red solid;
+	width:100%;
+}
+.ecSide .toolbar .toolbarTable td {
+	border:0px none red;
+}
+
+.ecSide .pageNavigationTool {
+	white-space:nowrap;word-break:keep-all;word-wrap:normal;
+	width:40px;
+}
+
+.ecSide .pageNav {
+	background-color:transparent;
+	background-repeat: no-repeat;
+	background-position: center;
+	border: 0px  #dddddd none;
+	width:20px;
+	height:25px;
+	cursor:pointer;
+	vertical-align: -2px;
+}
+
+.ecSide .jumpPage {
+	background-image:url(../images/gotoPage.gif);
+
+}
+.ecSide .firstPage {
+	background-image:url(../images/firstPage.gif);
+}
+
+.ecSide .prevPage {
+	background-image:url(../images/prevPage.gif);
+}
+
+.ecSide .nextPage {
+	background-image:url(../images/nextPage.gif);
+}
+
+.ecSide .lastPage {
+	background-image:url(../images/lastPage.gif);
+}
+
+.ecSide .firstPageD {
+	background-image:url(../images/firstPageDisabled.gif);
+}
+
+.ecSide .prevPageD {
+	background-image:url(../images/prevPageDisabled.gif);
+}
+
+.ecSide .nextPageD {
+	background-image:url(../images/nextPageDisabled.gif);
+}
+
+.ecSide .lastPageD {
+	background-image:url(../images/lastPageDisabled.gif);
+}
+
+.ecSide .jumpPageInput {
+	vertical-align: 1px;
+	height:17px;
+	width:25px;
+	padding-top:1px;
+	margin-top:0px;
+	border:1px solid #337799; 
+	display:inline-block;
+}
+
+.ecSide .pageSizeTool {
+	padding-top:2px;
+	padding-left:2px;
+	width:90px;
+}
+
+
+.ecSide .pageJumpTool {
+	vertical-align:middle;
+	line-height:2;
+	text-align:center;
+	padding:0px 3px 0px 3px;
+	white-space:nowrap;word-break:keep-all;word-wrap:normal;
+}
+
+
+.ecSide  .exportTool {
+	text-align:center;
+	white-space:nowrap;word-break:keep-all;word-wrap:normal;
+}
+
+
+.ecSide  .extendTool {
+	text-align:center;
+	width:99%;
+	white-space:nowrap;word-break:keep-all;word-wrap:normal;
+}
+
+.ecSide  .extendTool A {
+	display:inline;
+	white-space:nowrap;word-break:keep-all;word-wrap:normal;
+}
+
+
+.ecSide .statusTool {
+	color:#000000;
+	border:0px solid red;
+	padding:2px 3px 0px 3px;
+	text-align: left;
+	white-space:nowrap;
+}
+
+
+.ecSide .toolButton {
+	background-color:transparent;
+	background-repeat: no-repeat;
+	background-position: center;
+	border: 0px  #dddddd none;
+	width:20px;
+	height:18px;
+	cursor:pointer;
+	display:inline;
+}
+
+.ecSide  .refreshTool {
+	width:22px;
+	text-align:center;
+}
+
+.ecSide  .saveTool {
+	width:22px;
+	text-align:center;
+}
+
+.ecSide  .addTool {
+	width:22px;
+	text-align:center;
+}
+
+.ecSide  .delTool {
+	width:22px;
+	text-align:center;
+}
+
+.ecSide .girdRefresh {
+	background-image:url(../images/girdrefresh.gif);
+}
+
+.ecSide .girdSave {
+	background-image:url(../images/girdsave.gif);
+}
+
+.ecSide .girdAdd {
+	background-image:url(../images/girdadd.gif);
+}
+
+.ecSide .girdDel {
+	background-image:url(../images/girddel.gif);
+}
+
+.ecSide .exportXls {
+	background-image:url(../images/xls.gif);
+}
+
+.ecSide .exportPdf {
+
+	background-image:url(../images/pdf.gif);
+
+}
+
+.ecSide .exportCsv {
+
+	background-image:url(../images/csv.gif);
+
+}
+
+
+.ecSide .exportPrint {
+
+	background-image:url(../images/print.gif);
+
+}
+
+
+.ecSide  .separatorTool {
+	font-size:1px;
+	padding:2px;
+	width:3px;
+	background-image:url(../images/separator.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+.ecSide  .blankTool {
+	width:10%;	
+}
+
+
+.ecSide  .shadowRowButtonClose {
+	background-image:url(../images/close.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+	font-size:1px;
+	width:16px;
+	height:16px;
+	padding:4px 4px 4px 4px;
+	cursor:pointer;
+}
+
+.ecSide  .shadowRowButtonOpen {
+	background-image:url(../images/open.gif);
+	background-repeat: no-repeat;
+	background-position: center;
+	font-size:1px;
+	width:16px;
+	height:16px;
+	padding:4px 4px 4px 4px;
+	cursor:pointer;
+}
+
+.ecSide  .hideListRow {
+	height:0px;
+	font-size:0px;
+	padding-top:0px;
+	padding-bottom:0px;
+	margin-top:0px;
+	margin-bottom:0px;
+	border:0px;
+	overflow:hidden;
+}
+
+.ecSide  .hideListRow td {
+	font-size:0px;
+	height:0px;
+	padding-top:0px;
+	padding-bottom:0px;
+	margin-top:0px;
+	margin-bottom:0px;
+	border-top:0px;
+	border-bottom:0px;
+}
+
+
+
+
+
+
+.ecSide .breakLine  ,.ecSide .breakLine TD {
+	white-space:normal;
+	word-break:break-all;
+	word-wrap:break-word;
+}
+
+.ecSide .noBreakLine  ,.ecSide .noBreakLine TD {
+	white-space:nowrap;
+	word-break:keep-all;
+	word-wrap:normal;
+}
+
+.separateLine {
+	position:absolute;
+	z-index:99;
+	width:2px;
+	height:10px;
+	background-color:#3388ff;
+
+}
+
+
+
+.nearPagesBar {
+	background-image:url(../images/menuBg.gif);
+	background-repeat: repeat-x;
+	background-position: 0px -2px;
+	background-color:#ffffff;
+	position:absolute;
+	z-index:99;
+	height:28px;
+	padding:8px 10px 0px 10px;
+	border:1px #bbd3f6 solid;
+
+}
+
+
+.nearPagesBar A {
+	text-align:center;
+	text-decoration : none;
+	padding:5px 6px 5px 6px;
+}
+.nearPagesBar A:hover {
+	color:#ffffff;
+	background-color:#316ac5;
+	text-decoration : underline;
+}.
+
+.nearPagesBar B {
+	width:18px;
+	text-align:center;
+	color: #778899;
+}
+
+
+
+@media print {
+
+img { visibilty:hidden }
+textarea  {display:none}
+input  {display:none}
+select  {display:none} 
+.noPrint {display:none} <!--用本样式在打印时隐藏非打印项目--> 
+.toolbar {display:none}
+.pageNext{page-break-after: always;}<!--控制分页-->  
+    
+table {border:1px #000000 solid;border-collapse:collapse;}
+.ecSide .tableRegion {
+    border-collapse: collapse;
+    width:100%;
+    table-layout:fixed;
+    border-left:1px #000000 solid;
+    border-top:1px #000000 solid;
+    border-right:1px #000000 solid;
+    border-bottom:1px #000000 solid;
+    border:1px #000000 solid;
+    border-color:#000000;
+    overflow:visible;
+    white-space:normal;
+    word-break:break-all;
+    word-wrap:normal;
+}
+
+.ecSide .tableRegion td {
+    background-color:#ffffff;
+    color:#000000;
+    padding:2px;
+    height:21px; 
+    border-top:1px #000000 solid;
+    border-right:1px #000000 solid;
+    border-left:1px #000000 solid;
+    border-bottom:1px #000000 solid;
+    overflow:visible;
+    white-space:normal;
+    word-break:break-all;
+    word-wrap:normal;
+}
+
+.ecSide .tableRegion .tableHeader {
+    background-color:#ffffff;
+    border-top:1px #000000 solid;
+    border-right:1px #000000 solid;
+    border-left:1px #000000 solid;
+    border-bottom:1px #000000 solid;
+    padding:2px;
+    color:#000000;
+    font-weight:bolder;
+    height:30px;
+    text-align:center;
+    overflow:visible;
+    white-space:normal;
+    word-break:break-all;
+    word-wrap:normal;
+}
+} 
+
+
+

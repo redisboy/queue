@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="PassReason">
+	<typeAlias alias="passreason" type="com.suntendy.queue.passreason.domain.PassReason" />
+    
+	<select id="selectPassReason" parameterClass="java.util.HashMap" resultClass="passreason">
+		select * from pd_gh_reason t where 1=1 
+		<isNotEmpty property="id" prepend="and"> t.id = #id#</isNotEmpty>
+		<isNotEmpty property="reason" prepend="and"> t.reason = #reason#</isNotEmpty>
+		<isNotEmpty property="code" prepend="and"> t.code = #code#</isNotEmpty>
+		<isNotEmpty property="tjrq" prepend="and"> t.tjrq = #tjrq#</isNotEmpty>
+		<isNotEmpty property="deptCode" prepend="and"> t.deptCode = #deptCode#</isNotEmpty>
+		<isNotEmpty property="deptHall" prepend="and"> t.deptHall = #deptHall#</isNotEmpty>
+		order by t.deptHall
+	</select>
+   	
+	<insert id="savePassReason" parameterClass="PassReason">
+		insert into pd_gh_reason(id,depthall,deptcode,reason,code,tjrq)
+		values(SEQ_PD_GH_REASON.nextval,#deptHall#,#deptCode#,#reason#,#code#,#tjrq#)
+	</insert>
+	
+	<delete id="deletePassReason" parameterClass="java.lang.String">
+		delete pd_gh_reason t where t.id=#id#
+	</delete>
+	
+	<update id="update" parameterClass="PassReason" >
+        UPDATE pd_gh_reason t SET t.id=#id#
+    	<isNotEmpty property="deptHall" prepend=",">t.depthall=#deptHall#</isNotEmpty>
+    	<isNotEmpty property="deptCode" prepend=",">t.deptcode=#deptCode#</isNotEmpty>
+    	<isNotEmpty property="reason" prepend=",">t.reason=#reason#</isNotEmpty>
+    	<isNotEmpty property="code" prepend=",">t.code=#code#</isNotEmpty>
+    	where t.id=#id#
+    </update>
+</sqlMap>

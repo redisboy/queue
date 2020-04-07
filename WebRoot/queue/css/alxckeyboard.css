@@ -1,0 +1,66 @@
+.keyboard, .txtwrite, .area, .area li
+{
+    margin: 0;
+    padding: 0;
+}
+
+.keyboard
+{
+	top:800px;
+	left:8%;
+    background-color: #eee;
+    text-align: center;
+    width: 865px;
+    height: 475px;
+    font: 170%/1.5 Verdana, Sans-Serif;
+    font-weight:bold;
+    z-index:99999;
+    position:absolute;
+}
+.txtwrite
+{
+    text-align: left;
+    margin-top: 3px;
+    font-size:48px;
+    width: 860px;
+    height: 50px;
+    border: 1px solid #f9f9f9;
+}
+.area
+{
+    list-style: none;
+    background-color: #eee;
+    margin-left: 3px;
+}
+.area li
+{
+    margin: 2px 2px 0 0;
+    line-height: 40px;
+    text-align: center;
+    float: left;
+    width: 80px;
+    height: 80px;
+    border: 1px solid #f9f9f9;
+    background-color: #fff;
+}
+.area .backspace, .area .ok, .area .capslk, .area .cancel
+{
+    width: 124px;
+}
+.area .space
+{
+    width: 432px;
+}
+.clearleft
+{
+    clear: left;
+}
+.uppercase
+{
+    text-transform: uppercase;
+}
+.area .lettera
+{
+    margin-left: 44px;
+    display: inline;
+}

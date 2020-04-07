@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="AgentNjCount">
+<!-- 年检查询 -->
+	<typeAlias alias="agentNjCount" type="com.suntendy.queue.count.domain.AgentNjCount"/>
+	<select id="findByMap" parameterClass="java.util.HashMap" resultClass="agentNjCount" >
+	   select d.name,
+       d.idcard,
+       d.code,
+       to_char(e.validity, 'yyyy-mm-dd') validity,
+       to_char(e.checkdate, 'yyyy-mm-dd hh24:mi:ss') checkdate,
+       e.pid
+ 	from (select a.idcard, a.name, b.creat_date, wm_concat(c.name) code , c.deptcode deptcode,c.depthall depthall
+          from pd_agent_t a, pd_agent_work b, pd_business c
+         where a.id = b.agent_id and c.id = b.work_id group by a.idcard, a.name, b.creat_date ,c.deptcode,c.depthall) d,
+       pd_agent_review_t e
+ 	where d.creat_date = e.checkdate
+ 	<isNotEmpty property="depthall" prepend="AND">
+	    d.deptcode=#deptCode# 
+	</isNotEmpty>
+	<isNotEmpty property="depthall" prepend="AND">
+	    d.depthall=#deptHall#
+	</isNotEmpty>
+    <isNotEmpty property="ksrq" prepend="AND">
+    	<![CDATA[e.checkdate>= $ksrq$ ]]>
+    </isNotEmpty>
+    <isNotEmpty property="jsrq" prepend="AND">
+    	<![CDATA[e.checkdate<= $jsrq$ ]]>
+    </isNotEmpty>
+    <isNotEmpty property="idcard" prepend="AND">
+    	e.idcard=#idcard#
+    </isNotEmpty>
+    <isNotEmpty property="name" prepend="AND">
+    	d.name=#name#
+    </isNotEmpty>
+    order by e.checkdate
+	</select>
+</sqlMap>

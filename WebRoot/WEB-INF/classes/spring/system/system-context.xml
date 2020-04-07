@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="systemDao"
+		class="com.suntendy.queue.system.dao.impl.SystemDaoImpl"
+		parent="baseDao" />
+
+	<bean name="systemService"
+		class="com.suntendy.queue.system.service.impl.SystemServiceImpl">
+		<property name="systemDao" ref="systemDao" />
+	</bean>
+
+	<bean id="systemAction"
+		class="com.suntendy.queue.system.action.SystemAction">
+		<property name="systemService" ref="systemService" />
+		<property name="ledService" ref="ledService" />
+		<property name="deptService" ref="deptService"></property>
+		<property name="iSystemLogService" ref="iSystemLogService"></property>
+		
+	</bean>
+</beans>

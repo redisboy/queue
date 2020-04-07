@@ -1,0 +1,54 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.0//EN" "http://www.opensymphony.com/xwork/xwork-1.0.dtd">
+<xwork>
+	<package name="setWindow" extends="default-webwork">
+		<!-- 窗口设置 -->
+		<action name="cksz" class="setWindowAction" method="getWindow">
+			<result name="success">/window/set_window.jsp</result>
+		</action>
+		
+		<!-- 初始化更改窗口 -->
+		<action name="updateWindow" class="setWindowAction" method="init_updateWindow">
+			<result name="success">/window/update_window.jsp</result>
+		</action>
+		
+		<!-- 更改窗口 -->
+		<action name="updateWindowByCode" class="setWindowAction" method="updateWindowByCode">
+			<result name="success">/message.jsp</result>
+		</action>
+		
+		<!-- 删除窗口 -->
+		<action name="delWindow" class="setWindowAction" method="delWindow">
+			<result name="success">/message.jsp</result>
+		</action>
+		
+		<!-- 添加窗口 -->
+		<action name="add" class="setWindowAction" method="add"> 
+			<result name="success">/window/add_window.jsp</result>
+		</action>
+		
+		<action name="addWindow" class="setWindowAction" method="addWindow"> 
+			<result name="success">/message.jsp</result>
+		</action>
+		
+		<!-- ajax验证barid是否可用 -->
+		<action name="checkBarid" class="validBaridAction"  method="checkBarid" />
+		
+		<!-- ajax验证checkIP是否可用 -->
+		<action name="checkIP" class="validBaridAction"  method="checkIP" />
+		
+		<!-- 刘东 add -->
+		<action name="checkWindowCode" class="validBaridAction" method="checkWindowCode" />
+		
+		<!-- 统计窗口评价 -->
+		<action name="ckpjtj" class="countWindowAction" method="getWaitCount">
+			<result name="success">/window/waitCount_window.jsp</result>
+		</action>
+		<action name="getAddressAndStatuss" class="setWindowAction" method="getAddressAndStatuss"> 
+		</action>
+		
+		<!-- 窗口监控情况统计 -->
+		<action name="ckjktj" class="windowMonitorAction" method="getWindowMonitor">
+			<result name="success">/window/window_monitor.jsp</result>
+		</action>
+	</package>
+</xwork>

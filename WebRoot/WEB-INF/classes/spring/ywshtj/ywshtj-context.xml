@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="ywShTjDao"
+		class="com.suntendy.queue.ywshtj.dao.impl.YwShTjDaoImpl"
+		parent="baseDao" />
+
+	<bean name="ywShTjService"
+		class="com.suntendy.queue.ywshtj.service.impl.YwShTjServiceImpl">
+		<property name="ywShTjDao" ref="ywShTjDao" />
+	</bean>
+
+	<bean id="ywShTjAction"
+		class="com.suntendy.queue.ywshtj.action.YwShTjAction">
+		<property name="ywShTjService" ref="ywShTjService" />
+		<property name="businessService" ref="businessService" />
+		<property name="iSystemLogService" ref="iSystemLogService"></property>
+	</bean>
+</beans>

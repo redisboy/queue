@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="QueueEvaluation">
+	<typeAlias alias="QueueEvaluation" type="com.suntendy.queue.evaluation.domain.QueueEvaluation" />
+
+	<select id="findByMap" parameterClass="java.util.HashMap" resultClass="QueueEvaluation">
+		SELECT a.code,a.name,SUM(DECODE(c.id,1,1,0)) a1,SUM(DECODE(c.id,2,1,0)) a2,
+			SUM(DECODE(c.id,3,1,0)) a3,SUM(DECODE(c.id,4,1,0)) a4,
+			COUNT(a.code) countall,SUM(c.value) sumcore,ROUND(SUM(c.value)/COUNT(a.code),1) avgcore,
+			 a.deptcode , a.depthall
+		FROM pd_queue a,pd_valuerecord b,pd_envaluevalue c
+		WHERE a.code=b.codequeue AND b.value=c.id AND (b.status=5 OR b.status=6) 
+		<isNotEmpty property="deptCode" prepend="and"> a.deptcode=#deptCode# </isNotEmpty>
+		<isNotEmpty property="deptHall" prepend="and"> a.depthall=#deptHall# </isNotEmpty>
+			and a.deptcode=b.deptcode
+	  	 	and a.deptcode=c.deptcode
+	  	 	and a.depthall=b.depthall
+	 	    and a.depthall=c.depthall
+		<isNotEmpty property="jsrq" prepend="AND">
+			<![CDATA[to_date(b.valuetime,'yyyy-mm-dd hh24:mi:ss')<=$jsrq$]]>
+		</isNotEmpty>
+		<isNotEmpty property="ksrq" prepend="AND">
+			<![CDATA[to_date(b.valuetime,'yyyy-mm-dd hh24:mi:ss')>=$ksrq$]]>
+		</isNotEmpty>
+		GROUP BY a.code,a.name ,a.deptcode, a.depthall ORDER BY a.deptcode,a.depthall,sumcore Desc
+	</select>
+</sqlMap>

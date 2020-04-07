@@ -1,0 +1,855 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Number">
+	<typeAlias alias="number" type="com.suntendy.queue.queue.domain.Number" />
+	<typeAlias alias="wclh" type="com.suntendy.queue.queue.domain.Wclh" />
+
+	<select id="searchCurrentDayNumber" parameterClass="java.util.HashMap" resultClass="number">
+		SELECT t.barIp,t.id,t.code operNum,t.clientno serialnum,t.codequeue queuecode,t.clientid queuevalue,t.phoneNumber,
+			t.status,t.clientcard businessType,t.barId,t.entertime,t.idtype,t.idnumber,t.serverip,t.businesscount,t.endtime,
+			q.prenum businessPrefix,q.nextqueuename,q.nexttype,q.nextprenum,t.rzdbz
+    	FROM pd_valuerecord t,pd_queue q WHERE t.codequeue=q.code(+) AND rtrim(t.depthall)=#deptHall# AND rtrim(t.deptcode)=#deptCode#
+    	 and rtrim(t.depthall)=q.depthall and rtrim(t.deptcode)=q.deptcode 
+    		<isNotEmpty property="operNum" prepend="AND"> t.code=#operNum# AND t.status=7</isNotEmpty>
+    		<!-- AND SUBSTR(t.entertime,1,10)=to_char(SYSDATE,'yyyy-mm-dd') -->
+    		and t.entertime like to_char(sysdate,'yyyy-mm-dd') || '%' 
+    		<isNotEmpty property="id" prepend="AND"> t.id=#id#</isNotEmpty>
+    		<isNotEmpty property="code" prepend="and"> t.code=#code# AND t.status=7</isNotEmpty>
+    	ORDER BY <isNotEmpty property="code"> t.gqsj asc,</isNotEmpty> t.id DESC
+	</select>
+	
+	<select id="queryNumberBypdh" parameterClass="java.util.HashMap" resultClass="number">
+		SELECT t.ischuli,t.barIp,t.id,t.code operNum,t.clientno serialnum,t.codequeue queuecode,t.clientid queuevalue,t.phoneNumber,
+			t.status,t.clientcard businessType,t.barId,t.entertime,t.idtype,t.idnumber,t.serverip,t.businesscount,t.endtime,
+			q.prenum businessPrefix,q.nextqueuename,q.nexttype,q.nextprenum,t.rzdbz
+    	FROM pd_valuerecord t,pd_queue q WHERE t.codequeue=q.code(+) AND rtrim(t.depthall)=#deptHall# AND rtrim(t.deptcode)=#deptCode#
+    	 and rtrim(t.depthall)=q.depthall and rtrim(t.deptcode)=q.deptcode 
+    		<isNotEmpty property="serialNum" prepend="AND"> t.clientno=#serialNum#</isNotEmpty>
+    		<!-- AND SUBSTR(t.entertime,1,10)=to_char(SYSDATE,'yyyy-mm-dd') -->
+    		and t.entertime like to_char(sysdate,'yyyy-mm-dd') || '%' 
+    	ORDER BY t.id DESC
+	</select>
+	
+	<select id="getTotalNumberOfBusinessNumber" parameterClass="java.util.HashMap" resultClass="number">
+	    <isEqual property="serialNumType" compareValue="1">
+	    	SELECT DECODE(COUNT(t.id),0,'',COUNT(t.id)) status FROM pd_valuerecord t WHERE t.status=1 AND rtrim(t.depthall)=#deptHall#
+				AND rtrim(t.deptcode)=#deptCode# 
+				<!-- AND SUBSTR(t.entertime,1,10)=to_char(SYSDATE,'yyyy-mm-dd') -->
+				and t.entertime like to_char(sysdate,'yyyy-mm-dd') || '%' 
+	    </isEqual>
+	    <isEqual property="serialNumType" compareValue="2">
+		    SELECT b.name typeName,a.total status
+			FROM pd_business b,
+				(SELECT COUNT(t.id) total,t.clientcard FROM pd_valuerecord t
+				 WHERE t.clientcard IN($typeNames$) AND t.status=1 AND rtrim(t.depthall)=#deptHall#
+				 	 AND rtrim(t.deptcode)=#deptCode# 
+				 	 <!-- AND SUBSTR(t.entertime,1,10)=to_char(SYSDATE,'yyyy-mm-dd') -->
+				 	 and t.entertime like to_char(sysdate,'yyyy-mm-dd') || '%' 
+				 GROUP BY T.CLIENTCARD) a
+			WHERE a.clientcard(+)=b.id AND b.id IN($typeNames$)
+			ORDER BY b.id
+	    </isEqual>
+	</select>
+
+	<insert id="insert" parameterClass="number">
+		<selectKey keyProperty="id" resultClass="java.lang.String" type="pre">
+			SELECT seq_pd_valuerecord_id.nextval id FROM dual
+		</selectKey>
+		INSERT INTO pd_valuerecord(id,codequeue,entertime,clientid,clientno,idtype,idnumber,idnumberb,serverip,
+			businesscount,clientcard,deptcode,depthall,phonenumber,carType,carNumber,nameA,nameB,jdcnum,jdctypes)
+		VALUES(#id#,#queueCode#,#enterTime#,#queueValue#,#serialNum#,#IDType#,#IDNumber#,#IDNumberB#,#serverIp#,
+			#businessCount#,#businessType#,#deptCode#,#deptHall#,#phoneNumber#,#carType#,#carNumber#,#nameA#,#nameB#,#jdcnum#,#jdctypes#)
+	</insert>
+	
+	<insert id="saveExceptdata" parameterClass="number">
+		INSERT INTO pd_valuerecord_except_data(id,loginid,code,barId,value,valuetime,begintime,endtime,uniqueid,serverip,entertime,codequeue,
+		clientid,clientno,status,idtype,idnumber,businesscount,clientcard,deptcode,depthall)
+		VALUES(#id#,#loginid#,#code#,#barId#,#value#,#valuetime#,#beginTime#,#endTime#,#uniqueid#,#serverIp#,#enterTime#,#queueCode#,#queueValue#,
+		#clientno#,#status#,#IDType#,#IDNumber#,#businessCount#,#businessType#,#deptCode#,#deptHall#)
+	</insert>
+	
+	<update id="updateByMap" parameterClass="java.util.HashMap">
+	    UPDATE pd_valuerecord t SET t.id=#id#
+	    <isNotEmpty property="code" prepend=",">t.code=#code#</isNotEmpty>
+	    <isNotEmpty property="barId" prepend=",">t.barId=#barId#</isNotEmpty>
+	    <isNotEmpty property="value" prepend=",">t.value=#value#</isNotEmpty>
+	    <isNotEmpty property="status" prepend=",">t.status=#status#</isNotEmpty>
+	    <isNotEmpty property="reason" prepend=",">t.reason=#reason#</isNotEmpty>
+	    <isNotEmpty property="photo" prepend=",">t.evaluphoto=#photo#,
+	    t.pztime=to_char(sysdate,'yyyy-mm-dd hh24:mi:ss')
+	    <!-- t.pztime like to_char(sysdate,'yyyy-mm-dd') || '%' -->
+	    </isNotEmpty>
+	    <isNotEmpty property="endTime" prepend=",">t.endtime=#endTime#</isNotEmpty>
+	    <isNotEmpty property="valueTime" prepend=",">t.valuetime=#valueTime#</isNotEmpty>
+	    <isNotEmpty property="beginTime" prepend=",">t.begintime=#beginTime#</isNotEmpty>
+	    <isNotEmpty property="signature" prepend=",">t.signature=#signature#,
+	    t.pztime=to_char(sysdate,'yyyy-mm-dd hh24:mi:ss')
+	    <!-- t.pztime like to_char(sysdate,'yyyy-mm-dd') || '%' -->
+	    </isNotEmpty>
+	    <isNotEmpty property="quhaoPhoto" prepend=",">t.quhaoPhoto=#quhaoPhoto#</isNotEmpty>
+	    <isNotEmpty property="gpyPhoto1" prepend=",">t.gpyPhoto1=#gpyPhoto1#</isNotEmpty>
+	    <isNotEmpty property="gpyPhoto2" prepend=",">t.gpyPhoto2=#gpyPhoto2#</isNotEmpty>
+	    <isNotEmpty property="gpyPhoto3" prepend=",">t.gpyPhoto3=#gpyPhoto3#</isNotEmpty>
+	    <isNotEmpty property="gpyPhoto4" prepend=",">t.gpyPhoto4=#gpyPhoto4#</isNotEmpty>
+	    <isNotEmpty property="gpyPhoto5" prepend=",">t.gpyPhoto5=#gpyPhoto5#</isNotEmpty>
+	    <isNotEmpty property="gpyPhoto6" prepend=",">t.gpyPhoto6=#gpyPhoto6#</isNotEmpty>
+	    <isNotEmpty property="gpyPhoto7" prepend=",">t.gpyPhoto7=#gpyPhoto7#</isNotEmpty>
+	    <isNotEmpty property="gpyPhoto8" prepend=",">t.gpyPhoto8=#gpyPhoto8#</isNotEmpty>
+	    <isNotEmpty property="gpyPhoto9" prepend=",">t.gpyPhoto9=#gpyPhoto9#</isNotEmpty>
+	    <isNotEmpty property="gpyPhoto10" prepend=",">t.gpyPhoto10=#gpyPhoto10#</isNotEmpty>
+	    <isNotEmpty property="gpyPhoto11" prepend=",">t.gpyPhoto11=#gpyPhoto11#</isNotEmpty>
+	    <isNotEmpty property="gpyPhoto12" prepend=",">t.gpyPhoto12=#gpyPhoto12#</isNotEmpty>
+	    <isNotEmpty property="gpyPhoto" prepend=",">t.gpyPhoto=#gpyPhoto#</isNotEmpty>
+	    <isNotEmpty property="ZWBase64" prepend=",">t.ZWBase64=#ZWBase64#</isNotEmpty>
+	    <isNotEmpty property="outFlag" prepend=",">t.outFlag=#outFlag#</isNotEmpty>
+	    <isNotEmpty property="gpyPhoto13" prepend=",">t.gpyPhoto13=#gpyPhoto13#</isNotEmpty>
+	    <isNotEmpty property="passReason" prepend=",">t.passReason=#passReason#</isNotEmpty>
+	    <isNotEmpty property="businessType" prepend=",">t.clientcard=#businessType#</isNotEmpty>
+	    <isNotEmpty property="queueCode" prepend=",">t.codequeue=#queueCode#</isNotEmpty>
+	    <isNotEmpty property="enterTime" prepend=",">t.enterTime=#enterTime#</isNotEmpty>
+	    <isNotEmpty property="barIp" prepend=",">t.barIp=#barIp#</isNotEmpty>
+	    <isNotEmpty property="gqsj" prepend=",">t.gqsj=#gqsj#</isNotEmpty>
+	    WHERE t.id=#id#
+	</update>
+	
+	<!-- 更新流水号 -->
+	<update id="updateserialno" parameterClass="java.util.HashMap">
+	    UPDATE pd_valuerecord t SET t.id=#id#
+	    <isNotEmpty property="lsh" prepend=",">t.lsh=#lsh#</isNotEmpty>
+	    WHERE t.id=#id#
+	</update>
+	<!-- 更新out1 -->
+	<update id="updateOut1" parameterClass="java.util.HashMap">
+	    UPDATE pd_valuerecord t SET t.id=#id#
+	    <isNotEmpty property="out1" prepend=",">t.out1=#out1#</isNotEmpty>
+	    WHERE t.id=#id#
+	</update>
+	
+	<!-- 更新rzdbz -->
+	<update id="updateRzdbz" parameterClass="java.util.HashMap">
+	    UPDATE pd_valuerecord t SET t.id=#id#
+	    <isNotEmpty property="rzdbz" prepend=",">t.rzdbz=#rzdbz#</isNotEmpty>
+	    WHERE t.id=#id#
+	</update>
+	
+	<update id="updateGQserialno" parameterClass="java.util.HashMap">
+	    UPDATE pd_valuerecord_gq t SET t.id=#id#
+	    <isNotEmpty property="lsh" prepend=",">t.lsh=#lsh#</isNotEmpty>
+	    WHERE t.id=#id#
+	</update>
+	
+	<insert id="insertPauseOrRecover" parameterClass="java.util.HashMap">
+		<selectKey keyProperty="id" resultClass="java.lang.String" type="pre">
+			SELECT seq_pd_pause_recover_id.nextval id FROM dual
+		</selectKey>
+		INSERT INTO pd_pause_recover(id, opernum, status, reason, deptcode, depthall)
+	    VALUES(#id#,#operNum#,#status#,#reason#,#deptCode#,#deptHall#)
+	</insert>
+	
+	<update id="updatePauseOrRecover" parameterClass="java.util.HashMap">
+	    UPDATE pd_pause_recover SET status='2',endtime=sysdate WHERE id=#id#
+	</update>
+	<select id="getNotAgentByIdCardCount" parameterClass="java.util.HashMap" resultClass="number">
+		select count(t.idnumber) businessCount
+  		from pd_valuerecord t
+ 		where  rtrim(t.depthall)=#deptHall# AND rtrim(t.deptcode)=#deptCode#
+ 		AND  (t.idnumber=#IDNumber# or t.idnumberb=#IDNumberB#) 
+   		AND <![CDATA[to_date(substr(t.entertime, 1, 19), 'yyyy-mm-dd hh24:mi:ss') <= to_date(to_char(last_day(sysdate), 'yyyy-mm-dd') || ' 23:59:59','yyyy-mm-dd hh24:mi:ss')]]>
+   		AND to_date(substr(t.entertime, 1, 19), 'yyyy-mm-dd hh24:mi:ss') >= to_date(to_char(sysdate, 'YYYY-MM') || '01 00:00:00','YYYY-MM-DD hh24:mi:ss')
+	</select>
+	<select id="getNumberAllByClientIP" parameterClass="java.util.HashMap" resultClass="number">
+		select v.id, v.clientno serialNum ,v.code operNum,v.barId,v.clientcard businessType,v.entertime,v.begintime,v.deptcode deptCode,v.depthall deptHall
+		from pd_valuerecord v,(select distinct code from pd_login_state t where trunc(t.login_date)=trunc(sysdate) and t.ip=#clientIp#) t
+		where v.barid = (select decode (s.menuaddress,'',s.windowid,s.menuaddress) from pd_caller c, pd_screen s where c.barip = #clientIp# and s.id = c.barid )
+		and v.code = t.code
+		and v.status = '2'
+		and to_date(substr(v.entertime, 1, 10), 'yyyy-mm-dd') >= trunc(sysdate)
+		order by id desc
+	</select>
+	<select id="getNumberAllByClientIPForHF" parameterClass="java.util.HashMap" resultClass="number">
+		select v.id, v.clientno serialNum ,v.code operNum,v.barId,v.clientcard businessType,v.entertime,v.begintime,v.deptcode deptCode,v.depthall deptHall
+		from pd_valuerecord v,(select distinct code from pd_login_state t where trunc(t.login_date)=trunc(sysdate) and t.ip=#clientIp#) t
+		where v.barid = (select decode (s.menuaddress,'',s.windowid,s.menuaddress) from pd_caller c, pd_screen s where c.barip = #clientIp# and s.id = c.barid )
+		and v.code = t.code
+		and v.status = '7' and v.clientno=#sxh# 
+		and to_date(substr(v.entertime, 1, 10), 'yyyy-mm-dd') >= trunc(sysdate)
+		order by id desc
+	</select>
+	<select id="getValueRecordAllById" parameterClass="java.util.HashMap" resultClass="number">
+		select 	t.id,t.code,t.barId,t.value,t.valuetime,t.begintime,t.endtime,t.uniqueid,t.baruniqueid,t.codequeue,
+       			t.serverip,SUBSTR(t.entertime,1,19) entertime,t.clientid,t.clientno,t.status,t.clientcard,t.idtype,
+       			t.idnumber,t.evaluphoto,t.businesscount,t.reason,t.signature,t.code operNum,t.codequeue queueCode,
+       			t.clientid queueValue,t.clientno serialNum,t.clientcard businessType,t.evaluphoto photoBase64,
+       			t.quhaophoto,t.lsh,t.outFlag outFlag,t.deptCode,t.deptHall
+  		from pd_valuerecord t where 1=1
+  		<isNotEmpty property="id" prepend="AND"> t.id=#id#</isNotEmpty>
+  		<isNotEmpty property="code" prepend="AND"> t.code=#code#</isNotEmpty>
+	    <isNotEmpty property="barId" prepend="AND"> t.barId=#barId#</isNotEmpty>
+	    <isNotEmpty property="value" prepend="AND"> t.value=#value#</isNotEmpty>
+	    <isNotEmpty property="status" prepend="AND"> t.status=#status#</isNotEmpty>
+	    <isNotEmpty property="endTime" prepend="AND"> t.endtime=#endTime#</isNotEmpty>
+	    <isNotEmpty property="valueTime" prepend="AND"> t.valuetime=#valueTime#</isNotEmpty>
+	    <isNotEmpty property="lsh" prepend="AND"> t.lsh is not null and t.out1 is null</isNotEmpty>
+	    <isNotEmpty property="beginTime" prepend="AND"> trunc(to_date(t.begintime,'yyyy-mm-dd hh24:mi;ss'))=to_date(#beginTime#,'yyyy-mm-dd')</isNotEmpty>
+	    order by t.begintime desc
+	</select>
+	<select id="getValueRecordById" parameterClass="java.util.HashMap" resultClass="number">
+		select 	t.id,t.code,t.barId,t.value,t.valuetime,t.begintime,t.endtime,t.uniqueid,t.baruniqueid,t.codequeue,
+       			t.serverip,SUBSTR(t.entertime,1,19) entertime,t.clientid,t.clientno,t.status,t.clientcard,t.idtype,
+       			t.idnumber,t.evaluphoto,t.businesscount,t.reason,t.signature,t.code operNum,t.codequeue queueCode,
+       			t.clientid queueValue,t.clientno serialNum,t.clientcard businessType,t.evaluphoto photoBase64,
+       			t.quhaophoto,t.lsh,t.outFlag outFlag,t.deptCode,t.deptHall,t.JDCTYPES,t.JDCNUM
+  		from pd_valuerecord t where 1=1
+  		<isNotEmpty property="id" prepend="AND"> t.id=#id#</isNotEmpty>
+	</select>
+	
+	<select id="getValueRecordAllByIdForAY" parameterClass="java.util.HashMap" resultClass="number">
+		select u.name xm,c.barip barIp,t.id,t.code,t.barId,t.value,t.valuetime,t.begintime,t.endtime,t.uniqueid,t.baruniqueid,t.codequeue,
+       			t.serverip,SUBSTR(t.entertime,1,19) entertime,t.clientid,t.clientno,t.status,t.clientcard,t.idtype,
+       			t.idnumber,t.evaluphoto,t.businesscount,t.reason,t.signature,t.code operNum,t.codequeue queueCode,
+       			t.clientid queueValue,t.clientno serialNum,t.clientcard businessType,t.evaluphoto photoBase64,
+       			t.quhaophoto,t.lsh,t.outFlag outFlag,t.deptCode,t.deptHall
+  		from pd_valuerecord t,pd_user u ,pd_caller c where 1=1 and t.code = u.code and t.barid = c.comnum
+  		<isNotEmpty property="id" prepend="AND"> t.id=#id#</isNotEmpty>
+  		<isNotEmpty property="code" prepend="AND"> t.code=#code#</isNotEmpty>
+	    <isNotEmpty property="barId" prepend="AND"> t.barId=#barId#</isNotEmpty>
+	    <isNotEmpty property="value" prepend="AND"> t.value=#value#</isNotEmpty>
+	    <isNotEmpty property="status" prepend="AND"> t.status=#status#</isNotEmpty>
+	    <isNotEmpty property="endTime" prepend="AND"> t.endtime=#endTime#</isNotEmpty>
+	    <isNotEmpty property="valueTime" prepend="AND"> t.valuetime=#valueTime#</isNotEmpty>
+	    <isNotEmpty property="lsh" prepend="AND"> t.lsh is not null and t.out1 is null</isNotEmpty>
+	    <isNotEmpty property="beginTime" prepend="AND"> trunc(to_date(t.begintime,'yyyy-mm-dd hh24:mi;ss'))=to_date(#beginTime#,'yyyy-mm-dd')</isNotEmpty>
+	    order by t.begintime desc
+	</select>
+	
+	<select id="getErJiCaiDanBianHao" parameterClass="java.util.HashMap" resultClass="number">
+		select t.id,t.code,t.barId,t.value,t.valuetime,t.begintime,t.endtime,t.uniqueid,t.baruniqueid,t.codequeue,
+       			t.serverip,SUBSTR(t.entertime,1,19) entertime,t.clientid,t.clientno,t.status,t.clientcard,t.idtype,
+       			t.idnumber,t.evaluphoto,t.businesscount,t.reason,t.signature,t.code operNum,t.codequeue queueCode,
+       			t.clientid queueValue,t.clientno serialNum,t.clientcard businessType,t.evaluphoto photoBase64,
+       			t.quhaophoto,t.lsh,t.outFlag outFlag,t.deptCode,t.deptHall,b.twotype ejcdbh
+  		from pd_valuerecord t,pd_business b where 1=1 and t.clientcard=b.id
+  		<isNotEmpty property="id" prepend="AND"> t.id=#id#</isNotEmpty>
+  		<isNotEmpty property="code" prepend="AND"> t.code=#code#</isNotEmpty>
+	    <isNotEmpty property="barId" prepend="AND"> t.barId=#barId#</isNotEmpty>
+	    <isNotEmpty property="value" prepend="AND"> t.value=#value#</isNotEmpty>
+	    <isNotEmpty property="status" prepend="AND"> t.status=#status#</isNotEmpty>
+	    <isNotEmpty property="endTime" prepend="AND"> t.endtime=#endTime#</isNotEmpty>
+	    <isNotEmpty property="valueTime" prepend="AND"> t.valuetime=#valueTime#</isNotEmpty>
+	    <isNotEmpty property="beginTime" prepend="AND"> trunc(to_date(t.begintime,'yyyy-mm-dd hh24:mi;ss'))=to_date(#beginTime#,'yyyy-mm-dd')</isNotEmpty>
+	    order by t.begintime desc
+	</select>
+	
+	<!-- 根据身份证ID查询当天是否取号 -->
+	<select id="getValueRecardbyIdnumber" parameterClass="java.util.HashMap" resultClass="number">
+		select *　from pd_valuerecord t 
+   			where 
+   			<!-- substr(t.entertime,1,10) = to_char(sysdate,'yyyy-mm-dd') -->
+   			t.entertime like to_char(sysdate,'yyyy-mm-dd') || '%' and t.idnumberb is null
+   			<isNotEmpty property="idnumber" prepend="AND"> t.idnumber=#idnumber#</isNotEmpty>
+   			<isNotEmpty property="lsh" prepend="AND"> t.lsh=#lsh#</isNotEmpty>
+	</select>
+	
+	<!-- 查询流转号码 -->
+	<select id="getValueRecardLz" parameterClass="java.util.HashMap" resultClass="number">
+		select valueRecodeId id,barId,enterTime,clientno serialNum　
+		from pd_valuerecord_lz t 
+   		where rtrim(t.depthall)=#deptHall# AND rtrim(t.deptcode)=#deptCode#
+   		<isNotEmpty property="valueRecodeId" prepend="AND"> t.valueRecodeId=#valueRecodeId#</isNotEmpty>
+   		<isNotEmpty property="entertime" prepend="AND"> substr(t.entertime,1,10) = to_char(#enterTime#,'yyyy-mm-dd')</isNotEmpty>
+   		<isNotEmpty property="barId" prepend="AND"> t.barId=#barId#</isNotEmpty>
+   		<isNotEmpty property="serialNum" prepend="AND"> t.serialNum=#serialNum#</isNotEmpty>
+	</select>
+	<!-- 添加流转号码 -->
+	<insert id="insertValueRecardLz" parameterClass="number">
+		INSERT INTO pd_valuerecord_lz(valueRecodeId,barId,enterTime,clientno, deptCode, deptHall)
+	    VALUES(to_number(#id#),to_number(#barId#),#enterTime#,#serialNum#,#deptCode#,#deptHall#)
+	</insert>
+	
+	<!-- 添加人证对比值 -->
+	<insert id="insertQHrzdbz" parameterClass="number">
+		INSERT INTO pd_rzdb(idnumber,rzdbz)
+	    VALUES(#IDNumber#,#rzdbz#)
+	</insert>
+	
+	<delete id="delValueRecardLz" parameterClass="java.lang.String">
+	    DELETE FROM pd_valuerecord_lz t WHERE t.valueRecodeId=to_number(#id#)
+	</delete>
+	
+	<!-- 查询等待人数 -->
+	<select id="showWaitRs" parameterClass="java.util.HashMap" resultClass="number">
+		select b.id,b.name typeName,sum(decode(b.id,'',0,1)) typeCount
+		from pd_valuerecord t, pd_business b
+ 		where rtrim(t.clientcard) = b.id 
+ 		and t.status='1' 
+ 		and t.entertime like  to_char(sysdate,'yyyy-mm-dd' || '%')
+ 		and rtrim(t.deptcode)=#deptCode# 
+   		and rtrim(t.depthall)=#deptHall# 
+   		and b.deptcode=t.deptcode 
+   		and b.depthall=t.depthall 
+ 		group by b.id,b.name,b.id
+	</select>
+	
+	<!-- 查询已叫人数 -->
+	<select id="showyjrs" parameterClass="java.util.HashMap" resultClass="number">
+		select b.id,b.name typeName,sum(decode(b.id,'',0,1)) typeCount
+		from pd_valuerecord t, pd_business b
+ 		where rtrim(t.clientcard) = b.id 
+ 		and t.status!='1' 
+ 		and t.entertime like  to_char(sysdate,'yyyy-mm-dd' || '%')
+ 		and rtrim(t.deptcode)=#deptCode# 
+   		and rtrim(t.depthall)=#deptHall# 
+   		and b.deptcode=t.deptcode 
+   		and b.depthall=t.depthall 
+ 		group by b.id,b.name,b.id
+	</select>
+	
+	
+	<!-- 查询预计办理时间 -->
+	<select id="showYjblsj" parameterClass="java.util.HashMap" resultClass="java.lang.String">
+		select round(sum(a.typecount*managemin)/60,1) yjblsj
+			from(select b.id,b.name typeName,sum(decode(b.id,'',0,1)) typeCount , b.managemin
+		       from pd_valuerecord t, pd_business b
+ 		       where rtrim(t.clientcard) = b.id 
+ 			   and t.status='1' 
+ 			   and t.entertime like  to_char(sysdate,'yyyy-mm-dd' || '%')
+ 			   and rtrim(t.deptcode)=#deptCode# 
+   			   and rtrim(t.depthall)=#deptHall# 
+   			   and b.deptcode=t.deptcode 
+   			   and b.depthall=t.depthall 
+ 			   group by b.id,b.name,b.id, b.managemin)a
+	</select>
+	
+	<!-- 根据号码查询窗口 -->
+	<select id="getBarIdBySerialNum" parameterClass="java.util.HashMap" resultClass="number">
+		select t.code,t.barId,t.status,t.begintime,t.endtime,t.clientcard businessType,t.id 
+		from pd_valuerecord t 
+		where t.clientno =#serialNum# and substr(t.entertime,1,10)=#enterTime#
+	</select>
+	
+	<!-- 根据号码、窗口号查询日志 顺序号信息查询-->
+	<select id="getvaluerecordRZ" parameterClass="java.util.HashMap" resultClass="number">
+		select t.code,u.name xm,
+		t.barId,SUBSTR(t.entertime,1,19) entertime,SUBSTR(t.begintime,1,19) begintime,SUBSTR(t.endtime,1,19) endTime,t.clientno serialNum,
+		t.status,t.serverip serverIp,t.IDNumber IDNumber,t.idnumberb IDNumberB,t.czyh,TO_CHAR(t.rztime,'yyyy-mm-dd hh24:mi:ss') rztime
+			from pd_valuerecord_rz t ,pd_user u
+	    where 1=1 and rtrim(t.deptcode)=#deptCode# and rtrim(t.depthall)=#deptHall# and t.code=u.code(+) 
+	    <isNotEmpty property="barId" prepend="AND"> t.barId=#barId#</isNotEmpty>
+	    <isNotEmpty property="serialNum" prepend="AND"> t.clientno =#serialNum#</isNotEmpty>
+	    <isNotEmpty property="IDNumber" prepend="AND"> (t.IDNumber =#IDNumber# or t.idnumberb = #IDNumber#)</isNotEmpty>
+	    <isNotEmpty property="jsrq" prepend="AND">
+			<![CDATA[to_date(substr(t.entertime,1,19),'yyyy-mm-dd hh24:mi:ss')<=$jsrq$]]>
+		</isNotEmpty>
+		<isNotEmpty property="ksrq" prepend="AND">
+			<![CDATA[to_date(substr(t.entertime,1,19),'yyyy-mm-dd hh24:mi:ss')>=$ksrq$]]>
+		</isNotEmpty>
+	    order by t.rztime
+	</select>
+	
+	<!-- 根据员工号查询日志 -->
+	<select id="getCodeByRz" parameterClass="java.util.HashMap" resultClass="number">
+		select t.rztime from pd_valuerecord_rz t where t.code =#operNum# order by rztime desc 
+	</select>
+	
+	<!-- 添加挂起记录 -->
+	<insert id="insertValueRecordGq" parameterClass="number">
+		INSERT INTO pd_valuerecord_gq
+		  (ID,CODE,BARID,VALUE,VALUETIME,BEGINTIME,ENDTIME,CODEQUEUE,SERVERIP,ENTERTIME,CLIENTID,CLIENTNO,
+		   	STATUS,CLIENTCARD,IDTYPE,IDNUMBER,EVALUPHOTO,BUSINESSCOUNT,REASON,SIGNATURE,QUHAOPHOTO,LSH,DEPTCODE,DEPTHALL)
+		VALUES
+		  (#id#,#code#,#barId#,#evaluResult#,#evaluTime#,#beginTime#,#endTime#,#queueCode#,#serverIp#,#enterTime#,#queueValue#,#serialNum#,
+		  	#status#,#businessType#,#IDType#,#IDNumber#,#photoBase64#,#businessCount#,#reason#,#signature#,#quhaoPhoto#,#lsh#,#deptCode#,#deptHall#)
+	</insert>
+	<!-- 查询当天挂起记录 -->
+	<select id="getValueRecordGq" parameterClass="java.util.HashMap" resultClass="number">
+		select ID,CODE operNum,BARID,VALUE evaluResult,VALUETIME,BEGINTIME,ENDTIME,CODEQUEUE queueCode,SERVERIP serverIp,ENTERTIME,CLIENTID queueValue,CLIENTNO serialNum,
+		STATUS,CLIENTCARD businessType,IDTYPE IDType,IDNUMBER IDNumber,EVALUPHOTO photoBase64,BUSINESSCOUNT,REASON,SIGNATURE,QUHAOPHOTO,LSH
+			from pd_valuerecord_gq t
+			where 
+			<!-- substr(t.entertime,1,10) = to_char(sysdate,'yyyy-mm-dd') -->
+			t.entertime like to_char(sysdate,'yyyy-mm-dd') || '%' 
+	</select>
+	<!-- 更新挂起信息状态及办理人身份证 -->
+	<update id="updateValueRecordGqStatus" parameterClass="java.util.HashMap">
+	    UPDATE pd_valuerecord_gq SET status='8',blridnumber =#blridnumber# WHERE id=#id#
+	</update>
+	<!-- 根据号码查询6合1数据库 -->
+	<select id="calloutSQL" parameterClass="java.util.HashMap" resultClass="number">
+		$calloutSQL$ where sxh =#serialNum# and to_char(hjsj,'yyyy-mm-dd')=to_char(sysdate,'yyyy-mm-dd') order by hjsj desc
+	</select>
+	<select id="valuerecordSQL" parameterClass="java.util.HashMap" resultClass="number">
+		$valuerecordSQL$ where sxh =#serialNum# and to_char(pjsj,'yyyy-mm-dd')=to_char(sysdate,'yyyy-mm-dd') order by pjsj desc
+	</select>
+	<!-- 根据号码更新本地状态 -->
+	<update id="updateValuerecordStatus" parameterClass="number">
+		update pd_valuerecord t set t.status =#status# where t.clientno =#serialNum# 
+		<!-- and substr(t.entertime,1,10)=to_char(sysdate,'yyyy-mm-dd') -->
+		and t.entertime like to_char(sysdate,'yyyy-mm-dd') || '%'
+	</update>
+	<!-- 增加valuerecord日志 -->
+	<insert id="insertValuerecordRZ" parameterClass="number">
+		INSERT INTO pd_valuerecord_rz
+      (CODE,BARID,BEGINTIME,ENDTIME,CODEQUEUE,SERVERIP,ENTERTIME,CLIENTID,CLIENTNO,
+         STATUS,CLIENTCARD,IDTYPE,IDNUMBER,IDNUMBERB,EVALUPHOTO,BUSINESSCOUNT,REASON,SIGNATURE,QUHAOPHOTO,LSH,CZYH,deptCode,deptHall)
+    VALUES
+      (#operNum#,#barId#,#beginTime#,#endTime#,#queueCode#,#serverIp#,#enterTime#,#queueValue#,#serialNum#,
+        #status#,#businessType#,#IDType#,#IDNumber#,#IDNumberB#,#photoBase64#,#businessCount#,#reason#,#signature#,#quhaoPhoto#,#lsh#,#czyh#,#deptCode#,#deptHall#)
+	</insert>
+	
+	<!-- 增加流转日志 -->
+	<insert id="insertValuerecordLZRZ" parameterClass="number">
+		INSERT INTO pd_valuerecord_lzrz
+      (CODE,BARID,BEGINTIME,ENDTIME,CODEQUEUE,SERVERIP,ENTERTIME,CLIENTID,CLIENTNO,
+         STATUS,CLIENTCARD,IDTYPE,IDNUMBER,IDNUMBERB,EVALUPHOTO,BUSINESSCOUNT,REASON,SIGNATURE,QUHAOPHOTO,LSH,CZYH,deptCode,deptHall)
+    VALUES
+      (#operNum#,#barId#,#beginTime#,#endTime#,#queueCode#,#serverIp#,#enterTime#,#queueValue#,#serialNum#,
+        #status#,#businessType#,#IDType#,#IDNumber#,#IDNumberB#,#photoBase64#,#businessCount#,#reason#,#signature#,#quhaoPhoto#,#lsh#,#czyh#,#deptCode#,#deptHall#)
+	</insert>
+	
+	<!-- 根据窗口查询当天挂起信息 -->
+	<select id="queryAllGqBybarId" parameterClass="java.util.HashMap" resultClass="number">
+		select v.id, v.code,(select u.name from pd_user u where u.code=v.code and rownum=1)xm,v.clientno serialNum,v.barid,c.barip,v.beginTime
+			from pd_valuerecord v,pd_screen s,pd_caller c 
+			where v.barid=s.address 
+				and s.id=c.barid 
+				and v.status='7' 
+				<!-- and substr(v.entertime,1,10)=to_char(sysdate,'yyyy-mm-dd') -->
+				and v.entertime like to_char(sysdate,'yyyy-mm-dd') || '%'
+				and v.depthall=#deptHall# and v.deptcode=#deptCode#
+				and s.depthall=v.depthall and s.deptcode=v.deptcode
+		<isNotEmpty property="id" prepend="AND"> v.id=#id#</isNotEmpty>
+		<isNotEmpty property="barId" prepend="AND"> v.barId=#barId#</isNotEmpty>
+		<isNotEmpty property="serialNum" prepend="AND"> v.clientno=#serialNum#</isNotEmpty>
+		 order by v.id
+	</select>
+	
+	<!-- 挂起信息列表 -->
+	<select id="gqInfoList" parameterClass="java.util.HashMap" resultClass="number">
+		select distinct(substr(t.entertime, 1, 19)) enterTime,t.id,t.code,
+		(select u.name from pd_user u where u.code=t.code) xm,
+		t.barid,substr(t.begintime,1,19) beginTime,substr(t.endtime,1,19) endTime,t.clientno serialNum,
+			t.idnumber,t.blridnumber
+	  	from pd_valuerecord_gq t
+		where t.status='7'
+		<isNotEmpty property="code" prepend="AND"> t.code=#code#</isNotEmpty>
+		<isNotEmpty property="jsrq" prepend="AND">
+			<![CDATA[to_date(substr(t.entertime,1,19),'yyyy-mm-dd hh24:mi:ss')<=$jsrq$]]>
+		</isNotEmpty>
+		<isNotEmpty property="ksrq" prepend="AND">
+			<![CDATA[to_date(substr(t.entertime,1,19),'yyyy-mm-dd hh24:mi:ss')>=$ksrq$]]>
+		</isNotEmpty>
+		order by substr(t.begintime, 1, 19) desc
+	</select>
+	
+	<!-- 挂起信息详情 -->
+	<select id="gqInfoDtail" parameterClass="java.util.HashMap" resultClass="number">
+		select t.id, t.code,(select u.name from pd_user u where u.code=t.code )xm,t.barid,substr(t.entertime,1,19) enterTime,substr(t.begintime,1,19) beginTime,substr(t.endtime,1,19) endTime,t.clientno serialNum,
+			t.idnumber,t.evaluphoto photoBase64,t.signature,t.quhaophoto,t.blridnumber
+	  	from pd_valuerecord_gq t
+		where t.status='7'
+		<isNotEmpty property="id" prepend="AND"> t.id=#id#</isNotEmpty>
+		order by t.entertime desc
+	</select>
+	<!-- 更新挂起库评价照片 -->
+	<update id="updateValuerecordGqPhoto" parameterClass="java.util.HashMap">
+		update pd_valuerecord_gq t set t.id=#id#
+		<isNotEmpty property="gpyPhoto13" prepend=","> t.evaluphoto=#gpyPhoto13#</isNotEmpty>
+		where t.id=#id#
+	</update>
+	
+	<!-- 根据时间查询所有信息带身份证照片 -->
+	<select id="queryAllSfzPhoto" parameterClass="java.util.HashMap" resultClass="number">
+		select t.id,
+			 t.barid barId,
+			 t.code operNum,
+			 t.idnumber IDNumber,
+			 t.idnumberb IDNumberB,
+	         substr(t.entertime, 1, 19) enterTime,
+	         substr(t.begintime, 1, 19) beginTime,
+	         t.clientno serialNum,
+	         n.sfzphoto,
+	         t.evaluphoto photoBase64,
+	         t.quhaophoto,
+	         t.deptcode,
+	         t.depthall
+	    from (select id,barid,code,idnumber,idnumberb,entertime,begintime,clientno,evaluphoto,quhaophoto,deptcode,depthall
+	            from pd_valuerecord 
+	    <isEmpty property="IDNumber" prepend="">
+			<isNotEmpty property="rNumber" prepend=""> sample($rNumber$)</isNotEmpty>
+	    </isEmpty>        
+	            where 1=1
+		<isNotEmpty property="jsrq" prepend="AND">
+			<![CDATA[to_date(substr(entertime,1,19),'yyyy-mm-dd hh24:mi:ss')<=$jsrq$]]>
+		</isNotEmpty>
+		<isNotEmpty property="ksrq" prepend="AND">
+			<![CDATA[to_date(substr(entertime,1,19),'yyyy-mm-dd hh24:mi:ss')>=$ksrq$]]>
+		</isNotEmpty>
+		<isEmpty property="ksrq" prepend="AND">
+			<!-- substr(entertime,1,10)=to_char(sysdate,'yyyy-mm-dd') -->
+			entertime like to_char(sysdate,'yyyy-mm-dd') || '%'
+		</isEmpty>) t,
+		         pd_numberid_photo n
+		   where t.idnumber = n.numberid(+)
+		   <isNotEmpty property="barId" prepend="AND"> t.barid=#barId#</isNotEmpty>
+		   <isNotEmpty property="deptcode" prepend="AND"> rtrim(t.deptcode)=#deptcode#</isNotEmpty>
+		   <isNotEmpty property="depthall" prepend="AND"> rtrim(t.depthall)=#depthall#</isNotEmpty>
+		   <isNotEmpty property="operNum" prepend="AND"> t.code=#operNum#</isNotEmpty>
+		   <isNotEmpty property="IDNumber" prepend="AND"> (t.idnumber=#IDNumber# or t.idnumberb=#IDNumber#)</isNotEmpty>
+	</select>
+	<!-- 根据条件查询身份证照片 -->
+	<select id="detailSfz" parameterClass="java.util.HashMap" resultClass="number">
+		select t.id,(select u.name from pd_user u where u.code=t.code)xm,
+                t.idnumber,	
+                substr(t.entertime, 1, 19) enterTime,
+                substr(t.begintime, 1, 19) beginTime,
+                t.clientno serialNum,
+                (select b.name from pd_business b where b.queuecode=t.codequeue and rownum=1)typeName,
+                n.sfzphoto,
+                t.evaluphoto photoBase64,
+                t.quhaophoto,
+                t.gpyPhoto1,t.gpyPhoto2,t.gpyPhoto3,t.gpyPhoto4,t.gpyPhoto5,t.gpyPhoto6,
+	         	t.gpyPhoto7,t.gpyPhoto8,t.gpyPhoto9
+           from pd_valuerecord t, pd_numberid_photo n,pd_business b 
+          where t.idnumber = n.numberid(+)
+          <isNotEmpty property="id" prepend="AND"> t.id=#id#</isNotEmpty>
+	</select>
+	<!-- 查询未叫号数量 -->
+	<select id="countWJHshuliang" parameterClass="java.util.HashMap" resultClass="number">
+		select t.id,b.waitingarea,t.clientcard businessType,t.codequeue queueCode from pd_valuerecord t,pd_business b
+		where t.codequeue=b.queuecode(+) 
+		<!-- and substr(t.entertime, 1, 10) = to_char(sysdate, 'yyyy-mm-dd')   -->
+		and t.entertime like to_char(sysdate,'yyyy-mm-dd') || '%' 
+		and t.clientcard=b.id
+		<isNotEmpty property="id" prepend="AND"> t.id=#id#</isNotEmpty>
+		<isNotEmpty property="waitingarea" prepend="AND"> b.waitingarea=#waitingarea#</isNotEmpty>
+		<isNotEmpty property="businessType" prepend="AND"> t.clientcard=#businessType#</isNotEmpty>
+		<isNotEmpty property="queueCode" prepend="AND"> t.codequeue=#queueCode#</isNotEmpty>
+		 and t.status in('1','2')
+		 and rtrim(t.deptcode)=#deptCode# 
+         and rtrim(t.depthall)=#deptHall#
+    	 and b.deptcode=t.deptcode 
+    	 and b.depthall=t.depthall 
+	</select>
+
+	<!-- 根据身份证号或流水号获取照片 -->
+	<select id="getCardAndLshByAll" parameterClass="java.util.HashMap" resultClass="number">
+		select t.quhaoPhoto,t.evaluphoto photoBase64 from pd_valuerecord t where  (t.evaluphoto is not null or t.quhaophoto is not null or t.gpyphoto is not null) and t.idnumber=#sfzmhm# 
+		<isNotEmpty property="lsh" prepend="AND"> t.lsh=#lsh#</isNotEmpty>
+	</select>
+
+	<!-- 根据顺序号查询当天信息 -->
+	<select id="getValueRecordByClientno" parameterClass="java.util.HashMap" resultClass="number">
+		select t.barIp,t.id,t.loginid,t.code,t.barId,t.value,t.valuetime,t.begintime,t.endtime,t.uniqueid,t.serverip,t.entertime,
+		t.codequeue,t.clientid,t.clientno,t.status,t.idtype,t.idnumber,t.businesscount,t.clientcard,t.deptcode,t.depthall
+  		from pd_valuerecord t where 1=1 
+	    <isNotEmpty property="clientno" prepend="AND"> t.clientno=#clientno#</isNotEmpty>
+	     <!-- and substr(t.entertime,1,10)=to_char(sysdate,'yyyy-mm-dd') -->
+	    and  t.entertime like to_char(sysdate,'yyyy-mm-dd') || '%'
+	</select>
+	<!-- 保存高拍仪照片 -->
+	<insert id="savaGpyPhoto" parameterClass="number">
+		INSERT INTO pd_gpy(LSH,IDNUMBER,PHOTO1,PHOTO2,PHOTO3,LRRQ)
+		VALUES(#lsh#,#IDNumber#,#photo1#,#photo2#,#photo3#,sysdate)
+	</insert>
+	<!-- 统计身份证取号次数 -->
+	<select id="countIdNumber" parameterClass="java.util.HashMap" resultClass="number">
+		select t.idnumber IDNumber, count(t.idnumber) idnumbercount from pd_valuerecord t where 1=1
+		<isNotEmpty property="deptCode" prepend="AND">
+			rtrim(t.deptcode)=#deptCode#
+		</isNotEmpty>
+		<isNotEmpty property="deptHall" prepend="AND">
+			rtrim(t.depthall)=#deptHall#
+		</isNotEmpty>
+		<isNotEmpty property="jsrq" prepend="AND">
+			<![CDATA[to_date(substr(t.entertime,1,19),'yyyy-mm-dd hh24:mi:ss')<=$jsrq$]]>
+		</isNotEmpty>
+		<isNotEmpty property="ksrq" prepend="AND">
+			<![CDATA[to_date(substr(t.entertime,1,19),'yyyy-mm-dd hh24:mi:ss')>=$ksrq$]]>
+		</isNotEmpty>
+  		<isNotEmpty property="IDNumber" prepend="AND"> t.idnumber=#IDNumber#</isNotEmpty>
+ 			group by t.idnumber order by idnumbercount desc
+	</select>
+	<!-- 统计代办人身份证取号次数 -->
+	<select id="countIdNumberB" parameterClass="java.util.HashMap" resultClass="number">
+		select t.idnumberb IDNumber, count(t.idnumberb) idnumbercount from pd_valuerecord t where 1=1 and t.idnumberb is not null 
+		<isNotEmpty property="jsrq" prepend="AND">
+			<![CDATA[to_date(substr(t.entertime,1,19),'yyyy-mm-dd hh24:mi:ss')<=$jsrq$]]>
+		</isNotEmpty>
+		<isNotEmpty property="ksrq" prepend="AND">
+			<![CDATA[to_date(substr(t.entertime,1,19),'yyyy-mm-dd hh24:mi:ss')>=$ksrq$]]>
+		</isNotEmpty>
+  		<isNotEmpty property="IDNumber" prepend="AND"> t.idnumberb=#IDNumber#</isNotEmpty>
+ 			group by t.idnumberb order by idnumbercount desc
+	</select>
+	<!-- 统计代办人当天身份证取号次数 -->
+	<select id="countByIdnumber" parameterClass="java.util.HashMap" resultClass="number">
+		select count(t.idnumberb) idnumbercount from pd_valuerecord t where substr(t.entertime,1,10)=to_char(sysdate,'yyyy-mm-dd')
+			<isNotEmpty property="IDNumber" prepend="AND"> t.idnumberb=#IDNumber#</isNotEmpty>
+			<isNotEmpty property="deptCode" prepend="AND"> t.deptcode=#deptCode#</isNotEmpty>
+			<isNotEmpty property="deptHall" prepend="AND"> t.depthall=#deptHall#</isNotEmpty>
+	</select>
+	<!-- 查询人证对比值 -->
+	<select id="queryRzdbz" parameterClass="java.util.HashMap" resultClass="number">
+		select t.idnumber,t.rzdbz,t.rztime from pd_rzdb t where to_char(t.rztime,'yyyy-mm-dd') = to_char(sysdate,'yyyy-mm-dd') 
+			<isNotEmpty property="IDNumber" prepend="AND"> t.idnumber=#IDNumber#</isNotEmpty>
+			order by rztime desc
+	</select>
+	
+	<!-- 查询身份证是否存在指纹信息 -->
+	<select id="getZhiWenByIdNumber" parameterClass="java.util.HashMap" resultClass="number">
+		select IDNumber,zhiwenphoto ZWBase64,lrrq from pd_zhiwen
+		<isNotEmpty property="IDNumber" prepend=""> where idnumber=#IDNumber#</isNotEmpty>
+	</select>
+	<!-- 添加指纹信息 -->
+	<insert id="addZhiWen" parameterClass="number">
+		INSERT INTO pd_zhiwen(idnumber,zhiwenphoto,lrrq)
+		VALUES(#IDNumber#,#ZWBase64#,sysdate)
+	</insert>
+	<!-- 修改指纹信息 -->
+	<update id="updateZhiWen" parameterClass="java.util.HashMap">
+		update pd_zhiwen t set t.zhiwenphoto=#ZWBase64# where t.idnumber=#IDNumber#
+	</update>
+	<!-- 删除指纹信息 -->
+	<delete id="delZhiWen" parameterClass="java.lang.String">
+    	delete from pd_zhiwen t where t.idnumber=#IDNumber#
+    </delete>
+    <!-- 查询取号人与办理人身份不同信息 -->
+    <select id="idnumberDifference" parameterClass="java.util.HashMap" resultClass="number">
+		select t.clientno serialNum,t.entertime enterTime,t.idnumber IDNumber,l.idnumber IDNumberB,t.lsh from pd_valuerecord t,pd_lzxx l
+		where t.lsh = l.lsh
+		<isNotEmpty property="jsrq" prepend="AND">
+			<![CDATA[to_date(substr(t.entertime,1,19),'yyyy-mm-dd hh24:mi:ss')<=$jsrq$]]>
+		</isNotEmpty>
+		<isNotEmpty property="ksrq" prepend="AND">
+			<![CDATA[to_date(substr(t.entertime,1,19),'yyyy-mm-dd hh24:mi:ss')>=$ksrq$]]>
+		</isNotEmpty>
+  		<isNotEmpty property="IDNumber" prepend="AND"> t.idnumber=#IDNumber#</isNotEmpty>
+  		<isNotEmpty property="IDNumberB" prepend="AND"> l.idnumber=#IDNumberB#</isNotEmpty>
+  		<isNotEmpty property="lsh" prepend="AND"> t.lsh=#lsh#</isNotEmpty>
+ 			order by t.entertime desc
+	</select>
+	
+	<!-- 检查机动车状态 -->
+	<select id="checkJDCStatus" parameterClass="java.util.HashMap" resultClass="number">
+		select t.hpzl, t.hphm, t.syr, t.zt, t.dybj, t.yxqz, t.qzbfqz, t.djzsbh 
+		  from wf3707.shisuo_jiaohao_vehicle@wf6he1 t
+		  where 1=1 
+  		<isNotEmpty property="hphm" prepend="AND"> t.hphm=#hphm#</isNotEmpty>
+  		<isNotEmpty property="hpzl" prepend="AND"> t.hpzl=#hpzl#</isNotEmpty>
+	</select>
+	
+	<!-- 检查驾驶人状态 -->
+	<select id="checkJSRStatus" parameterClass="java.util.HashMap" resultClass="number">
+		select t.xm, t.zjcx, t.zt, t.ljjf, t.yxqz, t.syyxqz 
+		  from wf3707.shisuo_jiaohao_drivinglicense@wf6he1 t
+		  where 1=1 
+  		<isNotEmpty property="sfzmhm" prepend="AND"> t.sfzmhm=#sfzmhm#</isNotEmpty>
+	</select>
+	<!--验证重复取号 -->
+	<select id="yzcfqh" parameterClass="java.util.HashMap" resultClass="number">
+		select t.id,t.code,t.barId,t.value,t.valuetime,t.begintime,t.endtime,t.uniqueid,t.baruniqueid,t.codequeue,
+       		t.serverip,SUBSTR(t.entertime,1,19) entertime,t.clientid,t.clientno,t.status,t.clientcard,t.idtype,
+       		t.idnumber,t.evaluphoto,t.businesscount,t.reason,t.signature,t.code operNum,t.codequeue queueCode,
+       		t.clientid queueValue,t.clientno serialNum,t.clientcard businessType,t.evaluphoto photoBase64,
+       		t.quhaophoto,t.lsh
+       	from pd_valuerecord t 
+       	where 
+       	<!-- to_char(sysdate,'yyyy-mm-dd')=substr(t.entertime,1,10) -->
+       	t.entertime like to_char(sysdate,'yyyy-mm-dd') || '%' 
+       		and t.status in(1,2,7) 
+  		<isNotEmpty property="idnumber" prepend="AND"> (t.idnumberb = #idnumber# or t.idnumber=#idnumber#)</isNotEmpty>
+	</select>
+	
+	<select id="selectValuecord" parameterClass="java.util.HashMap" resultClass="number">
+		 select * from pd_valuerecord  t where 
+		<!-- substr(t.begintime,0,10）=to_char(sysdate,'yyyy-mm-dd') -->
+		 t.begintime like to_char(sysdate,'yyyy-mm-dd') || '%' 
+		 and t.barid=#barid# and t.status in('3','5','6','7')
+	</select>
+	<!-- 根据条件查询valuerecord表记录的数量 -->
+	<select id="findByValuerecord" parameterClass="java.util.HashMap" resultClass="java.lang.String">
+		select count(*) from pd_valuerecord t where
+		1=1
+		<isNotEmpty property="ywid" prepend="AND">  t.clientcard = #ywid#</isNotEmpty>
+		<!-- and substr(t.entertime,1,10) = to_char(sysdate,'yyyy-mm-dd') -->
+		<isNotEmpty property="beginTime" prepend="AND"> 
+			<![CDATA[$beginTime$<to_date(substr(t.entertime,1,19),'yyyy-mm-dd hh24:mi:ss')]]>
+			and <![CDATA[to_date(substr(t.entertime,1,19),'yyyy-mm-dd hh24:mi:ss')<$endTime$]]>
+		</isNotEmpty>
+		<isNotEmpty property="valuetime" prepend="AND"> 
+			<![CDATA[$endTime$<=to_date(substr(t.entertime,1,19),'yyyy-mm-dd hh24:mi:ss')]]>
+			and <![CDATA[to_date(substr(t.entertime,1,19),'yyyy-mm-dd hh24:mi:ss')<$valuetime$]]>
+		</isNotEmpty>
+		<isNotEmpty property="endtime" prepend="AND"> 
+			<![CDATA[$endtime$<=to_date(substr(t.entertime,1,19),'yyyy-mm-dd hh24:mi:ss')]]>
+			and <![CDATA[to_date(substr(t.entertime,1,19),'yyyy-mm-dd hh24:mi:ss')<$endTime$]]>
+		</isNotEmpty>
+		<isNotEmpty property="rztime" prepend="AND"> 
+			t.entertime like to_char(sysdate,'yyyy-mm-dd') || '%' 
+		</isNotEmpty>
+		and rtrim(t.deptcode)=#deptCode# and rtrim(t.depthall)=#deptHall#
+	</select>
+	<!-- 根据队列查询未叫号数 -->
+	<select id="queuewjhs" parameterClass="java.util.HashMap" resultClass="java.lang.String">
+		select sum(decode(t.codequeue,'',0,1)) typeCount
+		from pd_valuerecord t
+ 		where rtrim(t.codequeue) =#code# 
+ 		and t.status='1' 
+ 		and t.entertime like  to_char(sysdate,'yyyy-mm-dd' || '%')
+ 		and rtrim(t.deptcode)=#deptCode# 
+   		and rtrim(t.depthall)=#deptHall#
+   		<isNotEmpty property="id" prepend="AND"> <![CDATA[t.id<=#id# ]]></isNotEmpty>
+	</select>
+	<!-- 根据队列查询等待时间 -->
+	<select id="queuewaittime" parameterClass="java.util.HashMap" resultClass="java.lang.String">
+		select * from pd_pjblsj t 
+		where dlbh=#code#
+		and rtrim(t.deptcode)=#deptCode# 
+   		and rtrim(t.depthall)=#deptHall#
+	</select>
+	<!-- 查询未叫号的票 -->
+	<select id="dayNumber" parameterClass="java.util.HashMap" resultClass="number">
+		SELECT t.id,t.code operNum,t.clientno serialnum,t.codequeue queuecode,t.clientid queuevalue,t.phoneNumber,
+			   t.status,t.clientcard businessType,t.barId,t.entertime,t.idtype,t.idnumber,t.serverip,t.businesscount,t.endtime
+    	FROM pd_valuerecord t	
+    	WHERE   t.entertime like to_char(sysdate,'yyyy-mm-dd') || '%'
+    	AND t.status='1'
+    	AND rtrim(t.depthall)=#deptHall# 
+    	AND rtrim(t.deptcode)=#deptCode#
+	</select>
+	<!-- 根据id写入当前挂起号恢复时间 -->
+	<update id="guaQiUpdate" parameterClass="java.util.HashMap">
+		update pd_valuerecord_gq t set t.endtime=to_char(sysdate,'yyyy-mm-dd hh24:mi:ss'),
+		t.gqstatus='2'
+		where t.gqstatus='1' 
+		and t.clientno=#clientno#
+		and t.deptCode=#deptCode#
+		and t.deptHall=#deptHall#
+		and substr(t.begintime,0,10)=to_char(sysdate, 'yyyy-mm-dd')
+	</update>
+	<!-- 根据证件查询有未处理业务笔数 -->
+	<select id="wclhao" parameterClass="java.util.HashMap" resultClass="wclh">
+		select count(*) sum,t.depthall from pd_wclh t 
+		where t.idnum=#idnum#
+		group by t.depthall
+	</select>
+	<select id="selectYWLbyWindowId" parameterClass="java.util.HashMap" resultClass="java.lang.String">
+		select count(*) from pd_valuerecord t where<![CDATA[ to_date(t.begintime, 'yyyy-mm-dd hh24:mi:ss') > trunc(sysdate)]]> and t.barid = #windowId#
+		and t.deptcode = #deptCode#
+		and t.depthall = #deptHall#
+	</select>
+	<select id="queryywlxAndddrs" parameterClass="java.util.HashMap" resultClass="number">
+		select t.id,
+		       t.name typeName,
+		       (select count(*)
+		          from pd_valuerecord a
+		         where a.status = '1'
+		          <![CDATA[ and to_date(substr(a.entertime, 1, 18), 'yyyy-mm-dd hh24:mi:ss') >
+		               trunc(sysdate)]]>
+		           and a.clientcard = t.id
+		           and t.deptcode = a.deptcode
+		           and t.depthall = a.depthall) typeCount
+		  from pd_business t
+		 where t.deptcode = #deptCode#
+		   and t.depthall = #deptHall#
+		
+	</select>
+	
+	<!-- 根据队列查询等待人数 -->
+	<select id="querydllxAndddrs" parameterClass="java.util.HashMap" resultClass="number">
+		select t.id,
+           t.name queueName,
+           (select count(*)
+              from pd_valuerecord a
+             where a.status = '1'
+               <![CDATA[ and to_date(substr(a.entertime, 1, 18), 'yyyy-mm-dd hh24:mi:ss') >
+		               trunc(sysdate)]]>
+		           and a.codequeue=t.code
+		           and t.deptcode = a.deptcode
+		           and t.depthall = a.depthall) queueCount
+		  from pd_queue t
+		  where t.deptcode = #deptCode#
+		   and t.depthall = #deptHall#
+	</select>
+		
+	<select id="queryAllForImageById" parameterClass="java.util.HashMap" resultClass="number">
+		select u.name xm,t.code,t.barId,t.begintime,t.endtime,t.codequeue,
+             c.barip serverip,SUBSTR(t.entertime,1,19) entertime,t.clientno,t.status,t.clientcard,t.idtype,
+             t.idnumber,t.idnumberb,t.businesscount,t.code operNum,t.codequeue queueCode,
+             t.clientid queueValue,t.clientno serialNum,t.clientcard businessType,t.lsh,t.deptCode,t.deptHall
+      	from pd_valuerecord t,pd_user u,pd_screen s,pd_caller c where 1=1 
+      	and t.code = u.code and substr(t.entertime,1,10)=to_char(sysdate,'yyyy-mm-dd')
+      	and t.barid=s.windowid and s.id=c.barid 
+  		<isNotEmpty property="clientno" prepend="AND"> t.clientno=#clientno#</isNotEmpty>
+  		<isNotEmpty property="serverip" prepend="AND"> c.barip=#serverip# and t.status='2'</isNotEmpty>
+  		and t.deptcode = #deptCode# and t.depthall = #deptHall#
+	    order by t.begintime desc
+	</select>
+	
+	<select id="getNameBySXH" parameterClass="java.util.HashMap" resultClass="number">
+		select t.clientno, t.namea,t.idnumber,t.nameb,t.idnumberb from pd_valuerecord t where 
+		substr(t.entertime,1,10)=to_char(sysdate,'yyyy-mm-dd') 
+  		<isNotEmpty property="clientno" prepend="AND"> t.clientno=#clientno#</isNotEmpty>
+  		and t.deptcode = #deptCode# and t.depthall = #deptHall#
+	    order by t.id desc
+	</select>
+	<!-- 增加sxh -->
+	<insert id="saveSxh" parameterClass="number">
+		INSERT INTO pd_valuerecord 
+			(id,CODE,BARID,BEGINTIME,CODEQUEUE,SERVERIP,ENTERTIME,clientid,CLIENTNO,STATUS,
+			CLIENTCARD,IDTYPE,IDNUMBER,businesscount,deptCode,deptHall)
+		VALUES 
+			(seq_pd_valuerecord_id.nextval,#code#,#barId#,to_char(sysdate,'yyyy-mm-dd hh24:MM:ss'),
+			#queueCode#,'127.0.0.1',to_char(sysdate,'yyyy-mm-dd hh24:MM:ss'),1,#clientno#,
+			2,#businessType#,'A','123',1,#deptCode#,#deptHall#)
+	</insert>
+	<select id="getbaripBybarid" parameterClass="java.util.HashMap" resultClass="number">
+		select t.windowid barId,c.barip barIp from pd_screen t,pd_caller c where t.id=c.barid 
+  		<isNotEmpty property="barId" prepend="AND"> t.windowid=#barId#</isNotEmpty>
+  		and t.deptcode = #deptCode# and t.depthall = #deptHall#
+	    order by t.id desc
+	</select>
+
+	<update id="update" parameterClass="number">
+		update pd_valuerecord t 
+		t.status='3'
+		where t.status='2' 
+		and t.deptCode=#deptCode#
+		and t.deptHall=#deptHall#
+		and t.entertime like to_char(sysdate,'yyyy-mm-dd') || '%' 
+	</update>
+	
+	<select id="getwindowidByip" parameterClass="java.lang.String" resultClass="java.lang.String">
+		select t.windowid from PD_SCREEN t where id in(select y.barid from pd_caller y where y.barip =#loginIP#)
+	</select>
+
+	<select id="queryCarNumber" parameterClass="java.util.HashMap" resultClass="number">
+		select * from pd_valuerecord t where 
+		substr(t.entertime,0,10)=to_char(sysdate,'yyyy-MM-dd')
+		<isNotEmpty property="SerialNum" prepend="and"> t.clientno=#SerialNum#</isNotEmpty>
+		and t.deptcode = #deptCode# and t.depthall = #deptHall#
+	</select>
+
+	<select id="getNumberViaId" parameterClass="java.util.HashMap" resultClass="number">
+		select * from pd_valuerecord t where 
+		t.id = #id#
+	</select>
+	<!-- 插入补录信息 -->
+	<insert id="insertBLXX" parameterClass="number">
+		insert into pd_buluxinxi(barip,code,deptcode,depthall,lrrq) 
+		values(#barIp#,#code#,#deptCode#,#deptHall#,#lrrq#)
+	</insert>
+	<!-- 查询补录信息 -->
+	<select id="queryBLXX" parameterClass="java.util.HashMap" resultClass="number">
+		select t.barip barIp,t.code,t.deptcode deptCode,t.depthall deptHall,t.lrrq 
+		from pd_buluxinxi t where substr(t.lrrq,1,10)=to_char(sysdate,'yyyy-mm-dd') 
+		order by t.lrrq asc
+	</select>
+	<delete id="deleteBLXX" parameterClass="java.lang.String">
+	    delete from pd_buluxinxi t where t.lrrq=#lrrq#
+	</delete>
+	<!-- 更新完结状态 -->
+	<update id="updateWanJie" parameterClass="number">
+		update pd_valuerecord t set t.ischuli='1' where t.clientno=#clientno# and substr(t.entertime,1,10)=to_char(sysdate,'yyyy-mm-dd')
+	</update>
+</sqlMap>

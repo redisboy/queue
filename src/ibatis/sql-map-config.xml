@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd"> 
+<sqlMapConfig>
+	<settings
+		cacheModelsEnabled="true"
+		enhancementEnabled="true"
+		lazyLoadingEnabled="true"
+		errorTracingEnabled="true"
+		useStatementNamespaces="true" />
+		
+    <sqlMap resource="ibatis/queue/queue-sqlmap.xml"/>
+    <sqlMap resource="ibatis/queue/number-sqlmap.xml"/>
+    <sqlMap resource="ibatis/queue/code-sqlmap.xml"/>
+    <sqlMap resource="ibatis/agent/agent-sqlmap.xml"/>
+    <sqlMap resource="ibatis/agent/work-sqlmap.xml"/>
+    <sqlMap resource="ibatis/employee/employee-sqlmap.xml"/>
+    <sqlMap resource="ibatis/window/CountWindow-sqlmap.xml"/>
+    <sqlMap resource="ibatis/window/WindowMonitor-sqlmap.xml"/>
+    <sqlMap resource="ibatis/window/setWindow-sqlmap.xml"/>  
+    <sqlMap resource="ibatis/window/setCaller-sqlmap.xml"/> 
+    <sqlMap resource="ibatis/advertise/advertise-sqlmap.xml"/> 
+    <sqlMap resource="ibatis/evaluation/evaluation-sqlmap.xml"/>
+    <sqlMap resource="ibatis/evaluation/windowEvaluation-sqlmap.xml"/>    
+    <sqlMap resource="ibatis/evaluation/allDetailevaluation-sqlmap.xml"/>
+    <sqlMap resource="ibatis/evaluation/evaluationUpdate-sqlmap.xml"/>
+    <sqlMap resource="ibatis/evaluation/queueEvaluation-sqlmap.xml"/>
+    <sqlMap resource="ibatis/count/clientWaitCount-sqlmap.xml"/>  
+    <sqlMap resource="ibatis/count/queueWaitCount-sqlmap.xml"/>
+    <sqlMap resource="ibatis/count/employeeWaitCount-sqlmap.xml"/>
+    <sqlMap resource="ibatis/count/getNumberInfoCount-sqlmap.xml"/>
+    <sqlMap resource="ibatis/window/loginState-sqlmap.xml"/>
+    <sqlMap resource="ibatis/count/agentnjcount-sqlmap.xml"/>
+    <sqlMap resource="ibatis/count/agentpdcount-sqlmap.xml"/>
+    <sqlMap resource="ibatis/count/agentwaitcount-sqlmap.xml"/>
+    <sqlMap resource="ibatis/count/queueAllCount-sqlmap.xml"/>
+	<sqlMap resource="ibatis/agent/review-sqlmap.xml"/>
+	<sqlMap resource="ibatis/business/business-sqlmap.xml"/>
+	<sqlMap resource="ibatis/system/system-sqlmap.xml"/>
+	<sqlMap resource="ibatis/publicAd/publicAd-sqlmap.xml"/>
+	<sqlMap resource="ibatis/led/setLed-sqlmap.xml"/>
+	<sqlMap resource="ibatis/printSet/printSet-sqlmap.xml"/>
+	<sqlMap resource="ibatis/log/log-sqlmap.xml"/>
+	<sqlMap resource="ibatis/ywshtj/ywshtj-sqlmap.xml"/>
+	<sqlMap resource="ibatis/nextwindow/nextwindow-sqlmap.xml"/>
+	<sqlMap resource="ibatis/hmd/hmd-sqlmap.xml"/>
+	<sqlMap resource="ibatis/hmd/hmdlog-sqlmap.xml"/>
+	<sqlMap resource="ibatis/queue/callout-sqlmap.xml"/>
+	<sqlMap resource="ibatis/evaluation/badEvaluation-sqlmap.xml"/>
+	<sqlMap resource="ibatis/smallwindow/smallwindow-sqlmap.xml"/>
+	<sqlMap resource="ibatis/count/GuaQiCount-sqlmap.xml"/>
+	<sqlMap resource="ibatis/advertise/showQuHaoSum-sqlmap.xml"/>
+	<sqlMap resource="ibatis/queue/numberIdPhoto-sqlmap.xml"/>
+	<sqlMap resource="ibatis/lzxx/lzxx-sqlmap.xml"/>
+	<sqlMap resource="ibatis/queue/zhpcallnum-sqlmap.xml"/>
+	<sqlMap resource="ibatis/tztd/tztd-sqlmap.xml"/>
+	<sqlMap resource="ibatis/tuiban/tuiban-sqlmap.xml"/>
+	<sqlMap resource="ibatis/zzj/zzj-sqlmap.xml"/>
+	<!-- 定时任务管理 -->
+    <sqlMap resource="ibatis/urp/job/ibatis-urpjob.xml" />
+    <!-- 定时任务日志 -->
+    <sqlMap resource="ibatis/urp/job/ibatis-urpjoblog.xml" />
+    <sqlMap resource="ibatis/reservation/reservation-sqlmap.xml"/>
+	<sqlMap resource="ibatis/dept/dept-sqlmap.xml"/>
+	<sqlMap resource="ibatis/warn/warn-sqlmap.xml"/>
+	
+	<sqlMap resource="ibatis/passreason/passreason-sqlmap.xml"/>
+	<sqlMap resource="ibatis/messageSet/messageSet-sqlmap.xml"/>
+	<sqlMap resource="ibatis/count/callNumTimeCount-sqlmap.xml"/>
+	<sqlMap resource="ibatis/yyjk/yyjk-sqlmap.xml"/>
+	
+	<sqlMap resource="ibatis/systemlog/systemlog-sqlmap.xml"/>
+	<sqlMap resource="ibatis/statisticslog/statisticslog-sqlmap.xml"/>
+	<sqlMap resource="ibatis/safety/safety-sqlmap.xml"/>
+	
+	<!-- 微信预约 -->
+	<sqlMap resource="ibatis/yygn/yygn-sqlmap.xml"/>
+	<sqlMap resource="ibatis/oneYwlx/oneywlx-sqlmap.xml"/>
+	<sqlMap resource="ibatis/twoywlx/twoywlx-sqlmap.xml"/>
+	<sqlMap resource="ibatis/yyywzl/yyywzl-sqlmap.xml"/>
+	<sqlMap resource="ibatis/yydt/yydt-sqlmap.xml"/>
+</sqlMapConfig>

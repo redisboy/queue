@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<bean id="tuibanDao" class="com.suntendy.queue.tuiban.dao.impl.TuiBanDaoImpl" parent="baseDao"/>
+		
+	<bean id="tuibanService" class="com.suntendy.queue.tuiban.service.impl.TuiBanServiceImpl">
+		<property name="tuibanDao" ref="tuibanDao"></property>
+	</bean>
+		
+	<bean id="TuibanAction" class="com.suntendy.queue.tuiban.action.TuibanAction">
+		<property name="tuibanService" ref="tuibanService"></property>
+	</bean>
+		
+</beans>

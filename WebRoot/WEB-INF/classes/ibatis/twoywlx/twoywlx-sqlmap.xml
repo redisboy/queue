@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Twoywlx">
+	<typeAlias alias="twoywlx" type="com.suntendy.queue.twoywlx.domain.Twoywlx" />
+	<typeAlias alias="yyywzl" type="com.suntendy.queue.yyywzl.domain.Yyywzl" />
+	
+	<select id="findByMap" parameterClass="java.util.HashMap" resultClass="twoywlx">
+		SELECT id, one_ywlx_Id oneywlxId,NAME,SXJBZL, DTYYSL,TJRQ from PD_TWO_YWLX t ORDER BY t.tjrq desc
+	</select>
+	
+	<insert id="addTwoywlx" parameterClass="twoywlx" >
+		INSERT INTO PD_TWO_YWLX t(id,one_ywlx_Id,NAME,SXJBZL,DTYYSL,TJRQ)
+		VALUES(SEQ_PD_TWO_YWLX_ID.nextval,#oneywlxId#,#name#,#sxjbzl#，#dtyysl#，#tjrq#)
+	</insert>
+	
+	
+	<select id="getTwoywlxListById" parameterClass="java.util.HashMap" resultClass="twoywlx">
+		SELECT * from PD_TWO_YWLX t where t.id=#id#
+	</select>
+
+	
+	<update id="updateTwoywlx" parameterClass="twoywlx">
+	UPDATE PD_TWO_YWLX t SET 
+		<isNotEmpty property="oneywlxId" prepend="">
+	        t.one_ywlx_Id=#oneywlxId#
+	     </isNotEmpty>
+	    <isNotEmpty property="name" prepend=",">
+	        t.name=#name#
+	     </isNotEmpty>
+        <isNotEmpty property="sxjbzl" prepend=",">
+        	t.sxjbzl=#sxjbzl#
+        </isNotEmpty>
+        <isNotEmpty property="dtyysl" prepend=",">
+        	t.dtyysl=#dtyysl#
+        </isNotEmpty>
+        <isNotEmpty property="tjrq" prepend=",">
+        	t.tjrq=#tjrq#
+        </isNotEmpty>
+	        WHERE t.id=#id#
+	</update>
+	
+	
+	
+	
+	
+	<delete id="delTwoywlx" parameterClass="java.lang.String">
+		delete from PD_TWO_YWLX t where t.id=#id#
+	</delete>
+	
+	
+	
+	
+	
+</sqlMap>

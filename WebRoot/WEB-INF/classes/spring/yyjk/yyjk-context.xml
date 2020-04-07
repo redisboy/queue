@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean name="yyjkAction"
+		class="com.suntendy.queue.yyjk.action.YyjkAction">
+		<property name="deptService" ref="deptService" />
+		<property name="businessService" ref="businessService" />
+		<property name="numberService" ref="numberService" />
+		<property name="tuibanService" ref="tuibanService"/>
+		<property name="zzjService" ref="zzjService"/>
+		<property name="printSetService" ref ="printSetService" />
+		<property name="codeService" ref="codeService" />
+		<property name="yyjkService" ref="yyjkService" />
+	</bean>
+	
+	<bean id="yyjkDao"
+		class="com.suntendy.queue.yyjk.dao.impl.YyjkDaoImpl"
+		parent="baseDao" />
+
+	<bean name="yyjkService"
+		class="com.suntendy.queue.yyjk.service.impl.YyjkServiceImpl">
+		<property name="yyjkDao" ref="yyjkDao" />
+	</bean>
+
+
+</beans>

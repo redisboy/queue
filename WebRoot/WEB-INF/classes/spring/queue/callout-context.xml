@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<bean id="calloutDao" class="com.suntendy.queue.queue.dao.impl.CallOutDaoImpl" parent="baseDao"/>
+		
+	<bean id="calloutService" class="com.suntendy.queue.queue.service.impl.CallOutServiceImpl">
+		<property name="calloutDao" ref="calloutDao"></property>
+		<property name="numberDao" ref="numberDao"></property>
+		<property name="codeService" ref="codeService"></property>
+	</bean>
+		
+	<bean id="calloutAction" class="com.suntendy.queue.queue.action.CallOutStatusAction">
+		<property name="calloutService" ref="calloutService"></property>
+		<property name="codeService" ref="codeService" />
+		<property name="businessDao" ref="businessDao" />
+		<property name="numberDao" ref="numberDao" />
+	</bean>
+</beans>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="UrpJob">
+
+  <typeAlias alias="UrpJobResult" type="com.suntendy.urp.job.model.UrpJob"/>
+	
+  <!-- 用于select查询公用抽取的列，注意将blob与clob对象单独处理 -->
+  <sql id="urpJobColumns">
+  <![CDATA[
+		ID as id,
+		JOBNAME as jobname,
+		JOBGROUP as jobgroup,
+		JOBDESC as jobdesc,
+		CRON as cron,
+		JOBCLASS as jobclass,
+		JOBTYPE as jobtype,
+		STATUS as status,
+		CREATETIME as createtime,
+		UPDATETIME as updatetime,
+		DEPTCODE as deptCode,
+		DEPTHALL as deptHall
+  ]]>
+  </sql>
+
+  <!-- 动态SQL -->
+  <sql id="urpJobDynamicWhere">
+    <dynamic prepend="WHERE">
+        <isNotEmpty prepend="AND" property="id">
+            ID = #id#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="jobname">
+            JOBNAME like '%'||#jobname#||'%'
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="jobgroup">
+            JOBGROUP = #jobgroup#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="jobdesc">
+            JOBDESC = #jobdesc#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="cron">
+            CRON = #cron#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="jobclass">
+            JOBCLASS = #jobclass#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="jobtype">
+            JOBTYPE = #jobtype#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="status">
+            STATUS = #status#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="createtimeString">
+            to_char(CREATETIME,'yyyy-mm-dd') = #createtimeString#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="createtimeStartString">
+            <![CDATA[to_char(CREATETIME,'yyyy-mm-dd') >= #createtimeStartString# and to_char(CREATETIME,'yyyy-mm-dd') <= #createtimeEndString#]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="updatetimeString">
+            to_char(UPDATETIME,'yyyy-mm-dd') = #updatetimeString#
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="updatetimeStartString">
+            <![CDATA[to_char(UPDATETIME,'yyyy-mm-dd') >= #updatetimeStartString# and to_char(UPDATETIME,'yyyy-mm-dd') <= #updatetimeEndString#]]>
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="deptCode">
+            DEPTCODE = #deptCode# 
+        </isNotEmpty>
+        <isNotEmpty prepend="AND" property="deptHall">
+            DEPTHALL = #deptHall# 
+        </isNotEmpty>
+    </dynamic>
+  </sql>
+  
+  <!-- insert操作-->
+  <insert id="insert" parameterClass="com.suntendy.urp.job.model.UrpJob" >
+  <![CDATA[
+	INSERT INTO URP_JOB (
+			ID,
+			JOBNAME,
+			JOBGROUP,
+			JOBDESC,
+			CRON,
+			JOBCLASS,
+			JOBTYPE,
+			STATUS,
+			CREATETIME,
+			UPDATETIME,
+			DEPTCODE,
+			DEPTHALL
+	) VALUES (
+			#id:VARCHAR#,
+			#jobname:VARCHAR#,
+			#jobgroup:VARCHAR#,
+			#jobdesc:VARCHAR#,
+			#cron:VARCHAR#,
+			#jobclass:VARCHAR#,
+			#jobtype:VARCHAR#,
+			#status:VARCHAR#,
+			#createtime:TIMESTAMP#,
+			#updatetime:TIMESTAMP#,
+			#deptCode:VARCHAR#,
+			#deptHall:VARCHAR#
+	)
+  ]]>
+  </insert>
+    
+  <!-- update操作-->
+  <update id="update" parameterClass="com.suntendy.urp.job.model.UrpJob">
+	UPDATE URP_JOB 
+	SET ID=#id#
+		<isNotNull prepend="," property="jobname">
+	    	JOBNAME = #jobname:VARCHAR#
+	    </isNotNull>
+		<isNotNull prepend="," property="jobgroup">
+	    	JOBGROUP = #jobgroup:VARCHAR#
+	    </isNotNull>
+		<isNotNull prepend="," property="jobdesc">
+	    	JOBDESC = #jobdesc:VARCHAR#
+	    </isNotNull>
+		<isNotNull prepend="," property="cron">
+	    	CRON = #cron:VARCHAR#
+	    </isNotNull>
+		<isNotNull prepend="," property="jobclass">
+	    	JOBCLASS = #jobclass:VARCHAR#
+	    </isNotNull>
+		<isNotNull prepend="," property="jobtype">
+	    	JOBTYPE = #jobtype:VARCHAR#
+	    </isNotNull>
+		<isNotNull prepend="," property="status">
+	    	STATUS = #status:VARCHAR#
+	    </isNotNull>
+		<isNotNull prepend="," property="createtime">
+	    	CREATETIME = #createtime:TIMESTAMP#
+	    </isNotNull>
+		<isNotNull prepend="," property="updatetime">
+	    	UPDATETIME = #updatetime:TIMESTAMP#
+	    </isNotNull>
+	    <isNotNull prepend="," property="deptCode">
+	    	DEPTCODE = #deptCode:VARCHAR#
+	    </isNotNull>
+	    <isNotNull prepend="," property="deptHall">
+	    	DEPTHALL = #deptHall:VARCHAR#
+	    </isNotNull>
+	WHERE 
+			ID = #id#
+  </update>
+
+  <!-- delete操作-->
+  <delete id="delete" parameterClass="java.lang.String">
+	<![CDATA[
+	DELETE FROM URP_JOB WHERE
+			ID = #id#
+	]]>
+  </delete>
+  
+  <!-- 取所有数据 -->
+  <select id="getAll" parameterClass="java.util.Map" resultClass="UrpJobResult">
+	SELECT <include refid="urpJobColumns" />
+		FROM URP_JOB 
+		<include refid="urpJobDynamicWhere"/>
+		<isNotEmpty property="sortColumns">
+			ORDER BY $sortColumns$
+		</isNotEmpty>
+  </select>
+  
+  <!-- 通过主键读取UrpJob对象 -->
+  <select id="getById" parameterClass="java.lang.String" resultClass="UrpJobResult">
+	SELECT <include refid="urpJobColumns" />
+	<![CDATA[
+		FROM URP_JOB 
+		WHERE 
+				ID = #id#
+	]]>
+  </select>
+	
+  <!-- 按字段取数据 -->
+  <select id="getByProperty" parameterClass="java.util.Map" resultClass="UrpJobResult">
+	SELECT <include refid="urpJobColumns" />
+		FROM URP_JOB 
+		<include refid="urpJobDynamicWhere"/>
+		<isNotEmpty property="sortColumns">
+			ORDER BY $sortColumns$
+		</isNotEmpty>
+  </select>
+    
+  <!-- 取总数 -->
+  <select id="count" parameterClass="java.util.Map" resultClass="long">
+	SELECT count(*) FROM URP_JOB 
+		<include refid="urpJobDynamicWhere"/>    
+  </select>
+    
+  <!-- 分页查询  -->
+  <select id="pageSelect" parameterClass="java.util.Map" resultClass="UrpJobResult">
+	SELECT <include refid="urpJobColumns" />
+		FROM URP_JOB 
+		<include refid="urpJobDynamicWhere"/>
+		<isNotEmpty property="sortColumns">
+			ORDER BY $sortColumns$
+		</isNotEmpty>
+  </select>
+
+  <!-- 多记录查询  -->
+  <select id="selectInId" parameterClass="java.util.Map" resultClass="UrpJobResult">
+	SELECT <include refid="urpJobColumns" />
+		FROM URP_JOB
+		WHERE ID in
+		<iterate property="idsList" open="(" close=")" conjunction=",">    
+            #idsList[]#
+         </iterate>
+		<isNotEmpty property="sortColumns">
+			ORDER BY $sortColumns$
+		</isNotEmpty>
+  </select>
+  
+  <!-- 按字段delete操作-->
+  <delete id="deleteByProperty" parameterClass="java.util.Map" >
+	DELETE FROM URP_JOB <include refid="urpJobDynamicWhere"/>
+  </delete>
+</sqlMap>

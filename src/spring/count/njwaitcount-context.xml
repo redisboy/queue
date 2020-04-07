@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!--年检登记查询  -->
+	<bean id="njWaitCountAction"
+		class="com.suntendy.queue.count.action.NjWaitCountAction">
+		<property name="njService">
+			<ref bean="njService" />
+		</property>
+	</bean>
+	
+	<bean name="njService"
+		class="com.suntendy.queue.count.service.impl.NjWaitCountServiceImpl">
+		<property name="njDao">
+			<ref bean="njDao" />
+		</property>
+	</bean>
+	
+	<bean id="njDao"
+		class="com.suntendy.queue.count.dao.impl.NjWaitCountDaoImpl"
+		parent="baseDao" />
+</beans>

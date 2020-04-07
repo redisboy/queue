@@ -1,0 +1,47 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="dept" extends="webwork-default" namespace="/dept">
+		<action name="toAddDept" class="deptAction" method="toAddDept">
+			<result name="toAddDept">addDept.jsp</result>
+		</action>
+		<!-- 添加大厅基础信息 -->
+		<action name="addDept" class="deptAction" method="addDept">
+			<result name="success">/message.jsp</result>
+		</action>
+		<!-- 查询大厅基础信息 -->
+		<action name="deptList" class="deptAction" method="deptList">
+			<result name="list">set_dept.jsp</result>
+		</action>
+		<!-- 删除大厅基础信息 -->
+		 <action name="deleteDept" class="deptAction" method="deleteDept">
+			<result name="success">/message.jsp</result>
+		</action>
+		<!-- 修改大厅基础信息页面跳转 -->
+		<action name="toUpdateDept" class="deptAction" method="toUpdateDept">
+			<result name="toUpdate">updateDept.jsp</result>
+		</action>
+		<!-- 修改大厅基础信息 -->
+		<action name="updateDept" class="deptAction" method="updateDept">
+			<result name="success">/message.jsp</result>
+		</action>
+		
+		<!-- 根据用户角色判断用户所能统计的范围(包含统计模式:按照用户统计,按照部门统计) -->
+		<action name="selectTJByUserRoleAndCodeOrHall" class="deptAction" method="selectTJByUserRoleAndCodeOrHall">
+			<result name="success">/ywshtj/selectMode.jsp</result>
+		</action>
+		<!-- 根据部门(deptCode)获取部门下的所有大厅(deptHall) -->
+		<action name="findDepthallbyDeptcode" class="deptAction" method="findDepthallbyDeptcode">
+		</action>
+		<!-- 根据部门(deptCode)获取部门下的所有大厅(deptHall) -->
+		<action name="findDepthallbyDeptcode2" class="deptAction" method="findDepthallbyDeptcode2">
+		</action>
+		<!-- 根据用户角色判断用户所能统计的范围(不包含统计模式) -->
+		<action name="findTJCodeAndHallByRole" class="deptAction" method="findTJCodeAndHallByRole">
+			<result name="success">/ywshtj/selectMode2.jsp</result>
+		</action>
+		<!-- 根据用户角色判断用户所能统计的范围(不包含统计模式且必须选定具体的大厅) -->
+		<action name="findTJCodeAndHallByRole2" class="deptAction" method="findTJCodeAndHallByRole2">
+			<result name="success">/ywshtj/selectMode3.jsp</result>
+		</action>
+	</package>
+</xwork>

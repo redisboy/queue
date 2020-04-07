@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<bean id="hmdDao" class="com.suntendy.queue.hmd.dao.impl.HmdDaoImpl" parent="baseDao"/>
+		
+	<bean id="hmdService" class="com.suntendy.queue.hmd.service.impl.HmdServiceImpl">
+		<property name="hmdDao" ref="hmdDao"></property>
+		<property name="hmdLogDao" ref="hmdLogDao"></property>
+	</bean>
+		
+	<bean id="hmdAction" class="com.suntendy.queue.hmd.action.HmdAction">
+		<property name="hmdService" ref="hmdService"></property>
+		<property name="iSystemLogService" ref="iSystemLogService"></property>
+	</bean>
+		
+</beans>

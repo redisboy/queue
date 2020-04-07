@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="PublicAd">
+    <typeAlias alias="publicAd" type="com.suntendy.queue.publicAd.domain.PublicAd"/>
+    
+    <select id="findByMap" parameterClass="java.util.HashMap" resultClass="publicAd">
+        SELECT  t.id ,t.message, to_char(t.record_date, 'yyyy-mm-dd') record_date ,t.msg_state,t.operator,t.isusing,t.deptcode,t.depthall  from pd_advertise2  t 
+         WHERE 1=1 
+        <isNotEmpty property="deptCode" prepend="AND">
+           t.deptcode=#deptCode#
+        </isNotEmpty>
+        <isNotEmpty property="deptHall" prepend="AND">
+           t.depthall=#deptHall#
+        </isNotEmpty>
+        <isNotEmpty property="id" prepend="AND">
+           t.id=#id#
+        </isNotEmpty>
+        <isNotEmpty property="status" prepend="AND">
+            t.msg_state=#status#
+        </isNotEmpty>
+        order by t.operator ASC,t.depthall ASC,t.record_date desc
+    </select>
+     
+     <insert id="insert" parameterClass="publicAd" >
+		INSERT INTO pd_advertise2(id,message,msg_state,record_date,depthall,deptcode,isUsing,operator)
+		VALUES(SQ_ADVERTISE_S_ID.nextval,#message#,#msg_state#,sysdate,#deptHall#,#deptCode#,#isUsing#,#operator#)
+	</insert>
+    
+     <update id="updateByMap" parameterClass="java.util.HashMap" >
+        update pd_advertise2 set message=#message# ,msg_state=#msg_state#, record_date=sysdate
+        where id=#id# 
+    </update>
+   
+    <delete id="deleteById" parameterClass="java.lang.Integer">
+    	delete from pd_advertise2 t where t.id=$id$
+    </delete>
+    <update id="updateAdbyId" parameterClass="java.util.HashMap"  >
+
+         update pd_advertise2 t set  t.isUsing=#isusing# where t.id=#id#
+    </update>
+    <update id="updateAdAllUsing">
+         update pd_advertise2 t set  t.isUsing='0' where t.operator='0'
+    </update>
+</sqlMap>

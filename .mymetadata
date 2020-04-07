@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="queue"
+  id="myeclipse.1385998607875"
+  context-root="/queue"
+  j2ee-spec="5.0"
+  archive="queue.war">
+  <attributes>
+    <attribute name="webrootdir" value="/WebRoot" />
+  </attributes>
+</project-module>
+

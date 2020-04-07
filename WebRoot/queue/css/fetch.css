@@ -1,0 +1,72 @@
+* {margin: 0; padding: 0;}
+body {font-size: 16px;}
+.outer {width: 100%; text-align: center; margin: 0 auto;}
+.inner {width: 1024px; height: 768px; overflow: hidden; margin: 0 auto; position: relative;}
+/* 隐藏代理人按钮 替换背景图片 .qh bg_jh.jpg为bg_jh2.jpg */
+.qh {background: url(../../images/queue/bg_jh.jpg) no-repeat;}
+.qh2 {background: url(../../images/queue/bg_jh2.jpg) no-repeat;}
+.jh_qz {background: url(../../images/queue/bg_jh_qz.jpg) no-repeat;}
+
+.btn_br,.btn_dbr,.btn_wybl {display: block; width: 300px; height: 200px; position: absolute; text-indent: -9999px;}
+.btn_br {left: 101px; top: 167px; background-image: url(../../images/queue/btn_brbl.jpg);}
+.btn_br:hover {background-image: url(../../images/queue/btn_brbl_h.jpg);}
+/* 隐藏代理人按钮注释掉下面两行 */
+.btn_dbr {left: 528px; top: 167px; background-image: url(../../images/queue/btn_dbrbl.jpg);}
+.btn_dbr:hover {background-image: url(../../images/queue/btn_dbrbl_h.jpg);} 
+.btn_wybl {left: 101px; top: 467px; background-image: url(../../images/queue/btn_wybl.jpg);}
+.btn_wybl:hover {background-image: url(../../images/queue/btn_wybl_h.jpg);}
+
+.btn_sfzqh,.btn_fsfzqh,.btn_fsfzqh2 {display: block; width: 300px; height: 200px; position: absolute; text-indent: -9999px;}
+.btn_sfzqh {left: 101px; top: 167px; background-image: url(../../images/queue/btn_sfzqh.jpg);}
+.btn_sfzqh:hover {background-image: url(../../images/queue/btn_sfzqh_h.jpg);}
+.btn_fsfzqh {left: 528px; top: 167px; background-image: url(../../images/queue/btn_fsfzqh.jpg);}
+.btn_fsfzqh2 {left: 320px; top: 140px; background-image: url(../../images/queue/btn_fsfzqh.jpg);}
+.btn_fsfzqh:hover {background-image: url(../../images/queue/btn_fsfzqh_h.jpg);}
+.btn_fsfzqh2:hover {background-image: url(../../images/queue/btn_fsfzqh_h.jpg);}
+.shuoming {width: 375px; height: 119px; position: absolute; left: 589px; top: 562px; text-align: left; font-weight: bold; font-size: 25px; color: #333; line-height: 30px;}
+.showWaitRs {width: 475px; height: 119px; position: absolute; left: 120px; top: 262px; text-align: left; font-weight: bold; font-size: 25px; color: #333; line-height: 30px;}
+.tv {width: 1920px; height: 1080px; background-image: url(../../images/queue/bg_tv2.jpg) /*background:#000;*/}
+.ul_1 {position: absolute; left: 100px; top: 85px;}
+.ul_1 li {width: 105px; height: 120px; line-height: 120px; list-style: none; border-bottom: 3px dotted #ccc; position: relative;}
+.number,.window {font-size: 45px; font-weight: bold; color: #1b6c96;}
+.number {position: absolute; left: 120px;}
+.window {position: absolute; left: 420px;}
+.rounded {position: absolute; left: 100px; top: 400px;}
+.div5 {position: absolute; left: 120px; top: 400px;}
+.tab3 {width: 1000px; border-collapse: collapse; font-size: 35px; border: 1px solid #1E83B5;}
+.tab3 td,.tab3 th {border-right: 1px solid #1E83B5; height: 45px; text-align: center;}
+.tab3 th {border-right: 2px solid #ccc; background-image: url(../../images/queue/bg_tab3_th.jpg); color: #fff;}
+.tab3 td {border-bottom: 1px dotted #ccc;}
+.tab3 .th4 {border-right: none;}
+.inner_sfz {position: absolute; left: 120px; top: 250px; border: 3px solid #fff; width: 350px; height: 200px;}
+.inner_fsfz {position: absolute; left: 500px; top: 380px; border: 3px solid #fff; width: 350px; height: 200px;}
+.inner_fsfz p {margin-top: 15px;}
+.inner_fsfz .sel1 {width: 250px; height: 45px; font-size: 35px; line-height: 45px; border: 4px solid #1E70D4;}
+.inner_fsfz .input1 {width: 251px; height: 42px; line-height: 42px; padding-right: 5px; border: 4px solid #1E70D4; font-size: 35px; padding-left: 5px;}
+.ywlx {background: url(../../images/queue/bg_yulx.jpg) no-repeat;}
+.btn_ywlx {display:block; width:420px; height:80px; background:url(../../images/queue/btn_ywlx.gif) no-repeat; color:#fff; font-size:30px; font-weight:bold; text-align:left; padding:17px 0 0 82px; text-decoration:none;}
+.btn_ywlx:hover {background:url(../../images/queue/btn_ywlx_h.gif) no-repeat; width:420px; height:80px; padding:17px 0 0 82px; text-decoration:none;}
+.btn_ywlx_1 {display:block; width:520px; height:120px; background:url(../../images/queue/btn_ywlx_1.jpg) no-repeat; color:#fff; font-size:30px; font-weight:bold; text-align:left; padding:17px 0 0 82px; text-decoration:none;}
+.btn_ywlx_1:hover {background:url(../../images/queue/btn_ywlx_1_h.jpg) no-repeat; width:520px; height:120px; padding:17px 0 0 82px; text-decoration:none;}
+.btn_ywlx_2 {display:block; width:520px; height:120px; background:url(../../images/queue/btn_ywlx_2.jpg) no-repeat; color:#fff; font-size:30px; font-weight:bold; text-align:left; padding:17px 0 0 82px; text-decoration:none;}
+.btn_ywlx_2:hover {background:url(../../images/queue/btn_ywlx_2_h.jpg) no-repeat; width:520px; height:120px; padding:17px 0 0 82px; text-decoration:none;}
+.btn_ywlx_3 {display:block; width:520px; height:120px; background:url(../../images/queue/btn_ywlx_3.jpg) no-repeat; color:#fff; font-size:30px; font-weight:bold; text-align:left; padding:17px 0 0 82px; text-decoration:none;}
+.btn_ywlx_3:hover {background:url(../../images/queue/btn_ywlx_3_h.jpg) no-repeat; width:520px; height:120px; padding:17px 0 0 82px; text-decoration:none;}
+.tab {margin-top:190px; width:422px}
+.tab li{height:95px; LIST-STYLE-TYPE: none}
+.tdiv {DISPLAY: inline; FLOAT: left;}
+.help {position: absolute;  cursor:hand; left:180px; top:700px;  width:50px; height:50px; background-size:50px 50px; background-repeat:no-repeat;
+	   filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(
+    		   src='/queue/images/queue/help.gif',
+    		   sizingMethod='scale');}
+.inner_dxtz {position: absolute; left: 150px; top: 250px; border: 3px solid #fff; width: 350px; height: 150px;}
+.inner_dxtz .input1 {width: 251px; height: 42px; line-height: 42px; padding-right: 5px; border: 4px solid #1E70D4; font-size: 35px; padding-left: 5px;}
+
+.tab_keyboard{position:absolute;left:100px;top:430px;width:860px;height:320px;border:0;text-align:center;background:url(../../images/queue/background_jp.gif) no-repeat;z-index:100;}
+.tab_keyboard2{margin:0 auto;width:800px;text-align:center;}
+.tab_keyboard2 td{width:80px;text-align:center;height:76px;}
+.anniu,.anniu2{width:40px;height:41px;background:url(../../images/queue/bg_anniu.jpg);border:0;font-size:18px;font-weight:bold;cursor:hand;color:#fff;}
+a.anniu,a.anniu2{display:block;text-decoration:none;font-family:'榛戜綋',sans-serif;width:70px;height:57px;border:0;font-size:32px;font-weight:bold;cursor:hand;color:#fff;position:relative;padding-top:15px;}
+a.anniu2{font-size:18px;	padding-top:25px;height:47px;}
+a.anniu:hover,a.anniu2:hover{position:relative;	width:70px;height:57px;position:relative;padding-top:15px;left:3px;top:3px;}
+a.anniu2:hover{height:47px;padding-top:25px;}

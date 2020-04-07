@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+	
+	<bean id="safeDao" class="com.suntendy.queue.safety.dao.impl.SafetyDaoImpl" parent="baseDao" />	
+	
+	<bean id="safetyService" class="com.suntendy.queue.safety.service.impl.safetyServiceImpl">
+		<property name="safeDao" ref="safeDao"></property>
+	</bean>	
+	
+	<bean id="safetyAction" class="com.suntendy.queue.safety.action.safetyAction">
+		<property name="safetyService" ref="safetyService"></property>
+	</bean>
+</beans>

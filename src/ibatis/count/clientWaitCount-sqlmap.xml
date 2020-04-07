@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="ClientWaitCount">
+    <typeAlias alias="clientWaitCount" type="com.suntendy.queue.count.domain.ClientWaitCount"/>
+    
+    <select id="findByMap" parameterClass="java.util.HashMap" resultClass="clientWaitCount">
+		SELECT COUNT(e.id) sum,
+			nvl(ROUND(SUM((to_date(e.begintime,'yyyy-mm-dd hh24:mi:ss')-to_date(substr(e.entertime,1,19),'yyyy-mm-dd hh24:mi:ss'))*24*60)/COUNT(e.id),1),0) ave_waittime,
+			nvl(ROUND(SUM(DECODE(e.status,3,0,(to_date(e.endtime,'yyyy-mm-dd hh24:mi:ss')-to_date(e.begintime,'yyyy-mm-dd hh24:mi:ss'))*24*60))/COUNT(e.id),1),0) ave_worktime,
+			e.deptcode,e.depthall
+		FROM pd_valuerecord e
+		WHERE (e.status=3 OR e.status=5 OR e.status=6) 
+		<isNotEmpty property="deptHall" prepend="AND">
+			e.depthall=#deptHall# 
+		</isNotEmpty>
+		<isNotEmpty property="deptCode" prepend="AND">
+			e.deptcode=#deptCode# 
+		</isNotEmpty>
+        <isNotEmpty property="jsrq" prepend="AND">
+      	    <![CDATA[to_date(substr(e.entertime,1,19),'yyyy-mm-dd hh24:mi:ss')<=$jsrq$]]>
+        </isNotEmpty>
+        <isNotEmpty property="ksrq" prepend="AND">
+      	    <![CDATA[to_date(substr(e.entertime,1,19),'yyyy-mm-dd hh24:mi:ss')>=$ksrq$]]>
+        </isNotEmpty>
+        group by e.deptcode,e.depthall
+        order by e.deptcode,e.depthall
+    </select>
+</sqlMap>

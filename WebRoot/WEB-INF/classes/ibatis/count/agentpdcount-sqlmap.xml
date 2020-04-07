@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="AgentPdCount">
+<!-- 代理人排队统计 -->
+	<typeAlias alias="agentPdCount" type="com.suntendy.queue.count.domain.AgentPdCount"/>
+	<select id="findByMap" parameterClass="java.util.HashMap" resultClass="agentPdCount" >
+		select t.id,t.name,t.idcard,
+		sum(decode(v.codequeue,'4',1,0)) x4,
+		sum(decode(v.codequeue,'2',1,0)) x2,
+		sum(decode(v.codequeue,'1',1,0)) x1
+		from Pd_Valuerecord v, pd_agent_t t 
+		where v.idnumberb = t.idcard and v.idtype = 'A'
+		<isNotEmpty property="deptCode" prepend="AND">
+	    	v.deptcode=#deptCode#
+	    </isNotEmpty>
+	    <isNotEmpty property="depthall" prepend="AND">
+	    	v.depthall=#deptHall#
+	    </isNotEmpty>
+	    <isNotEmpty property="ksrq" prepend="AND">
+	    	<![CDATA[to_date(substr(v.entertime,1,19), 'yyyy-mm-dd hh24:mi:ss')>= $ksrq$ ]]>
+	    </isNotEmpty>
+	    <isNotEmpty property="jsrq" prepend="AND">
+	    	<![CDATA[to_date(substr(v.entertime,1,19), 'yyyy-mm-dd hh24:mi:ss')<= $jsrq$ ]]>
+	    </isNotEmpty>
+	    group by  t.id,t.name,t.idcard
+	    order by t.id
+		</select>
+</sqlMap>

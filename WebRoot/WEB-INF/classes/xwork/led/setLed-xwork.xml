@@ -1,0 +1,63 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.0//EN" "http://www.opensymphony.com/xwork/xwork-1.0.dtd">
+<xwork>
+	<package name="setLed" extends="default-webwork">
+		<!-- LED设置 -->
+		<action name="setLED" class="ledAction" method="setLED">
+			<result name="success">/led/set_window_led.jsp</result>
+		</action>
+		<!-- 更改LED参数 -->
+		<action name="updateLED" class="ledAction" method="updateLED">
+			<result name="success">/message.jsp</result>
+		</action>
+		
+		<!-- 电视屏设置 -->
+		<action name="getLED_TV" class="ledAction" method="getLED_TV">
+			<result name="success">/led/set_window_led_TV.jsp</result>
+		</action>
+		<!-- 电视屏增加参数 -->
+		<action name="insertLED_TV" class="ledAction" method="insertLED_TV">
+			<result name="success">/message.jsp</result>
+		</action>
+		<!-- 跳转到电视屏更改参数 -->
+		<action name="toUpdateLED_TV" class="ledAction" method="toUpdateLED_TV">
+			<result name="success">/led/update_window_led_TV.jsp</result>
+		</action>
+		<!-- 删除电视参数 -->
+		<action name="delLED_TV" class="ledAction" method="delLED_TV">
+			<result name="success">/message.jsp</result>
+		</action>
+		<!-- 电视屏更改参数 -->
+		<action name="updateLED_TV" class="ledAction" method="updateLED_TV">
+			<result name="success">/message.jsp</result>
+		</action>
+		
+		
+		<action name="setScreenPara" class="ledAction" method="setScreenPara"></action>
+		
+		<action name="setLED_tv" class="ledAction" method="setLED_tv"></action>
+		
+		<action name="setLED_tv1" class="ledAction" method="setLED_tv1"></action>
+		
+		<!-- 设置LED队列屏数据 -->
+		<action name="getLED_Content" class="ledAction" method="getLED_Content">
+			<result name="success">/led/set_queue_led_content_index.jsp</result>
+		</action>
+		<!-- 跳转LED队列屏数据添加 -->
+		<action name="to_addLED_Content" class="ledAction" method="to_addLED_Content">
+			<result name="success">/led/set_queue_led_content_add.jsp</result>
+		</action>
+		<!-- 跳转LED队列屏数据修改 -->
+		<action name="to_updateLED_Content" class="ledAction" method="to_updateLED_Content">
+			<result name="success">/led/set_queue_led_content_update.jsp</result>
+		</action>
+		<!-- LED队列屏数据修改 -->
+		<action name="updateLED_Content" class="ledAction" method="updateLED_Content">
+			<result name="success">/message.jsp</result>
+		</action>
+		<!-- LED队列屏数据删除 -->
+		<action name="delLED_Content" class="ledAction" method="delLED_Content">
+			<result name="success">/message.jsp</result>
+		</action>
+		
+	</package>
+</xwork>

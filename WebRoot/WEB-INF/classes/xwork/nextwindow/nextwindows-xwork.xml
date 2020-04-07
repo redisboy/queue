@@ -1,0 +1,26 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="nextwindow" extends="webwork-default" namespace="/nextwindow">
+ 		<action name="toAddNWindow" class="nwindowAction" method="toAddNWindow">
+			<result name="toAddNWindow">addNwindow.jsp</result>
+		</action>
+		<action name="addNwindow" class="nwindowAction" method="addNwindow">
+			<result name="success">/message.jsp</result>
+		</action>
+		<action name="updateNwindow" class="nwindowAction" method="updateNwindow">
+			<result name="success">/message.jsp</result>
+		</action>
+		<action name="nWindowList" class="nwindowAction" method="nWindowList">
+			<result name="list">nWindowList.jsp</result>
+		</action>
+ 		<action name="queryById" class="nwindowAction" method="queryById">
+			<result name="queryById">detail.jsp</result>
+		</action>
+		<action name="deleteById" class="nwindowAction" method="deleteById">
+			<result name="success">/message.jsp</result>
+		</action>
+		<action name="checkDMZ" class="nwindowAction" method="checkDMZ"/>
+		<action name="toAddNWindowAjax" class="nwindowAction" method="toAddNWindowAjax"/>
+		<action name="queryYwyyForAdd" class="nwindowAction" method="queryYwyyForAdd"/>
+	</package>
+</xwork>

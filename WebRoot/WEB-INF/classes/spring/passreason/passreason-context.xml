@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	
+	<bean id="passReasonDao"
+		class="com.suntendy.queue.passreason.dao.impl.PassReasonDao"
+		parent="baseDao" />
+
+	<bean id="passReasonService"
+		class="com.suntendy.queue.passreason.service.impl.PassReasonService">
+		<property name="passReasonDao">
+			<ref bean="passReasonDao" />
+		</property>
+	</bean>
+
+	<bean id="passReasonAction"
+		class="com.suntendy.queue.passreason.action.PassReasonAction">
+		<property name="passReasonService">
+			<ref bean="passReasonService" />
+		</property>
+		<property name="deptService" ref="deptService" />
+	</bean>
+
+</beans>

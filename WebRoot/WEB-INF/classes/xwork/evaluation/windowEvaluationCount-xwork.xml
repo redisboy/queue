@@ -1,0 +1,11 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.0//EN"
+"http://www.opensymphony.com/xwork/xwork-1.0.dtd">
+<!-- xwork需要分模块配置action -->
+<xwork>
+	<package name="windowEvaluationCount" extends="default-webwork">
+		<!-- 窗口评价统计 -->
+		<action name="ckpdtj" class="windowEvaluationAction" method="windowEvaluaCount">
+			<result name="success">/evaluation/window_evaluation.jsp</result>
+		</action>
+	</package>
+</xwork>

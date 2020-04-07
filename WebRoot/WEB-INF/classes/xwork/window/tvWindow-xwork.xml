@@ -1,0 +1,22 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.0//EN" "http://www.opensymphony.com/xwork/xwork-1.0.dtd">
+<xwork>
+	<package name="setPCWindow" extends="default-webwork">
+		<!-- tv窗口设置 -->
+		<action name="pcWindow" class="tvWindowAction" method="tvWindow">
+			<result name="success">/window/setTV_window.jsp</result>
+		</action>
+		<action name="upload" class="tvWindowAction" method="upload">
+			<result name="success">/message.jsp</result>
+		</action>
+		<action name="update" class="tvWindowAction" method="update">
+			<result name="success">/message.jsp</result>
+		</action>
+		
+		<action name="ieListen" class="tvWindowAction" method="IEListen">
+			<result name="success">/message.jsp</result>
+		</action>
+		
+		
+		
+	</package>
+</xwork>

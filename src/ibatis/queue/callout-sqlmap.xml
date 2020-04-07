@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="CallOut">
+	<typeAlias alias="callout" type="com.suntendy.queue.queue.domain.CallOut"/>
+	
+	<select id="query2Status" parameterClass="java.lang.String" resultClass="callout">
+		select * from (select t.* from callout t where t.yhdh=#yhdh# and t.ywbj='2' order by t.hjsj desc) where 1=1 
+		<![CDATA[
+		and ROWNUM<=1
+		]]>
+	</select>
+	
+	<update id="updateStatus" parameterClass="callout">
+		update trff_app.queue_callout@trff
+   		set ywbj = '3'
+ 		where xlh = (select k.xlh
+                from (select t.xlh
+                        from trff_app.queue_callout@trff t
+                       where to_char(t.hjsj, 'yyyy-mm-dd') =
+                             to_char(sysdate, 'yyyy-mm-dd')
+                         and t.yhdh =#yhdh#
+                         and t.ywbj = '2') k,
+                     (select m.xlh
+                        from trff_app.queue_evaluation@trff m
+                       where  m.pjjg in ('1', '2', '3', '4')
+                         and to_char(m.pjsj, 'yyyy-mm-dd') =
+                             to_char(sysdate, 'yyyy-mm-dd')) n
+               where k.xlh = n.xlh)
+	</update>
+	
+</sqlMap>

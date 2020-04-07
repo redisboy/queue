@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="Hmd">
+	<typeAlias alias="hmd" type="com.suntendy.queue.hmd.domain.Hmd"/>
+	
+	<insert id="saveHmd" parameterClass="hmd">
+		insert into pd_hmd(name,id,company,reason) values(#name#,#id#,#company#,#reason#)
+	</insert>
+	
+	<select id="findByMap" parameterClass="java.util.HashMap" resultClass="hmd">
+		select t.name,t.id,t.company,t.reason,t.rowid from pd_hmd t where 1=1
+		<isNotEmpty property="id" prepend="AND"> t.id like '%' || #id# || '%'</isNotEmpty>
+		<isNotEmpty property="name" prepend="AND"> t.name like '%' || #name# || '%'</isNotEmpty>
+		<isNotEmpty property="orderBy">
+			ORDER BY $orderBy$ $order$
+		</isNotEmpty>
+	</select>
+	
+	<select id="findById" parameterClass="java.lang.String" resultClass="hmd">
+		select t.name,t.id,t.company,t.reason from pd_hmd t where t.id=#id#
+	</select>
+	
+	<delete id="deleteById" parameterClass="java.lang.String">
+		delete pd_hmd t where t.id=#id#
+	</delete>
+	 <!-- 黑名单批量添加 -->
+    <insert id="addAll" parameterClass="hmd">
+    	insert into PD_HMD t (NAME,ID
+    	<isNotEmpty property="company" prepend=",">
+            COMPANY
+        </isNotEmpty>
+        <isNotEmpty property="reason" prepend=",">
+            REASON
+        </isNotEmpty>
+        ) values(
+    		#name#,#id#
+    	<isNotEmpty property="company" prepend=",">
+            #company#
+        </isNotEmpty>
+        <isNotEmpty property="reason" prepend=",">
+           #reason#
+        </isNotEmpty>
+        )
+    </insert>
+    <select id="queryQuHaos" parameterClass="java.util.HashMap" resultClass="java.lang.Integer">
+		select count(*) from pd_valuerecord t where 
+		substr(t.entertime,0,7) = to_char(sysdate,'yyyy-mm') 
+		<isNotEmpty property="id" prepend="AND">
+		t.idnumber=#id#
+		</isNotEmpty>
+	</select>
+</sqlMap>

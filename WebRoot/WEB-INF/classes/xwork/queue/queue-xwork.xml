@@ -1,0 +1,36 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.0//EN"
+"http://www.opensymphony.com/xwork/xwork-1.0.dtd">
+<!-- xwork需要分模块配置action -->
+<xwork>
+	<package name="queue" extends="default-webwork">
+		<!--队列设置-->
+		<action name="dlsz" class="queueAction" method="dlsz">
+			<result name="success">/queue/queue_index.jsp</result>
+		</action>
+		<!-- 更改队列 -->
+		<action name="updateQueue" class="queueAction"
+			method="updateQueue">
+			<result name="success">/queue/updateQueue.jsp</result>
+		</action>
+		<!-- 更改队列 -->
+		<action name="updateQueueByCode" class="queueAction" method="updateByCode">
+			<result name="success">/message.jsp</result>
+		</action>
+		
+		<!-- 删除队列 -->
+		<action name="delQueue" class="queueAction" method="delQueue">
+			<result name="success">/message.jsp</result>
+		</action>
+		
+		<!-- 添加队列 -->
+		<action name="into_CreateQueue" class="queueAction" method="into_CreateQueue">
+			<result name="success">/queue/addQueue.jsp</result>
+		</action>
+		<action name="addQueue" class="queueAction" method="addQueue">
+			<result name="success">/message.jsp</result>
+		</action>
+		<!-- 根据队列编号获取业务类型 -->
+		<action name="getBuseinessByQueueCode" class="queueAction" method="getBuseinessByQueueCode"></action>
+		
+	</package>
+</xwork>

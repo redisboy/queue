@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!--修改评价值  -->
+	<bean id="setEvaluationDao"
+		class="com.suntendy.queue.evaluation.dao.impl.SetEvaluationDaoImpl"
+		parent="baseDao" />
+
+	<bean name="setEvaluationService"
+		class="com.suntendy.queue.evaluation.service.impl.SetEvaluationServiceImpl">
+		<property name="setEvaluationDao">
+			<ref bean="setEvaluationDao" />
+		</property>
+	</bean>
+
+	<bean id="setEvaluationAction"
+		class="com.suntendy.queue.evaluation.action.SetEvaluationAction">
+		<property name="setEvaluationService">
+			<ref bean="setEvaluationService" />
+		</property>
+	</bean>
+
+</beans>

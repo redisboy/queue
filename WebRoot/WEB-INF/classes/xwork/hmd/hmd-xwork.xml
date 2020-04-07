@@ -1,0 +1,26 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="hmd" extends="webwork-default" namespace="/hmd">
+		<action name="toAddHmd" class="hmdAction" method="toAddHmd">
+			<result name="toAddHmd">addHmd.jsp</result>
+		</action>
+		<action name="addHmd" class="hmdAction" method="addHmd">
+			<result name="success">/message.jsp</result>
+		</action>
+		<action name="hmdList" class="hmdAction" method="hmdList">
+			<result name="list">hmdList.jsp</result>
+		</action>
+		<action name="delHmd" class="hmdAction" method="delHmd">
+			<result name="success">/message.jsp</result>
+		</action>
+		<action name="queryForCheck" class="hmdAction" method="queryForCheck"/>
+		
+		<action name="downHmdExcel" class="hmdAction" method="downHmdExcel"></action>
+		
+		<action name="hmdexcel" class="hmdAction" method="hmdexcel">
+			<result name="success">hmd_excel.jsp</result>
+		</action>
+		
+		<action name="addHmdZ" class="hmdAction" method="addHmdZ"></action>
+	</package>
+</xwork>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="windowMonitordao"
+		class="com.suntendy.queue.window.dao.impl.WindwoMonitorDaoImpl"
+		parent="baseDao" />
+
+	<bean name="windowMonitorService"
+		class="com.suntendy.queue.window.service.impl.WindowMonitorServiceImpl">
+		<property name="windowMonitordao" ref="windowMonitordao" />
+	</bean>
+
+	<bean id="windowMonitorAction"
+		class="com.suntendy.queue.window.action.WindowMonitorAction">
+		<property name="windowMonitorService">
+			<ref bean="windowMonitorService" />
+		</property>
+		<property name="deptService" ref="deptService" />
+	</bean>
+
+</beans>
+

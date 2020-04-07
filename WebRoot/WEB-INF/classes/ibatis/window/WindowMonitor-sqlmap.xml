@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+"http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="WindowMonitor">
+	<typeAlias alias="WindowMonitor" type="com.suntendy.queue.window.domain.WindowMonitor" />
+
+	<select id="findByMap" parameterClass="java.util.HashMap" resultClass="WindowMonitor">					         
+			select s.address barid,
+			       t.code,
+			       (select u.name
+			          from pd_user u
+			         where u.code = t.code
+			           and u.deptcode = t.deptcode
+			           and u.depthall = t.depthall) xm,
+			      sum(case
+			             when t.status not in ('1') then
+			              1
+			             else
+			              0
+			           end) jhrs,			       
+			       sum(decode(t.status, '3', 1, 0)) ghrs,
+			       sum(decode(t.status, '7', 1, 0)) gqrs,
+			       sum(case
+			             when t.value is not null then
+			              1
+			             else
+			              0
+			           end) pjrs,
+			       t.deptHall,t.deptCode
+			  from pd_screen s, pd_valuerecord t
+			 where s.address = t.barid(+) 
+		<isNotEmpty property="deptHall" prepend="AND">
+			t.depthall=#deptHall# 
+		</isNotEmpty>
+		<isNotEmpty property="deptCode" prepend="AND">
+			t.deptcode=#deptCode#
+		</isNotEmpty>
+		and t.depthall=s.depthall
+		and t.deptcode=s.deptcode
+		<isNotEmpty property="xm" prepend="AND">
+			(select u.name
+			          from pd_user u
+			         where u.code = t.code
+			           and u.deptcode = t.deptcode
+			           and u.depthall = t.depthall)=#xm#
+		</isNotEmpty>
+		<isNotEmpty property="jsrq" prepend="AND">
+			<![CDATA[to_date(substr(t.entertime,1,19),'yyyy-mm-dd hh24:mi:ss')<=$jsrq$]]>
+		</isNotEmpty>
+		<isNotEmpty property="ksrq" prepend="AND">
+			<![CDATA[to_date(substr(t.entertime,1,19),'yyyy-mm-dd hh24:mi:ss')>=$ksrq$]]>
+		</isNotEmpty>
+		<isNotEmpty property="barid" prepend="AND"> s.address=#barid#</isNotEmpty>
+		group by s.address, t.code, t.deptcode, t.depthall
+			 order by s.address
+	</select>
+
+</sqlMap>

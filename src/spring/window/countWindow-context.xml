@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<bean id="countWindowDao"
+		class="com.suntendy.queue.window.dao.impl.CountWindwoDaoImpl"
+		parent="baseDao" />
+
+	<bean name="countWindowService"
+		class="com.suntendy.queue.window.service.impl.CountWindowServiceImpl">
+		<property name="countWindowDao" ref="countWindowDao" />
+	</bean>
+
+	<bean id="countWindowAction"
+		class="com.suntendy.queue.window.action.CountWindowAction">
+		<property name="countWindowService">
+			<ref bean="countWindowService" />
+		</property>
+		<property name="deptService" ref="deptService" />
+		<property name="iSystemLogService" ref="iSystemLogService"></property>
+	</bean>
+
+</beans>
+

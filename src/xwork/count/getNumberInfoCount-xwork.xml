@@ -1,0 +1,57 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.0//EN"
+"http://www.opensymphony.com/xwork/xwork-1.0.dtd">
+<!-- xwork需要分模块配置action -->
+<xwork>
+	<package name="getNumberInforCount" extends="default-webwork">
+		<!-- 取号信息查询 -->
+		<action name="qhxxcx" class="getNumberInforCountAction" method="getNumberInforCount">
+			<result name="success">/count/getNumberInfo_Count.jsp</result>
+		</action>
+		<!-- 取号信息预警 -->
+		<action name="qhxxyj" class="getNumberInforCountAction" method="getDoubleNumberInfo">
+			<result name="doubleNumList">/count/getDoubleNumberList.jsp</result>
+		</action>
+		<!-- 取号信息预警详情 -->
+		<action name="qhxxyjxq" class="getNumberInforCountAction" method="getDetailDoubleNumber">
+			<result name="doubleNumDetail">/count/getDoubleNumberDetail.jsp</result>
+		</action>
+		
+		<!-- 根据号码查询窗口 -->
+		<action name="getBarId" class="queryCallNumber" method="getBarId">
+			<result name="success">/count/cxserialNumInfo.jsp</result>
+		</action>
+		<!-- 根据窗口获取当天挂起信息 -->
+		<action name="queryAllGqBybarId" class="queryCallNumber" method="queryAllGqBybarId">
+			<result name="allGq">/right/allGqInfo.jsp</result>
+		</action>
+		<!-- 根据窗口获取当天挂起信息 -->
+		<action name="hangup_new" class="queryCallNumber" method="hangup_new">
+			<result name="success">/right/gqcz.jsp</result>
+		</action>
+		<!-- 根据号码查询窗口 -->
+		<action name="queryAllPhoto" class="queryCallNumber" method="queryAllPhoto">
+			<result name="queryPhotoList">/count/zpInfoList.jsp</result>
+			<result name="queryPhotoDetail">/count/zpInfoDetail.jsp</result>
+		</action>
+		<action name="getVPjPhoto" class="queryCallNumber" method="getVPjPhoto"/>
+		<action name="getVSfzPhoto" class="queryCallNumber" method="getVSfzPhoto"/>
+		<action name="getVQhPhoto" class="queryCallNumber" method="getVQhPhoto"/>
+		<action name="getIDnumber_APhoto" class="queryCallNumber" method="getIDnumber_APhoto"/>
+		<action name="getIDnumber_BPhoto" class="queryCallNumber" method="getIDnumber_BPhoto"/>
+		<action name="getDjzsPhoto" class="queryCallNumber" method="getDjzsPhoto"/>
+		<action name="getXszPhoto" class="queryCallNumber" method="getXszPhoto"/>
+		<action name="getJszPhoto" class="queryCallNumber" method="getJszPhoto"/>
+		<action name="getQydmzsPhoto" class="queryCallNumber" method="getQydmzsPhoto"/>
+		<action name="getSbzPhoto" class="queryCallNumber" method="getSbzPhoto"/>
+		<action name="getITwzsPhoto" class="queryCallNumber" method="getITwzsPhoto"/>
+		<action name="getHzPhoto" class="queryCallNumber" method="getHzPhoto"/>
+		<action name="getHphmPhoto" class="queryCallNumber" method="getHphmPhoto"/>
+		<action name="getDbrCard_APhoto" class="queryCallNumber" method="getDbrCard_APhoto"/>
+		<action name="getDbrCard_BPhoto" class="queryCallNumber" method="getDbrCard_BPhoto"/>
+		<action name="getJzzPhoto" class="queryCallNumber" method="getJzzPhoto"/>
+		<!-- 统计证件号码取号次数 -->
+		<action name="countIdNumber" class="queryCallNumber" method="countIdNumber">
+			<result name="countidnumber">/count/idNumberCount.jsp</result>
+		</action>
+	</package>
+</xwork>

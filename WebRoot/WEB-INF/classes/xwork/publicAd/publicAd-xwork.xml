@@ -1,0 +1,38 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.0//EN"
+"http://www.opensymphony.com/xwork/xwork-1.0.dtd">
+<!-- xwork需要分模块配置action -->
+<xwork>
+	<package name="publicAD" extends="default-webwork">
+		<!--宣传材料设置-->
+		<action name="xccl" class="publicAdAction" method="publicAd">
+			<result name="success">/publicAd/publicAd_index.jsp</result>
+		</action>
+		
+		<!-- 添加宣传材料-->
+		<action name="into_addPublicAd" class="publicAdAction" method="into_addPublicAd">
+			<result name="success">/publicAd/publicAd_add.jsp</result>
+		</action>
+		<action name="addPublicAd" class="publicAdAction" method="addPublicAd">
+			<result name="success">/message.jsp</result>
+		</action>
+		
+		<!-- 更改宣传材料 -->  
+		<action name="updatePublicAd" class="publicAdAction"  method="updatePublicAd">
+			<result name="success">/publicAd/publicAd_update.jsp</result>
+		</action>
+		
+		<!-- 更改宣传材料 -->
+		<action name="updatePublicByCode" class="publicAdAction" method="updateByCode">
+			<result name="success">/message.jsp</result>
+		</action>
+		
+		<!-- 删除宣传材料 -->
+		<action name="delPublicAd" class="publicAdAction" method="delPublicAd">
+			<result name="success">/message.jsp</result>
+		</action>
+		<!-- 修改宣传材料的启用状态 -->
+		<action name="updateAdbyId" class="publicAdAction" method="updateAdbyId">
+			<result name="success">/publicAd/publicAd_index.jsp</result>
+		</action>
+	</package>
+</xwork>

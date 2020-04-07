@@ -1,0 +1,14 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
+<xwork>
+	<package name="tztd" extends="webwork-default" namespace="/tztd">
+		<action name="getTztdAll" class="tztdAction" method="getTztdAll">
+			<result name="success">/tztd/tztdList.jsp</result>
+		</action>
+		<action name="delTztd" class="tztdAction" method="delTztd">
+			<result name="success">/message.jsp</result>
+		</action>
+		<action name="getTztd" class="tztdAction" method="getTztd">
+			<result name="success">/tztd/ytztdList.jsp</result>
+		</action>
+	</package>
+</xwork>

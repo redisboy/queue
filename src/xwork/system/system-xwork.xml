@@ -1,0 +1,18 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.0//EN" "http://www.opensymphony.com/xwork/xwork-1.0.dtd">
+<xwork>
+	<package name="system" extends="default-webwork" namespace="/system">
+	    <action name="list" class="systemAction" method="getAllSystem">
+	        <result name="success">system.jsp</result>
+	    </action>
+	    <action name="clearCache" class="systemAction" method="clearCache">
+	        <result name="success">../clearCache.jsp</result>
+	    </action>
+	    <action name="updateClearCache" class="systemAction" method="updateClearCache"></action>
+		<action name="getSystemById" class="systemAction" method="getSystemById"></action>
+		<action name="update" class="systemAction" method="updateSystem"></action>
+		<action name="initLED" class="systemAction" method="initLED"></action>
+		<action name="getSystemSetInfo" class="systemAction" method="getSystemSetInfo"></action>
+		<action name="resetSystemSetInfo" class="systemAction" method="resetSystemSetInfo"></action>
+		
+	</package>
+</xwork>

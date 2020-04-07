@@ -1,0 +1,14 @@
+<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.0//EN"
+"http://www.opensymphony.com/xwork/xwork-1.0.dtd">
+<!-- xwork需要分模块配置action -->
+<xwork>
+	<package name="employeeEvaluation" extends="default-webwork">
+		<!--员工评价统计-->
+        <action name="ygpjtj" class="evaluationAction" method="ygpjtj">
+			<result name="success">/evaluation/employee_evaluation.jsp</result>
+		</action>
+		<!--员工评价满意率-->
+        <action name="ygpjmyl" class="evaluationAction" method="ygpjmyl">
+		</action>
+	</package>
+</xwork>

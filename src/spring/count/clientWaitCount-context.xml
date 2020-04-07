@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+
+	<!--客户等待统计  -->
+	<bean id="clientWaitCountDao"
+		class="com.suntendy.queue.count.dao.impl.ClientWaitCountDaoImpl"
+		parent="baseDao" />
+
+	<bean name="clientWaitCountService"
+		class="com.suntendy.queue.count.service.impl.ClientWaitCountServiceImpl">
+		<property name="clientWaitCountDao">
+			<ref bean="clientWaitCountDao" />
+		</property>
+	</bean>
+
+	<bean id="clientWaitCountAction"
+		class="com.suntendy.queue.count.action.ClientWaitCountAction">
+		<property name="clientWaitCountService">
+			<ref bean="clientWaitCountService" />
+		</property>
+		<property name="deptService" ref="deptService" />
+		<property name="iSystemLogService" ref="iSystemLogService"></property>
+	</bean>
+
+</beans>

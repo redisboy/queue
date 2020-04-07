@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:ws="http://jax-ws.dev.java.net/spring/core"
+	xmlns:wss="http://jax-ws.dev.java.net/spring/servlet"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+		http://jax-ws.dev.java.net/spring/core
+		http://jax-ws.dev.java.net/spring/core.xsd
+		http://jax-ws.dev.java.net/spring/servlet
+		http://jax-ws.dev.java.net/spring/servlet.xsd">
+	
+    <bean id="windowWs" class="com.suntendy.queue.webservice.WindowServiceImpl">
+        <property name="publisher" ref="publisher" />
+        <property name="employeeService" ref="employeeService" />
+        <property name="numberDao" ref="numberDao" />
+        <property name="codeService" ref="codeService" />
+    </bean>
+    
+    <bean id="queueOut" class="com.suntendy.queue.webservice.QueueOutAccessImpl">
+        <property name="publisher" ref="publisher" />
+        <property name="employeeService" ref="employeeService" />
+        <property name="numberDao" ref="numberDao" />
+        <property name="numberService" ref="numberService" />
+        <property name="reservationService" ref="reservationService" />
+        <property name="businessService" ref="businessService"/>
+        <property name="codeService" ref="codeService" />
+        <property name="setWindowService" ref="setWindowService"/>
+        <property name="deptService" ref="deptService"/>
+    </bean>
+    
+    <bean id="queueForImage" class="com.suntendy.queue.webservice.QueueForImageImpl">
+        <property name="numberDao" ref="numberDao" />
+    </bean>
+	
+	<wss:binding url="/ws/OpenInter">
+        <wss:service>
+            <ws:service bean="#windowWs" />
+        </wss:service>
+    </wss:binding>
+    
+    <wss:binding url="/services/QueueOutAccess">
+    	<wss:service>
+    		<ws:service bean="#queueOut"/>
+    	</wss:service>
+    </wss:binding>
+    
+    <wss:binding url="/services/QueueForImage">
+    	<wss:service>
+    		<ws:service bean="#queueForImage"/>
+    	</wss:service>
+    </wss:binding>
+    
+    
+    <bean id="loginWSAction" class="com.suntendy.queue.webservice.LoginWSAction">
+        <property name="employeeService" ref="employeeService" />
+        <property name="setWindowService"><ref bean="setWindowService" /></property>
+    </bean>
+</beans>
