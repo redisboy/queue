@@ -1,8 +1,0 @@
-<!DOCTYPE xwork PUBLIC "-//OpenSymphony Group//XWork 1.1.1//EN" "http://www.opensymphony.com/xwork/xwork-1.1.1.dtd">
-<xwork>
-	<package name="warn" extends="webwork-default" namespace="/warn">
-		<action name="searchWarn" class="warnAction" method="searchWarn">
-			<result name="success">/warn/warn_index.jsp</result>
-		</action>
-	</package>
-</xwork>
